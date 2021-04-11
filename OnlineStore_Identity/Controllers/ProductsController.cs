@@ -44,11 +44,17 @@ namespace OnlineStore_Identity.Controllers
 
        public IActionResult productsIndex()
         {
-            HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
-            string Result = response.Content.ReadAsStringAsync().Result;
-            RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+            //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
+            //string Result = response.Content.ReadAsStringAsync().Result;
+            //RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
             //ViewBag.Products = products.Value;
-            return PartialView(products.Value);
+            //return PartialView(products.Value);
+            return PartialView();
+        }
+
+        public IActionResult salesChart()
+        {
+            return PartialView();
         }
     }
 }
