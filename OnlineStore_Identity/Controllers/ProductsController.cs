@@ -1,14 +1,16 @@
-﻿using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
+﻿//using Kendo.Mvc.Extensions;
+//using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using Kendo.Mvc.UI;
+//using Kendo.Mvc.UI;
 
 
 namespace OnlineStore_Identity.Controllers
@@ -20,6 +22,24 @@ namespace OnlineStore_Identity.Controllers
             
             public string Metadata { get; set; }
             public List<Product> Value { get; set; }
+            
+        }
+        public class Root
+        {
+            public string metadata { get; set; }
+
+            public int productID { get; set; }
+            public string productName { get; set; }
+            public string productBrand { get; set; }
+            public string productMaterial { get; set; }
+            public double productPrice { get; set; }
+            public double productDiscount { get; set; }
+            public string productDescription { get; set; }
+            [JsonIgnore]
+            public int classID { get; set; }
+            [JsonIgnore]
+
+            public int categoryID { get; set; }
         }
 
         HttpClient client = new HttpClient();
@@ -39,17 +59,85 @@ namespace OnlineStore_Identity.Controllers
             string Result = response.Content.ReadAsStringAsync().Result;
             RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
             ViewBag.Products = products.Value;
-            return View();
+            List<Product> x = products.Value;
+            return View(x);
         }
 
        public IActionResult productsIndex()
         {
-            //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
-            //string Result = response.Content.ReadAsStringAsync().Result;
-            //RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
-            //ViewBag.Products = products.Value;
-            //return PartialView(products.Value);
-            return PartialView();
+            HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+            ViewBag.Products = products.Value;
+            List<Product> x = products.Value;
+            return PartialView(x);
+            //return PartialView();
+        }
+
+        // GET: OnlineStore_Identity/AddOrEdit(Insert)
+        // GET: OnlineStore_Identity/AddOrEdit/5(Update)
+        [HttpGet]
+        public  IActionResult AddOrEdit(int id = 0)
+        {
+            if(id == 0)
+            {
+                return View(new Product());
+            }
+            else
+            {
+                //HttpResponseMessage response =  client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id}").Result;
+                //string Result =  response.Content.ReadAsStringAsync().Result;
+                //RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+                HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})").Result;
+                string Result = response.Content.ReadAsStringAsync().Result;
+                var products = JsonConvert.DeserializeObject<Root>(Result);
+                Product x = new Product { productID = products.productID, productName = products.productName, productBrand = products.productBrand, productMaterial = products.productMaterial, productPrice = products.productPrice, productDiscount = products.productDiscount, productDescription = products.productDescription, classID = products.classID, categoryID = products.categoryID };
+                return View(x);
+            }
+        }
+        [HttpPost]
+        public IActionResult AddOrEdit(int id,Product _product)
+        {
+            if (ModelState.IsValid)
+            {
+                if(id == 0)
+                {
+                    string po = JsonConvert.SerializeObject(_product);
+                    StringContent request = new StringContent(po, Encoding.UTF8, "application/json");
+                    HttpResponseMessage content = client.PostAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products", request).Result;
+                    if (content.IsSuccessStatusCode)
+                    {
+                        HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
+                        string Result = response.Content.ReadAsStringAsync().Result;
+                        RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+                        List<Product> c = products.Value;
+                        //ViewBag.Products = products.Value;
+                        //return RedirectToAction("Index");
+                        return Json(new { isValid = true, html= Helper.RenderRazorViewToString(this, "productIndex", c) });
+                    }
+                }
+                else
+                {
+                    string cha = JsonConvert.SerializeObject(_product);
+                    StringContent request = new StringContent(cha, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PutAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({_product.productID})", request).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpResponseMessage respons = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
+                        string Result = respons.Content.ReadAsStringAsync().Result;
+                        RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+                        List<Product> x = products.Value;
+                        //ViewBag.Products = products.Value;
+                        //return RedirectToAction("Index");
+                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "productIndex", x) });
+                    }
+                }
+             
+              
+            }
+
+            //return View(_product);
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", _product) });
         }
 
         public IActionResult salesChart()

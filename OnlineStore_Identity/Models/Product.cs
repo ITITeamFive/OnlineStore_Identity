@@ -12,6 +12,7 @@ namespace OnlineStore_Identity.Models
     //using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text.Json.Serialization;
 
     public partial class Product
@@ -24,6 +25,7 @@ namespace OnlineStore_Identity.Models
         }
     
         public int productID { get; set; }
+        [Required(ErrorMessage="This field is required.")]
         public string productName { get; set; }
         public string productBrand { get; set; }
         public string productMaterial { get; set; }

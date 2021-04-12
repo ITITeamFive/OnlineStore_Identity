@@ -43,12 +43,12 @@ namespace OnlineStore_Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddKendo();
-            services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-    });
+            //services.AddKendo();
+            //services.AddControllers()
+    //.AddNewtonsoftJson(options =>
+    //{
+    //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+    //});
             services.ConfigureApplicationCookie(c => { c.LoginPath = "/Identity/Account/Login";c.AccessDeniedPath = "/Identity/Account/AccessDenied";});
             //services.AddMvc().AddJsonOptions(options => {
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();

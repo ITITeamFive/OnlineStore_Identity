@@ -1,4 +1,4 @@
-﻿@using Kendo.Mvc.UI
+﻿@*@using Kendo.Mvc.UI*@
 @model IEnumerable<OnlineStore_Identity.Models.Product>
 
 @*@(Html.Kendo().Grid<OnlineStore_Identity.Models.Product>()
@@ -207,8 +207,8 @@
     }*@
 
     <div>
-        @(Html.Kendo().Grid<OnlineStore_Identity.Models.Product>(Model)
-                .Name("Products")
+        @*@(Html.Kendo().Grid<OnlineStore_Identity.Models.Product>(Model)*@
+                @*.Name("Products")
                 .Columns(columns => {
                     columns.Bound(p => p.productID);
                     columns.Bound(p => p.productName);
@@ -221,7 +221,7 @@
                     //columns.ForeignKey(p => p.categoryID, (System.Collections.IEnumerable)ViewData["ratings"], "categoryID", "categoryName").Title("Rating");
                     //columns.Bound(p => p.).ClientTemplate(dvdTemplate).HtmlAttributes(new { style = "text-align: center" });
                     //columns.Bound(p => p.BlueRay).Title("BlueRay").ClientTemplate(blueRayTemplate).HtmlAttributes(new { style = "text-align: center" });
-                }
+                }*@
             
             @*.DataSource(datasource => datasource
             .Ajax()
@@ -229,7 +229,7 @@
             .Read(read => read.Action("Index", "Products"))
         )
             )*@
-            ))
+            @*))*@
     </div>
 
 

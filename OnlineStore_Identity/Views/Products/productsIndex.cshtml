@@ -101,6 +101,7 @@
 
     <div class="card-body px-0 pt-0 pb-2">
         <div class="table-responsive p-0">
+            <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white" >New Product</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -165,13 +166,15 @@
                                     </span>
                                 </td>*@
 
-                            <td class="align-middle text-center text-sm">
-                                <span class="badge badge-sm bg-gradient-secondary">
-                                    <a asp-action="Edit" asp-route-id="@item.productID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </span>
-                            </td>
+                        <td class="align-middle text-center text-sm">
+                            @*<span class="badge badge-sm bg-gradient-secondary">
+            <a asp-action="Edit" asp-route-id="@item.productID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                Edit
+            </a>
+
+        </span>*@
+                            <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",new {id=item.productID},Context.Request.Scheme)', 'Edit Product')" class="btn btn btn-outline-info text-black" style="height:40px">Edit</a>
+                        </td>
                             <td class="align-middle text-center text-sm">
                                 <span class="badge badge-sm bg-gradient-secondary">
                                     <a asp-action="Delete" asp-route-id="@item.productID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete user">
