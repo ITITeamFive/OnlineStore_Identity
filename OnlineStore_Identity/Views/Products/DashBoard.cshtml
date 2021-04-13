@@ -180,7 +180,11 @@
 @*<div id="view_products">
         <partial name="productsIndex" model="ViewBag.Products" />
     </div>*@
+@*//here*@
 <div id="view-all">
     @await Html.PartialAsync("productsIndex", Model);
 </div>
+@*<div id="view-all">
+    @await Html.PartialAsync("_productsIndex", Model);
+</div>*@
 <partial name="salesChart" />

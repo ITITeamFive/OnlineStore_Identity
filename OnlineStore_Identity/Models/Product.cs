@@ -20,12 +20,12 @@ namespace OnlineStore_Identity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.BillProducts = new HashSet<BillProduct>();
-            this.WishLists = new HashSet<WishList>();
+            //this.BillProducts = new HashSet<BillProduct>();
+            //this.WishLists = new HashSet<WishList>();
         }
     
         public int productID { get; set; }
-        [Required(ErrorMessage="This field is required.")]
+        [Required(ErrorMessage = "This field is required.")]
         public string productName { get; set; }
         public string productBrand { get; set; }
         public string productMaterial { get; set; }
@@ -35,18 +35,18 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> classID { get; set; }
         public Nullable<int> categoryID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //[JsonIgnore]
 
-        public virtual ICollection<BillProduct> BillProducts { get; set; }
+        //public virtual ICollection<BillProduct> BillProducts { get; set; }
         //[JsonIgnore]
-        public virtual Category Category { get; set; }
-        //[JsonIgnore]
-
-        public virtual Class Class { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual Category Category { get; set; }
         //[JsonIgnore]
 
-        public virtual ICollection<WishList> WishLists { get; set; }
+        //public virtual Class Class { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //[JsonIgnore]
+
+        //public virtual ICollection<WishList> WishLists { get; set; }
     }
 }

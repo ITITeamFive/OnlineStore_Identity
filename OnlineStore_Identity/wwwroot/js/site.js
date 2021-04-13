@@ -16,6 +16,7 @@ showPopUp = (url, title) => {
 }
 
 $jQueryAjaxPost = form => {
+    return false;
     try {
         $.ajax({
             type: 'POST',
@@ -25,13 +26,13 @@ $jQueryAjaxPost = form => {
             processData: false,
             success: function (res) {
                 if (res.isValid) {
-                    $("#view-all").html(res.html);
+                    $("#view-all").html(res);
                     $('#form-modal .modal-body').html('');
                     $('#form-modal .modal-title').html('');
                     $('#form-modal').modal('hide');
                 }
                 else
-                    $("form-modal .modal-body").html(res.html);
+                    $("form-modal .modal-body").html(res);
             },
             error: function (e) {
                 console.log(e);
@@ -42,5 +43,35 @@ $jQueryAjaxPost = form => {
         console.log(e);
     }
 
+   
+}
+
+$AjaxDelete = (from, e) => {
+    e.preventDefault();
+    if (confirm('Are you sure to delete this product?')) {
+        try {
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                //data: new FormData(form),
+                //contentType: false,
+                //processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        $("#view-all").html(res.html);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return false;
 }
+
+//function prev(e) {
+//    e.preventDefault();
+//}

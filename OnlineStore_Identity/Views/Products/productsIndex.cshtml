@@ -173,15 +173,19 @@
             </a>
 
         </span>*@
+
                             <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",new {id=item.productID},Context.Request.Scheme)', 'Edit Product')" class="btn btn btn-outline-info text-black" style="height:40px">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@item.productID" onsubmit="return AjaxDelete(this);" class="d-inline">
+                                <input type="submit" class="btn btn-outline-danger" value="Delete" />
+                            </form>
                         </td>
-                            <td class="align-middle text-center text-sm">
+                            @*<td class="align-middle text-center text-sm">
                                 <span class="badge badge-sm bg-gradient-secondary">
                                     <a asp-action="Delete" asp-route-id="@item.productID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete user">
                                         Delete
                                     </a>
                                 </span>
-                            </td>
+                            </td>*@
                             @*<td>
                                     <a asp-action="Edit" asp-route-id="@item.productID">Edit</a> |
                                     <a asp-action="Details" asp-route-id="@item.productID">Details</a> |
