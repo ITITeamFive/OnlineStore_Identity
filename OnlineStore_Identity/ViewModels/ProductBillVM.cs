@@ -11,7 +11,8 @@ namespace OnlineStore_Identity.ViewModels
     {
         //public List<Product> products = new List<Product>();
         public IEnumerable<Product> products;
-        
+        public IEnumerable<Bill> bills;
+
         //public Bill bills = new Bill();
 
         public double todayProfit=0;

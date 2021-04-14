@@ -54,6 +54,8 @@ namespace OnlineStore_Identity.Controllers
             RootObject<Bill> Bills = JsonConvert.DeserializeObject<RootObject<Bill>>(Result2);
             IEnumerable<Bill> myBill = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) == DateTime.Now.Date);
 
+            productBillVM.bills = Bills.Value;
+
             foreach (Bill bill in myBill)
             {
                 productBillVM.todayProfit += (double)bill.billTotal;
