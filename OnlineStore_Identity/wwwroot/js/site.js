@@ -2,6 +2,15 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(function () {
+    $("#loaderbody").addClass('hide');
+
+    $(document).bind('ajaxStart', function () {
+        $("#loaderbody").removeClass('hide');
+    }).bind('ajaxStop', function () {
+        $("#loaderbody").addClass('hide');
+    });
+});
 
 showPopUp = (url, title) => {
     $.ajax({
@@ -15,8 +24,11 @@ showPopUp = (url, title) => {
     })
 }
 
-$jQueryAjaxPost = form => {
-    return false;
+function jQueryAjaxPost (e){
+/*return false;*/
+    e.preventDefault();
+    console.log(e);
+    var form = document.getElementById("productFrom");
     try {
         $.ajax({
             type: 'POST',
@@ -25,14 +37,13 @@ $jQueryAjaxPost = form => {
             contentType: false,
             processData: false,
             success: function (res) {
-                if (res.isValid) {
+                
                     $("#view-all").html(res);
                     $('#form-modal .modal-body').html('');
                     $('#form-modal .modal-title').html('');
-                    $('#form-modal').modal('hide');
-                }
-                else
-                    $("form-modal .modal-body").html(res);
+                $('#form-modal').modal('hide');
+                $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+               
             },
             error: function (e) {
                 console.log(e);
@@ -46,32 +57,60 @@ $jQueryAjaxPost = form => {
    
 }
 
-$AjaxDelete = (from, e) => {
+function AjaxDelete(e){
     e.preventDefault();
-    if (confirm('Are you sure to delete this product?')) {
-        try {
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                //data: new FormData(form),
-                //contentType: false,
-                //processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        $("#view-all").html(res.html);
-                    }
-                },
-                error: function (e) {
-                    console.log(e);
-                }
-            })
-        } catch (e) {
-            console.log(e);
-        }
+    //const id = e.target.getAttribute("data-id");
+    var form = document.getElementById("delForm");
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+
+                $("#view-all").html(res);
+                $('#delete-modal .modal-body').html('');
+                $('#delete-modal .modal-title').html('');
+                $('#delete-modal').modal('hide');
+                $.notify('Deleted successfuly', { globalPosition: 'top center', className: 'success' });
+
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+
+    } catch (e) {
+        console.log(e);
     }
-    return false;
+  
+    
 }
 
-//function prev(e) {
+deletePopUp = (url,title) => {
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (res) {
+            $('#delete-modal .modal-body').html(res);
+            $('#delete-modal .modal-title').html(title);
+            $('#delete-modal').modal('show');
+        }
+    })
+} 
+
+function canelDel() {
+    $('#delete-modal .modal-body').html('');
+    $('#delete-modal .modal-title').html('');
+    $('#delete-modal').modal('hide');
+}
+function editDel() {
+    $('#form-modal .modal-body').html('');
+    $('#form-modal .modal-title').html('');
+    $('#form-modal').modal('hide');
+}
+//function as(event){
 //    e.preventDefault();
 //}

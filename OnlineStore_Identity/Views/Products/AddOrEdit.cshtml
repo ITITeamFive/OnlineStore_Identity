@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AddOrEdit" asp-route-id="@Model.productID" onsubmit="return jQueryAjaxPost(this,event);">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.productID" id="productFrom">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="productID" />
             <div class="form-group">
@@ -70,9 +70,12 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-6 offset-md-3">
-                    <input type="submit"  value="Save" class="btn btn-primary btn-block">
+            <div class="form-group justify-content-center d-flex">
+                <div class="d-inline">
+                    <input type="submit" onclick="jQueryAjaxPost(event)" value="Save" class="btn btn-primary">
+                </div>
+                <div class=" d-inline ml-5">
+                    <input type="submit" value="Cancel" onclick="editDel()" class="btn btn-info d-inline " />
                 </div>
             </div>
         </form>

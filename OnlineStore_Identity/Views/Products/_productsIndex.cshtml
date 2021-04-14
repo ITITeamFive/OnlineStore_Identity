@@ -175,8 +175,9 @@
                                 </span>*@
 
                             <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",new {id=item.productID},Context.Request.Scheme)', 'Edit Product')" class="btn btn btn-outline-info text-black" style="height:40px">Edit</a>
-                            <form asp-action="Delete" asp-route-id="@item.productID" onsubmit="return AjaxDelete(this);" class="d-inline">
-                                <input type="submit" class="btn btn-outline-danger" value="Delete" />
+                            <a href="#" class="btn btn-outline-danger" data-id="@item.productID" onclick="AjaxDelete(event)">Delete</a>
+                            <form asp-action="Delete" asp-route-id="@item.productID" id="deleteForm">
+                                <input type="submit" onclick="AjaxDelete(event)"  value="Yes" class="btn btn-outline-danger" />
                             </form>
                         </td>
                         @*<td class="align-middle text-center text-sm">

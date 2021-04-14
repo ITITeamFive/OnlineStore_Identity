@@ -87,6 +87,7 @@ namespace OnlineStore_Identity.Controllers
         // GET: OnlineStore_Identity/AddOrEdit(Insert)
         // GET: OnlineStore_Identity/AddOrEdit/5(Update)
         [HttpGet]
+        [NoDirectAccess]
         public  IActionResult AddOrEdit(int id = 0)
         {
             if(id == 0)
@@ -124,7 +125,7 @@ namespace OnlineStore_Identity.Controllers
                         //ViewBag.Products = products.Value;
                         //return RedirectToAction("Index");
                         //return Json(new { isValid = true, html= Helper.RenderRazorViewToString(this, "productIndex", c) });
-                        return RedirectToAction("Dashboard");
+                        return RedirectToAction("productsIndex");
                     }
                 }
                 else
@@ -144,7 +145,7 @@ namespace OnlineStore_Identity.Controllers
                         //ViewBag.Products = products.Value;
                         //return RedirectToAction("Index");
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "productIndex", x) });
-                        return RedirectToAction("Dashboard");
+                        return RedirectToAction("productsIndex");
                     }
                 }
              
@@ -156,13 +157,24 @@ namespace OnlineStore_Identity.Controllers
             return RedirectToAction("Dashboard");
         }
 
-        [HttpPost]
+        [HttpGet]
+        [NoDirectAccess]
         public IActionResult Delete(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            var products = JsonConvert.DeserializeObject<Root>(Result);
+            Product x = new Product { productID = products.productID, productName = products.productName, productBrand = products.productBrand, productMaterial = products.productMaterial, productPrice = products.productPrice, productDiscount = products.productDiscount, productDescription = products.productDescription, classID = products.classID, categoryID = products.categoryID };
+            return View(x);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id, Product pro)
         {
             HttpResponseMessage response = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})").Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("productsIndex");
 
                 //HttpResponseMessage respons = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
                 //string Result = respons.Content.ReadAsStringAsync().Result;
