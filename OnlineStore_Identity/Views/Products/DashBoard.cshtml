@@ -183,5 +183,12 @@
     <partial name="productsIndex" model="@Model" />
 </div>
 <div class="container">
-    <partial name="salesChart" model="@Model.bills" />
+    <div class="row">
+        <div class="col-6">
+            <partial name="salesChart" model="@Model.lastMonthProfit" />
+        </div>
+        <div class="col-6">
+@*            <partial name="salesChart" model="@Model.lastMonthProfit" />*@
+        </div>
+    </div>
 </div>
