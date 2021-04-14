@@ -73,11 +73,11 @@ namespace OnlineStore_Identity.Controllers
             IEnumerable<Bill> LastMonthBills = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) > monthago);
             foreach (Bill bill in LastMonthBills)
             {
-                productBillVM.lastMonthProfit[bill.billDate.Value.Day] += (double)bill.billTotal;
+                productBillVM.lastMonthProfit[bill.billDate.Value.Day-1] += (double)bill.billTotal;
             }
             foreach (Bill bill in LastMonthBills)
             {
-                productBillVM.lastYearProfit[bill.billDate.Value.Month] += (double)bill.billTotal;
+                productBillVM.lastYearProfit[bill.billDate.Value.Month-1] += (double)bill.billTotal;
             }
             IEnumerable<Bill> myBill = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) == DateTime.Now.Date);
 
