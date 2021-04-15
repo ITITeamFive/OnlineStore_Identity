@@ -105,7 +105,7 @@ namespace OnlineStore_Identity.Controllers
         //    return PartialView(x);
         //    //return PartialView();
         //}
-
+        [Authorize]
         public IActionResult productsIndex()
         {
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
@@ -144,7 +144,8 @@ namespace OnlineStore_Identity.Controllers
         // GET: OnlineStore_Identity/AddOrEdit/5(Update)
         [HttpGet]
         [NoDirectAccess]
-        public  IActionResult AddOrEdit(int id = 0)
+        [Authorize]
+        public IActionResult AddOrEdit(int id = 0)
         {
             if(id == 0)
             {
@@ -162,6 +163,7 @@ namespace OnlineStore_Identity.Controllers
                 return View(x);
             }
         }
+        [Authorize]
         [HttpPost]
         public IActionResult AddOrEdit(int id,[Bind("productID,productName,productBrand,productDescription,productMaterial,productPrice,productDiscount,classID,categoryID")] Product _product)
         {
@@ -212,7 +214,7 @@ namespace OnlineStore_Identity.Controllers
             //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", _product) });
             return RedirectToAction("Dashboard");
         }
-
+        [Authorize]
         [HttpGet]
         [NoDirectAccess]
         public IActionResult Delete(int id)
@@ -223,7 +225,7 @@ namespace OnlineStore_Identity.Controllers
             Product x = new Product { productID = products.productID, productName = products.productName, productBrand = products.productBrand, productMaterial = products.productMaterial, productPrice = products.productPrice, productDiscount = products.productDiscount, productDescription = products.productDescription, classID = products.classID, categoryID = products.categoryID };
             return View(x);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Delete(int id, Product pro)
         {
@@ -243,7 +245,8 @@ namespace OnlineStore_Identity.Controllers
             return View("Error");
         }
 
-        public IActionResult salesChart()
+        [Authorize]
+          public IActionResult salesChart()
         {
             return PartialView();
         }
