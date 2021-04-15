@@ -43,7 +43,6 @@ namespace OnlineStore_Identity.Controllers
         public IActionResult DashBoard()
         {
             ProductBillVM productBillVM = new ProductBillVM();
-
             HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             string Result = response.Content.ReadAsStringAsync().Result;
             RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
@@ -52,8 +51,37 @@ namespace OnlineStore_Identity.Controllers
             HttpResponseMessage response2 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Bills").Result;
             string Result2 = response2.Content.ReadAsStringAsync().Result;
             RootObject<Bill> Bills = JsonConvert.DeserializeObject<RootObject<Bill>>(Result2);
+
+            /**** bills of last Month**/
+            DateTime monthago = DateTime.Now.Date;
+            DateTime thisYearBegin= new System.DateTime(DateTime.Now.Year,1,1, 0,0,0);
+            if (DateTime.Now.Month == 1)
+            {
+                //monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
+                //DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
+              1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            }
+            else
+            {
+                //monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month-1,
+                //  DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month - 1,
+                  1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            }
+
+            IEnumerable<Bill> LastMonthBills = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) > monthago);
+            foreach (Bill bill in LastMonthBills)
+            {
+                productBillVM.lastMonthProfit[bill.billDate.Value.Day-1] += (double)bill.billTotal;
+            }
+            foreach (Bill bill in LastMonthBills)
+            {
+                productBillVM.lastYearProfit[bill.billDate.Value.Month-1] += (double)bill.billTotal;
+            }
             IEnumerable<Bill> myBill = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) == DateTime.Now.Date);
 
+            productBillVM.bills = Bills.Value;
             foreach (Bill bill in myBill)
             {
                 productBillVM.todayProfit += (double)bill.billTotal;

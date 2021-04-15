@@ -1,29 +1,33 @@
 ﻿@model double[]
 <script>
-    var ar = [["", 0]];
-    ar.pop();
+    var ar2 = [["", 0]];
+    ar2.pop();
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 </script>
 @{ @*int d = DateTime.Now.Day;
                     for (int i = 0; i < 31; i++)
                     {
                         <script>
-                            ar.push([@d,@Model[d]]);
-                            console.log(ar)
+                            ar2.push([@d,@Model[d]]);
+                            console.log(ar2)
                         </script>
                         d++;
                         if (d > 30)
                         {
                             d = 0;
                         }
-                    }*@ int i = 1;
+                    }*@
 
+            int i = 0;
             foreach (var p in Model)
             {
 <script>
-                ar.push(["@i",@p]);
-                console.log(ar)
-</script> i++;
-            } }
+        ar2.push([months[@i],@p]);
+                console.log(ar2)
+</script> 
+i++;
+            }
+    }
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -43,7 +47,7 @@
     </div>*@
 @*<div class="card-header">Profit of Month @(DateTime.Now.Month)</div>*@
 <div class="card-body" style="height: 420px;background-color:white">
-    <div class="mx-1 my-1" id="linechart"></div>
+    <div class="mx-1 my-1" id="linechart2"></div>
 </div>
 
 <style>
@@ -61,22 +65,22 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Day');
-            data.addColumn('number', 'profit');
-            console.log(ar)
-            data.addRows(ar);
-            var options = {
+            var data2 = new google.visualization.DataTable();
+            data2.addColumn('string', 'Months');
+            data2.addColumn('number', 'profit');
+            console.log(ar2)
+            data2.addRows(ar2);
+            var options2 = {
                 chart: {
-                    title: 'Profit of Month @(DateTime.Now.Month)',
-                    subtitle: 'profit in (EGP)'
+                    title: 'Profit of year @(DateTime.Now.Year)',
+                    subtitle: 'profit in (EGP)'                    
+                 
                 },
                 width: 500,
                 height: 390
             };
-
-            var chart = new google.charts.Line(document.getElementById('linechart'));
-            chart.draw(data, google.charts.Line.convertOptions(options));
+            var chart2 = new google.charts.Line(document.getElementById('linechart2'));
+            chart2.draw(data2, google.charts.Line.convertOptions(options2));
         }
     });
 </script>

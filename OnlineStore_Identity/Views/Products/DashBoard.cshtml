@@ -182,10 +182,17 @@
 <div id="view-all">
     <partial name="productsIndex" model="@Model" />
 </div>
-<div class="container" id="charts">
-    <partial name="salesChart" />
-</div>
 
+<div class="container" id="charts">
+    <div class="row">
+        <div class="col-6">
+            <partial name="salesChart" model="@Model.lastMonthProfit" />
+        </div>
+        <div class="col-6">
+            <partial name="salesChart_monthly" model="@Model.lastYearProfit" />
+        </div>
+    </div>
+</div>
 <script>
     function clicked(e) {
         document.getElementById("dasho").classList.remove("active");
