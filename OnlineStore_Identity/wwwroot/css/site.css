@@ -90,7 +90,7 @@ body {
     animation: spin 2s linear infinite;
     position: fixed;
     top: 45%;
-    left: 40%;
+    left: 50%;
 }
 @keyframes spin {
     0% {

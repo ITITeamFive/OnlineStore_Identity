@@ -1,7 +1,7 @@
 ﻿@model OnlineStore_Identity.Models.Product
 
 @{ Layout = null;}
-<h4>Are you sure you want to delete this product? @Model.productName</h4>
+<h5>Are you sure you want to delete @Model.productName product? </h5>
 <form asp-action="Delete" asp-route-id="@Model.productID" class="d-inline" id="delForm">
     <div class="form-group mt-5 justify-content-center d-flex">
         <div class="d-inline">

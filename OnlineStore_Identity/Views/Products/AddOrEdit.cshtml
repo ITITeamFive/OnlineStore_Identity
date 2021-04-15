@@ -5,14 +5,14 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AddOrEdit" asp-route-id="@Model.productID" id="productFrom">
+        <form id="productFrom" onsubmit="addordelete(event)" asp-route-id="@Model.productID">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="productID" />
             <div class="form-group">
                 <label asp-for="productName" class="control-label"></label>
                 <div class="input-group">
 
-                    <input asp-for="productName" class="form-control" />
+                    <input asp-for="productName" class="form-control" id="nameId" />
                 </div>
                 <span asp-validation-for="productName" class="text-danger"></span>
             </div>
@@ -72,7 +72,8 @@
             </div>
             <div class="form-group justify-content-center d-flex">
                 <div class="d-inline">
-                    <input type="submit" onclick="jQueryAjaxPost(event)" value="Save" class="btn btn-primary">
+                    <input type="submit" value="Save" class="btn btn-primary">
+                    @*onsubmit="return jQueryAjaxPost(event);"*@
                 </div>
                 <div class=" d-inline ml-5">
                     <input type="submit" value="Cancel" onclick="editDel()" class="btn btn-info d-inline " />
@@ -82,3 +83,80 @@
     </div>
 </div>
 
+
+<script>
+    //$(document).ready(function () {
+    //    $('#productFrom').submit(function (e) {
+    //        e.preventDefault();
+    //        console.log(e);
+
+    //        /*  var $form = $(this);*/
+    //        var form = document.getElementById("productFrom");
+    //        try {
+    //            $.ajax({
+    //                type: 'POST',
+    //                url: "Products/AddOrEdit",
+    //                data: new FormData(form),
+    //                contentType: false,
+    //                processData: false,
+    //                success: function (res) {
+
+    //                    $("#view-all").html(res);
+    //                    $('#form-modal .modal-body').html('');
+    //                    $('#form-modal .modal-title').html('');
+    //                    $('#form-modal').modal('hide');
+    //                    $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+
+    //                },
+    //                error: function (e) {
+    //                    console.log(e);
+    //                }
+    //            })
+
+    //        } catch (e) {
+    //            console.log(e);
+    //        }
+    //    });
+    //});
+    var i = 0;
+    var cs = document.getElementById("nameId").classList.contains('valid');
+    //var valName = document.getElementById("nameId").getAttribute("aria-invalid");
+
+    function addordelete(e) {
+        e.preventDefault();
+        /*  var $form = $(this);*/
+        var form = document.getElementById("productFrom");
+        var cs = document.getElementById("nameId").classList.contains('valid');
+        console.log(cs);
+        if (cs) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "Products/AddOrEdit/@Model.productID",
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+
+                        $("#view-all").html(res);
+                        $('#form-modal .modal-body').html('');
+                        $('#form-modal .modal-title').html('');
+                        $('#form-modal').modal('hide');
+                        $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                })
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+    }
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

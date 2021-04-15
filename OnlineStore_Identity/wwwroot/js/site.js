@@ -24,38 +24,74 @@ showPopUp = (url, title) => {
     })
 }
 
-function jQueryAjaxPost (e){
-/*return false;*/
-    e.preventDefault();
-    console.log(e);
-    var form = document.getElementById("productFrom");
-    try {
-        $.ajax({
-            type: 'POST',
-            url: form.action,
-            data: new FormData(form),
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                
-                    $("#view-all").html(res);
-                    $('#form-modal .modal-body').html('');
-                    $('#form-modal .modal-title').html('');
-                $('#form-modal').modal('hide');
-                $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
-               
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        })
+//$(document).ready(function () {
+//    $('#productFrom').submit(function (e) {
+//        e.preventDefault();
+//        console.log(e);
+//        debugger;
+//        /*  var $form = $(this);*/
+//        var form = document.getElementById("productFrom");
+//        try {
+//            $.ajax({
+//                type: 'POST',
+//                url: "Products/AddOrEdit",
+//                data: new FormData(form),
+//                contentType: false,
+//                processData: false,
+//                success: function (res) {
 
-    } catch(e) {
-        console.log(e);
-    }
+//                    $("#view-all").html(res);
+//                    $('#form-modal .modal-body').html('');
+//                    $('#form-modal .modal-title').html('');
+//                    $('#form-modal').modal('hide');
+//                    $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+
+//                },
+//                error: function (e) {
+//                    console.log(e);
+//                }
+//            })
+
+//        } catch (e) {
+//            console.log(e);
+//        }
+//    });
+//});
+
+  // check if the input is valid using a 'valid' propertyif (!$form.valid) return false;
+
+//jQueryAjaxPost = (e) =>{
+///*return false;*/
+//    e.preventDefault();
+//    console.log(e);
+//    var form = document.getElementById("productFrom");
+//    try {
+//        $.ajax({
+//            type: 'POST',
+//            url: form.action,
+//            data: new FormData(form),
+//            contentType: false,
+//            processData: false,
+//            success: function (res) {
+               
+//                    $("#view-all").html(res);
+//                    $('#form-modal .modal-body').html('');
+//                    $('#form-modal .modal-title').html('');
+//                $('#form-modal').modal('hide');
+//                $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+               
+//            },
+//            error: function (e) {
+//                console.log(e);
+//            }
+//        })
+
+//    } catch(e) {
+//        console.log(e);
+//    }
 
    
-}
+//}
 
 function AjaxDelete(e){
     e.preventDefault();
@@ -69,7 +105,7 @@ function AjaxDelete(e){
             contentType: false,
             processData: false,
             success: function (res) {
-
+              
                 $("#view-all").html(res);
                 $('#delete-modal .modal-body').html('');
                 $('#delete-modal .modal-title').html('');
