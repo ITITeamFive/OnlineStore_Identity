@@ -26,13 +26,21 @@ namespace OnlineStore_Identity.Models
     
         public int productID { get; set; }
         [Required(ErrorMessage = "This field is required.")]
+        [MaxLength(12)]
         public string productName { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
         public string productBrand { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
         public string productMaterial { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
         public Nullable<double> productPrice { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
         public Nullable<double> productDiscount { get; set; }
+        [Required(ErrorMessage = "This field is required.")]
         public string productDescription { get; set; }
+        
         public Nullable<int> classID { get; set; }
+       
         public Nullable<int> categoryID { get; set; }
     
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
