@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OnlineStore_Identity.ViewModels;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -39,7 +40,7 @@ namespace OnlineStore_Identity.Controllers
         }
 
         HttpClient client = new HttpClient();
-       
+       [Authorize(Roles= "Admin")]
         public IActionResult DashBoard()
         {
             ProductBillVM productBillVM = new ProductBillVM();
