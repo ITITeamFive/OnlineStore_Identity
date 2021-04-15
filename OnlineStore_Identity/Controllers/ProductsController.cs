@@ -108,7 +108,6 @@ namespace OnlineStore_Identity.Controllers
         //    //return PartialView();
         //}
         [Authorize]
-        [Authorize(Roles = "Admin")]
         public IActionResult productsIndex()
         {
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
@@ -148,7 +147,6 @@ namespace OnlineStore_Identity.Controllers
         [HttpGet]
         [NoDirectAccess]
         [Authorize]
-        [Authorize(Roles = "Admin")]
         public IActionResult AddOrEdit(int id = 0)
         {
             if(id == 0)
@@ -169,7 +167,6 @@ namespace OnlineStore_Identity.Controllers
         }
         [Authorize]
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult AddOrEdit(int id,[Bind("productID,productName,productBrand,productDescription,productMaterial,productPrice,productDiscount,classID,categoryID")] Product _product)
         {
             if (ModelState.IsValid)
@@ -220,7 +217,6 @@ namespace OnlineStore_Identity.Controllers
             return RedirectToAction("Dashboard");
         }
         [Authorize]
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         [NoDirectAccess]
         public IActionResult Delete(int id)
@@ -232,7 +228,6 @@ namespace OnlineStore_Identity.Controllers
             return View(x);
         }
         [Authorize]
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(int id, Product pro)
         {
@@ -253,8 +248,7 @@ namespace OnlineStore_Identity.Controllers
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
-        public IActionResult salesChart()
+          public IActionResult salesChart()
         {
             return PartialView();
         }
