@@ -1,6 +1,6 @@
 ﻿@model double[]
 <script>
-    var ar = [[0, 0]];
+    var ar = [["", 0]];
     ar.pop();
 </script>
 @{ @*int d = DateTime.Now.Day;
@@ -20,7 +20,7 @@
             foreach (var p in Model)
             {
 <script>
-                ar.push([@i,@p]);
+                ar.push(["@i",@p]);
                 console.log(ar)
 </script> i++;
             } }
@@ -62,7 +62,7 @@
 
         function drawChart() {
             var data = new google.visualization.DataTable();
-            data.addColumn('number', 'Day');
+            data.addColumn('string', 'Day');
             data.addColumn('number', 'profit');
             console.log(ar)
             data.addRows(ar);
