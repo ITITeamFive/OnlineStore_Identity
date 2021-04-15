@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OnlineStore_Identity.ViewModels;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -39,7 +40,9 @@ namespace OnlineStore_Identity.Controllers
         }
 
         HttpClient client = new HttpClient();
-       
+
+        [Authorize]
+//        [Authorize(Roles = "Admin")]
         public IActionResult DashBoard()
         {
             ProductBillVM productBillVM = new ProductBillVM();
@@ -105,6 +108,7 @@ namespace OnlineStore_Identity.Controllers
         //    //return PartialView();
         //}
 
+        [Authorize]
         public IActionResult productsIndex()
         {
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
@@ -143,7 +147,8 @@ namespace OnlineStore_Identity.Controllers
         // GET: OnlineStore_Identity/AddOrEdit/5(Update)
         [HttpGet]
         [NoDirectAccess]
-        public  IActionResult AddOrEdit(int id = 0)
+        [Authorize]
+        public IActionResult AddOrEdit(int id = 0)
         {
             if(id == 0)
             {
@@ -161,7 +166,9 @@ namespace OnlineStore_Identity.Controllers
                 return View(x);
             }
         }
+        [Authorize]
         [HttpPost]
+
         public IActionResult AddOrEdit(int id,[Bind("productID,productName,productBrand,productDescription,productMaterial,productPrice,productDiscount,classID,categoryID")] Product _product)
         {
             if (ModelState.IsValid)
@@ -211,7 +218,7 @@ namespace OnlineStore_Identity.Controllers
             //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", _product) });
             return RedirectToAction("Dashboard");
         }
-
+        [Authorize]
         [HttpGet]
         [NoDirectAccess]
         public IActionResult Delete(int id)
@@ -222,7 +229,7 @@ namespace OnlineStore_Identity.Controllers
             Product x = new Product { productID = products.productID, productName = products.productName, productBrand = products.productBrand, productMaterial = products.productMaterial, productPrice = products.productPrice, productDiscount = products.productDiscount, productDescription = products.productDescription, classID = products.classID, categoryID = products.categoryID };
             return View(x);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Delete(int id, Product pro)
         {
@@ -242,6 +249,7 @@ namespace OnlineStore_Identity.Controllers
             return View("Error");
         }
 
+        [Authorize]
         public IActionResult salesChart()
         {
             return PartialView();
