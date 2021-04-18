@@ -7,18 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OnlineStore_Identity.Models
+namespace OnlineStore_Web_API.Models
 {
+    using OnlineStore_Identity.Models;
     using System;
     using System.Collections.Generic;
     
-    public partial class WishList
+    public partial class Store
     {
-        public int wishListID { get; set; }
         public Nullable<int> productID { get; set; }
-        public string userID { get; set; }
+        public string productColor { get; set; }
+        public string productSize { get; set; }
+        public byte[] productImage { get; set; }
+        public Nullable<int> productQuantity { get; set; }
+        public int ID { get; set; }
     
         //public virtual Product Product { get; set; }
-        //public virtual AspNetUser AspNetUser { get; set; }
     }
 }

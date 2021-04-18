@@ -17,7 +17,7 @@ namespace OnlineStore_Identity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Bill()
         {
-            this.BillProducts = new HashSet<BillProduct>();
+            //this.BillProducts = new HashSet<BillProduct>();
         }
     
         public int billID { get; set; }
@@ -29,10 +29,10 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> paymentID { get; set; }
         public string userID { get; set; }
     
-        public virtual Address Address { get; set; }
-        public virtual Payment Payment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillProduct> BillProducts { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        //public virtual Address Address { get; set; }
+        //public virtual Payment Payment { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<BillProduct> BillProducts { get; set; }
+        //public virtual AspNetUser AspNetUser { get; set; }
     }
 }

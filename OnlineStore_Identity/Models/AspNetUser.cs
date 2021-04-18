@@ -17,8 +17,8 @@ namespace OnlineStore_Identity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AspNetUser()
         {
-            this.Bills = new HashSet<Bill>();
-            this.WishLists = new HashSet<WishList>();
+            //this.Bills = new HashSet<Bill>();
+            //this.WishLists = new HashSet<WishList>();
         }
     
         public string Id { get; set; }
@@ -27,7 +27,7 @@ namespace OnlineStore_Identity.Models
         public string Email { get; set; }
         public string NormalizedEmail { get; set; }
         public bool EmailConfirmed { get; set; }
-        public string PasswordHash { get; set; }
+        //public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string ConcurrencyStamp { get; set; }
         public string PhoneNumber { get; set; }
@@ -37,9 +37,9 @@ namespace OnlineStore_Identity.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WishList> WishLists { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<Bill> Bills { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<WishList> WishLists { get; set; }
     }
 }

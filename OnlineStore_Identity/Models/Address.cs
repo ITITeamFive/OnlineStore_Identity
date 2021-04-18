@@ -17,7 +17,7 @@ namespace OnlineStore_Identity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Address()
         {
-            this.Bills = new HashSet<Bill>();
+            //this.Bills = new HashSet<Bill>();
         }
     
         public int addressID { get; set; }
@@ -25,8 +25,8 @@ namespace OnlineStore_Identity.Models
         public string addressDetails { get; set; }
         public Nullable<int> shippingID { get; set; }
     
-        public virtual Shipping Shipping { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
+        //public virtual Shipping Shipping { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<Bill> Bills { get; set; }
     }
 }

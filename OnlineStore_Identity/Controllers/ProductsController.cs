@@ -41,7 +41,7 @@ namespace OnlineStore_Identity.Controllers
 
         HttpClient client = new HttpClient();
 
-        [Authorize]
+        //[Authorize]
         [Authorize(Roles = "Admin")]
         public IActionResult DashBoard()
         {
@@ -107,7 +107,7 @@ namespace OnlineStore_Identity.Controllers
         //    return PartialView(x);
         //    //return PartialView();
         //}
-        [Authorize]
+        //[Authorize]
         public IActionResult productsIndex()
         {
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
@@ -146,7 +146,7 @@ namespace OnlineStore_Identity.Controllers
         // GET: OnlineStore_Identity/AddOrEdit/5(Update)
         [HttpGet]
         [NoDirectAccess]
-        [Authorize]
+        //[Authorize]
         public IActionResult AddOrEdit(int id = 0)
         {
             if(id == 0)
@@ -216,7 +216,7 @@ namespace OnlineStore_Identity.Controllers
             //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", _product) });
             return RedirectToAction("Dashboard");
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [NoDirectAccess]
         public IActionResult Delete(int id)
@@ -227,7 +227,7 @@ namespace OnlineStore_Identity.Controllers
             Product x = new Product { productID = products.productID, productName = products.productName, productBrand = products.productBrand, productMaterial = products.productMaterial, productPrice = products.productPrice, productDiscount = products.productDiscount, productDescription = products.productDescription, classID = products.classID, categoryID = products.categoryID };
             return View(x);
         }
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public IActionResult Delete(int id, Product pro)
         {
@@ -247,7 +247,7 @@ namespace OnlineStore_Identity.Controllers
             return View("Error");
         }
 
-        [Authorize]
+        //[Authorize]
           public IActionResult salesChart()
         {
             return PartialView();
