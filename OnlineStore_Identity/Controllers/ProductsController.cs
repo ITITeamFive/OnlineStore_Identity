@@ -40,9 +40,7 @@ namespace OnlineStore_Identity.Controllers
         }
 
         HttpClient client = new HttpClient();
-
-        //[Authorize]
-        [Authorize(Roles = "Admin")]
+       [Authorize(Roles= "Admin")]
         public IActionResult DashBoard()
         {
             ProductBillVM productBillVM = new ProductBillVM();
