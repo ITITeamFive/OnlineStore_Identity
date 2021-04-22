@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
+using OnlineStore_Identity.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,30 +22,10 @@ namespace OnlineStore_Identity.Controllers
         }
 
 
-        public class RootObject
+        public class RootObject<T>
         {
-
             public string Metadata { get; set; }
-            public List<Product> Value { get; set; }
-
-        }
-
-        public class Root
-        {
-            public string metadata { get; set; }
-
-            public int productID { get; set; }
-            public string productName { get; set; }
-            public string productBrand { get; set; }
-            public string productMaterial { get; set; }
-            public double productPrice { get; set; }
-            public double productDiscount { get; set; }
-            public string productDescription { get; set; }
-            [JsonIgnore]
-            public int classID { get; set; }
-            [JsonIgnore]
-
-            public int categoryID { get; set; }
+            public IEnumerable<T> Value { get; set; }
         }
 
 
@@ -55,7 +36,7 @@ namespace OnlineStore_Identity.Controllers
 
             HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             string Result = response.Content.ReadAsStringAsync().Result;
-            RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
+            RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
             return View(products.Value);
 
             //Byte[] b = System.IO.File.ReadAllBytes(@"D:\ITI\Projects\Project4\New Project Online\OnlineStore_Identity\OnlineStore_Identity\wwwroot\css\assets\Images\img1.jpg");   // You can use your own method over here.         
@@ -75,6 +56,24 @@ namespace OnlineStore_Identity.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ProductDetails(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,Class,Stores,Reviews").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            ProductDetailsVM productDetails  = JsonConvert.DeserializeObject<ProductDetailsVM>(Result);
+            int rate = 0;
+            if(productDetails.Reviews.Count != 0)
+            {
+                foreach (var review in productDetails.Reviews)
+                {
+                    rate += review.rate ?? 0;
+                }
+            }
+
+            ViewBag.rate = rate;
+            return PartialView(productDetails);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿
-@model IEnumerable<OnlineStore_Identity.Models.Product>
+﻿@model IEnumerable<OnlineStore_Identity.Models.Product>
+@using OnlineStore_Identity.Components;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -26,10 +26,10 @@
 
 <div class="container">
     <div class="row">
-
         @foreach (var item in Model)
         {
-            <div class="col-md-4">
+
+            <div class="col-md-4" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID},Context.Request.Scheme)')">
                 <div class="card">
                     <img src="https://upload.3dlat.com/uploads/3dlat.com_14_18_4723_d7d382a455061.jpg" class="card-img-top" alt="Girl in a Shirt">
                     <div class="card-body">
@@ -44,12 +44,44 @@
                     </div>
                 </div>
             </div>
+
         }
 
     </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="details-modal">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModel()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    showDetails = (url) => {
+        console.log("hi");
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (res) {
+                $('#details-modal .modal-body').html(res);
+                $('#details-modal').modal('show');
+            }
+        })
+    }
 
-
+    CloseModel = () => {
+        $('#details-modal').modal('hide');
+    }
+</script>
 
 
 
