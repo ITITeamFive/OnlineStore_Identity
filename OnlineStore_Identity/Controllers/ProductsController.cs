@@ -12,6 +12,7 @@ using OnlineStore_Identity.ViewModels;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using OnlineStore_Web_API.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -47,6 +48,30 @@ namespace OnlineStore_Identity.Controllers
             string Result = response.Content.ReadAsStringAsync().Result;
             RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
             productBillVM.products = products.Value;
+
+            HttpResponseMessage res3 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string result3 = res3.Content.ReadAsStringAsync().Result;
+            RootObject<Store> stores = JsonConvert.DeserializeObject<RootObject<Store>>(result3);
+            productBillVM.stores = stores.Value;
+            ViewBag.l = 0;
+            HttpResponseMessage res4 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/BillProducts").Result;
+            string result4 = res4.Content.ReadAsStringAsync().Result;
+            RootObject<BillProduct> billProducts  = JsonConvert.DeserializeObject<RootObject<BillProduct>>(result4);
+            productBillVM.billProducts = billProducts.Value;
+
+            //Get classes
+            HttpResponseMessage res5 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Classes").Result;
+            string result5 = res5.Content.ReadAsStringAsync().Result;
+            RootObject<Class> classes = JsonConvert.DeserializeObject<RootObject<Class>>(result5);
+            productBillVM.classes = classes.Value;
+
+            //get categories
+            HttpResponseMessage res6 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            string result6 = res6.Content.ReadAsStringAsync().Result;
+            RootObject<Category> categories = JsonConvert.DeserializeObject<RootObject<Category>>(result6);
+            productBillVM.categories = categories.Value;
+
+
 
             HttpResponseMessage response2 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Bills").Result;
             string Result2 = response2.Content.ReadAsStringAsync().Result;
@@ -120,6 +145,28 @@ namespace OnlineStore_Identity.Controllers
             RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
             productBillVM.products = products.Value;
 
+            HttpResponseMessage res3 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string result3 = res3.Content.ReadAsStringAsync().Result;
+            RootObject<Store> stores = JsonConvert.DeserializeObject<RootObject<Store>>(result3);
+            productBillVM.stores = stores.Value;
+
+            HttpResponseMessage res4 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/BillProducts").Result;
+            string result4 = res4.Content.ReadAsStringAsync().Result;
+            RootObject<BillProduct> billProducts = JsonConvert.DeserializeObject<RootObject<BillProduct>>(result4);
+            productBillVM.billProducts = billProducts.Value;
+
+            //Get classes
+            HttpResponseMessage res5 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Classes").Result;
+            string result5 = res5.Content.ReadAsStringAsync().Result;
+            RootObject<Class> classes = JsonConvert.DeserializeObject<RootObject<Class>>(result5);
+            productBillVM.classes = classes.Value;
+
+            //get categories
+            HttpResponseMessage res6 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            string result6 = res6.Content.ReadAsStringAsync().Result;
+            RootObject<Category> categories = JsonConvert.DeserializeObject<RootObject<Category>>(result6);
+            productBillVM.categories = categories.Value;
+
             HttpResponseMessage response2 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Bills").Result;
             string Result2 = response2.Content.ReadAsStringAsync().Result;
             RootObject<Bill> Bills = JsonConvert.DeserializeObject<RootObject<Bill>>(Result2);
@@ -146,7 +193,21 @@ namespace OnlineStore_Identity.Controllers
         //[Authorize]
         public IActionResult AddOrEdit(int id = 0)
         {
-            if(id == 0)
+            //Get classes
+            HttpResponseMessage res5 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Classes").Result;
+            string result5 = res5.Content.ReadAsStringAsync().Result;
+            RootObject<Class> classes = JsonConvert.DeserializeObject<RootObject<Class>>(result5);
+            //ViewBag.classes = classes.Value;
+            ViewBag.classes = new SelectList(classes.Value, "classID", "className");
+
+            //get categories
+            HttpResponseMessage res6 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            string result6 = res6.Content.ReadAsStringAsync().Result;
+            RootObject<Category> categories = JsonConvert.DeserializeObject<RootObject<Category>>(result6);
+            //ViewBag.categories = categories.Value;
+            ViewBag.categories = new SelectList(categories.Value, "categoryID", "categoryName");
+
+            if (id == 0)
             {
                 return View(new Product());
             }

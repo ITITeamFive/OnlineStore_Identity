@@ -68,6 +68,30 @@
                     </div>
                 </div>
             </div>
+            @*Class and Category list*@
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*<label asp-for="productBrand" class="control-label"></label>
+        <input asp-for="productBrand" class="form-control" />
+        <span asp-validation-for="classID" class="text-danger"></span>*@
+                        @Html.LabelFor(s => s.classID)
+                        @Html.DropDownListFor(s => s.classID, (IEnumerable<SelectListItem>)ViewBag.classes, new { @class = "form-control" })
+                        <span asp-validation-for="classID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*<label asp-for="productMaterial" class="control-label"></label>
+        <input asp-for="productMaterial" class="form-control" />
+        <span asp-validation-for="categoryID" class="text-danger"></span>*@
+                        @Html.LabelFor(s => s.categoryID)
+                        @Html.DropDownListFor(s => s.categoryID, (IEnumerable<SelectListItem>)ViewBag.categories, new { @class = "form-control" })
+                        <span asp-validation-for="categoryID" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group justify-content-center d-flex">
                 <div class="d-inline">
                     <input type="submit" value="Save" class="btn btn-primary">
@@ -142,6 +166,16 @@
                         $('#form-modal .modal-title').html('');
                         $('#form-modal').modal('hide');
                         $.notify('Submitted successfuly', { globalPosition: 'top center', className: 'success' });
+                        $('#tableFilter').DataTable({
+                            "scrollY": "450px",
+                            "scrollCollapse": true,
+                            "paging": true,
+                            "select": true,
+                            "ordering": true,
+                            "searching": true,
+                            "scrollX": false,
+                            "autoWidth": true
+                        });
 
                     },
                     error: function (e) {
