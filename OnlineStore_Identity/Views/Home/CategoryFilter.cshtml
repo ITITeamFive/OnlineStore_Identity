@@ -2,7 +2,7 @@
 
 @foreach (var item in Model)
 {
-    <div class="col-md-4">
+    <div class="col-md-4" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
         <div class="card">
             <img src="https://upload.3dlat.com/uploads/3dlat.com_14_18_4723_d7d382a455061.jpg" class="card-img-top" alt="Girl in a Shirt">
             <div class="card-body">

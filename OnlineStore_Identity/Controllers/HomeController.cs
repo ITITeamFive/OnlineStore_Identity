@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
+using OnlineStore_Identity.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,28 +39,10 @@ namespace OnlineStore_Identity.Controllers
         public class RootObject<T>
         {
             public string Metadata { get; set; }
-            //public List<Product> Value { get; set; }
             public IEnumerable<T> Value { get; set; }
-
         }
 
-        public class Root
-        {
-            public string metadata { get; set; }
 
-            public int productID { get; set; }
-            public string productName { get; set; }
-            public string productBrand { get; set; }
-            public string productMaterial { get; set; }
-            public double productPrice { get; set; }
-            public double productDiscount { get; set; }
-            public string productDescription { get; set; }
-            [JsonIgnore]
-            public int classID { get; set; }
-            [JsonIgnore]
-
-            public int categoryID { get; set; }
-        }
 
         HttpClient client = new HttpClient();
 
@@ -387,6 +370,24 @@ namespace OnlineStore_Identity.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ProductDetails(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,Class,Stores,Reviews").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            HomeProductDetailsVM productDetails = JsonConvert.DeserializeObject<HomeProductDetailsVM>(Result);
+            int rate = 0;
+            if (productDetails.Reviews.Count != 0)
+            {
+                foreach (var review in productDetails.Reviews)
+                {
+                    rate += review.rate ?? 0;
+                }
+            }
+
+            ViewBag.rate = rate;
+            return PartialView(productDetails);
         }
     }
 }
