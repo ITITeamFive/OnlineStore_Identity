@@ -2,6 +2,10 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+// using the filtering at the dashboard table
+
+    
 $(function () {
     $("#loaderbody").addClass('hide');
 
@@ -111,6 +115,16 @@ function AjaxDelete(e){
                 $('#delete-modal .modal-title').html('');
                 $('#delete-modal').modal('hide');
                 $.notify('Deleted successfuly', { globalPosition: 'top center', className: 'success' });
+                $('#tableFilter').DataTable({
+                    "scrollY": "450px",
+                    "scrollCollapse": true,
+                    "paging": true,
+                    "select": true,
+                    "ordering": true,
+                    "searching": true,
+                    "scrollX": false,
+                    "autoWidth": true
+                });
 
             },
             error: function (e) {
@@ -150,3 +164,19 @@ function editDel() {
 //function as(event){
 //    e.preventDefault();
 //}
+
+$(document).ready(function () {
+    $('#tableFilter').DataTable({
+        "scrollY": "350px",
+        "scrollCollapse": false,
+        "paging": true,
+        "select": true,
+        "ordering": true,
+        "searching": true,
+        "scrollX": false,
+        "autoWidth": true
+    });
+    //$(document).ready(function () {
+    //    $('#tableFilter').DataTable();
+    //});
+});

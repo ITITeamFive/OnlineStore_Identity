@@ -1,0 +1,20 @@
+﻿@model IEnumerable<OnlineStore_Identity.Models.Product>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-4" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
+        <div class="card">
+            <img src="https://upload.3dlat.com/uploads/3dlat.com_14_18_4723_d7d382a455061.jpg" class="card-img-top" alt="Girl in a Shirt">
+            <div class="card-body">
+                <h5 class="card-title">@item.productName</h5>
+                <p class="card-text">@item.productDescription</p>
+
+                <div class="smallData">
+                    <p>Price: <b>@item.productPrice</b></p>
+                    <p>Brand: <b>@item.productBrand</b></p>
+                    <p>Material: <b>@item.productMaterial</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

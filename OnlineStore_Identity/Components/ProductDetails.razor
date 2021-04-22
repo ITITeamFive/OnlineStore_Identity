@@ -165,7 +165,7 @@
                                                     class="btn">
                                                 +
                                             </button>
-                                            <input class="max-width-100 form-control" min="0" max="@Max" name="quantity" value="1" type="number">
+                                            <input class="max-width-100 form-control" disabled min="0" max="@Max" name="quantity" value="@qunantity" type="number">
                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
                                                     class="btn">
                                                 -
@@ -217,7 +217,7 @@
 </div>
 
 @code {
-    [Parameter] public ProductDetailsVM Product { get; set; }
+    [Parameter] public HomeProductDetailsVM Product { get; set; }
 
     [Parameter] public int rate { get; set; }
 
@@ -226,6 +226,8 @@
     public List<string> Colors { get; set; } = new List<string>();
 
     public int Max { get; set; } = 0;
+
+    public int qunantity { get; set; } = 1;
 
     public bool newSize { get; set; } = true;
 

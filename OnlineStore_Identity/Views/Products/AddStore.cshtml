@@ -1,0 +1,47 @@
+﻿@model OnlineStore_Identity.Models.Store
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddStore">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="productID" class="control-label"></label>
+                <input asp-for="productID" class="form-control" value="@ViewData["id"]" readonly />
+                <span asp-validation-for="productID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productColor" class="control-label"></label>
+                <input asp-for="productColor" class="form-control" />
+                <span asp-validation-for="productColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productImage" class="control-label"></label>
+                <input asp-for="productImage" class="form-control" accept="image/*"/>
+                <span asp-validation-for="productImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productQuantity" class="control-label"></label>
+                <input asp-for="productQuantity" class="form-control" />
+                <span asp-validation-for="productQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productSize" class="control-label"></label>
+                <input asp-for="productSize" class="form-control" />
+                @*                <select asp-for="DepId" class="form-control" asp-items="ViewBag."></select>*@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="AddStore" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
