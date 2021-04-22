@@ -1,4 +1,5 @@
 ﻿using OnlineStore_Identity.Models;
+using OnlineStore_Web_API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace OnlineStore_Identity.ViewModels
         public double allProfit=0;
         public double[] lastMonthProfit=new double[31];
         public double[] lastYearProfit = new double[12];
+        public IEnumerable<Store> Stores;
     }
 }

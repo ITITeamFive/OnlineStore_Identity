@@ -1,0 +1,60 @@
+﻿@model OnlineStore_Identity.ViewModels.ProductDetailsVM
+<h1>
+    @Html.DisplayFor(modelItem => Model.product.productName)
+</h1>
+<h1>
+    @Html.DisplayFor(modelItem => Model.product.productPrice)
+</h1>
+<h1>
+    @Html.DisplayFor(modelItem => Model.product.productMaterial)
+</h1>
+<h1>
+    @Html.DisplayFor(modelItem => Model.product.productDiscount)
+</h1>
+<h1>
+    @Html.DisplayFor(modelItem => Model.product.productDescription)
+</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID in store</th>
+            <th>Color </th>
+            <th>      </th>
+            <th>Size</th>
+            <th>Quantity</th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.stores)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productColor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productImage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productQuantity)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-secondary">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-dark">Details</a>*@ 
+                    <a asp-action="Deletestore" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-success">Add new product</a>
+</p>

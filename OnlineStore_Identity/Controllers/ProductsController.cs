@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using OnlineStore_Identity.ViewModels;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Authorization;
+using OnlineStore_Web_API.Models;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -24,7 +25,6 @@ namespace OnlineStore_Identity.Controllers
         public class Root
         {
             public string metadata { get; set; }
-
             public int productID { get; set; }
             public string productName { get; set; }
             public string productBrand { get; set; }
@@ -35,7 +35,6 @@ namespace OnlineStore_Identity.Controllers
             [JsonIgnore]
             public int classID { get; set; }
             [JsonIgnore]
-
             public int categoryID { get; set; }
         }
 
@@ -205,11 +204,8 @@ namespace OnlineStore_Identity.Controllers
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "productIndex", x) });
                         return RedirectToAction("productsIndex");
                     }
-                }
-             
-              
+                }     
             }
-
             //return View(_product);
             //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", _product) });
             return RedirectToAction("Dashboard");
@@ -233,22 +229,77 @@ namespace OnlineStore_Identity.Controllers
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("productsIndex");
-
                 //HttpResponseMessage respons = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
                 //string Result = respons.Content.ReadAsStringAsync().Result;
                 //RootObject products = JsonConvert.DeserializeObject<RootObject>(Result);
                 //List<Product> x = products.Value;
                 ////ViewBag.Products = products.Value;
                 //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_productIndex", x) });
-
             }
             return View("Error");
         }
-
         //[Authorize]
           public IActionResult salesChart()
         {
             return PartialView();
+        }
+        public ActionResult Details(int id)
+        {
+            ProductDetailsVM productDetails = new ProductDetailsVM();
+            HttpResponseMessage response3 = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string Result = response3.Content.ReadAsStringAsync().Result;
+            RootObject<Store> stores = JsonConvert.DeserializeObject<RootObject<Store>>(Result);
+            productDetails.stores = stores.Value.Where(b => b.productID == id);
+
+            ProductBillVM productBillVM = new ProductBillVM();
+            HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
+            Result = response.Content.ReadAsStringAsync().Result;
+            RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
+            productDetails.product = products.Value.FirstOrDefault(b=>b.productID==id);
+            return View(productDetails);
+        }
+
+        [HttpGet]
+        [NoDirectAccess]
+        public IActionResult Deletestore(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            RootObject<Store> stores = JsonConvert.DeserializeObject<RootObject<Store>>(Result);
+            Store x = stores.Value.FirstOrDefault(b => b.ID == id);
+            response = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Stores({x.ID})").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction($"Details", x.productID);
+            }
+            return View("Error");
+        }
+
+        [HttpGet]
+        // GET: EmployeeController1/Create
+        public ActionResult AddStore(int id)
+        {
+            ViewData["id"] = id;
+            return View();
+        }
+
+        // POST: EmployeeController1/Create
+        [HttpPost]
+        public ActionResult AddStore(Store s)
+        {
+            string data = JsonConvert.SerializeObject(s);
+            StringContent reqBody = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage = client.PostAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores", reqBody).Result;
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                ViewBag.Message = "added";
+            }
+            else
+            {
+                ViewBag.Message = "Error not added";
+            }
+                        return RedirectToAction("Details",s.productID);
+            //return RedirectToAction(nameof(Details),s.productID);
         }
     }
 }
