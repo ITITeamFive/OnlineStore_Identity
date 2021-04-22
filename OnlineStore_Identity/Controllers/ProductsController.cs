@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using OnlineStore_Identity.ViewModels;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Authorization;
-using OnlineStore_Web_API.Models;
+using OnlineStore_Identity.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OnlineStore_Identity.Controllers
