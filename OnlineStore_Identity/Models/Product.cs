@@ -42,7 +42,7 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> classID { get; set; }
        
         public Nullable<int> categoryID { get; set; }
-    
+
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //[JsonIgnore]
 

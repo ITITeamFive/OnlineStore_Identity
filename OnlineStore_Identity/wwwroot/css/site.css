@@ -104,3 +104,11 @@ body {
 .hide {
     display: none;
 }
+/*
+table {
+    overflow-y: scroll;
+    overflow-x:hidden;
+    height: 300px;
+    width:300px;
+    display: block;
+}*/
