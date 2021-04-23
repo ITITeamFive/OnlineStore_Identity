@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
@@ -28,10 +30,12 @@ namespace OnlineStore_Identity.Controllers
         string url = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*&$expand=Stores";
 
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
 
@@ -46,6 +50,9 @@ namespace OnlineStore_Identity.Controllers
 
         public IActionResult Index()
         {
+            string userID = _userManager.GetUserId(HttpContext.User);
+            HttpContext.Session.SetString("userID", userID);
+
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             HttpResponseMessage response = client.GetAsync(url).Result;
             string Result = response.Content.ReadAsStringAsync().Result;
