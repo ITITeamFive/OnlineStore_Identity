@@ -43,12 +43,15 @@ namespace OnlineStore_Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            // needed to make the razor component's event firing works
+            services.AddServerSideBlazor();
+
             //services.AddKendo();
             //services.AddControllers()
-    //.AddNewtonsoftJson(options =>
-    //{
-    //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-    //});
+            //.AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //});
             services.ConfigureApplicationCookie(c => { c.LoginPath = "/Identity/Account/Login";c.AccessDeniedPath = "/Identity/Account/AccessDenied";});
             //services.AddMvc().AddJsonOptions(options => {
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
@@ -80,6 +83,10 @@ namespace OnlineStore_Identity
 
             app.UseEndpoints(endpoints =>
             {
+                // needed to make the razor component's event firing works
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
+                ///////////////////////////////
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
