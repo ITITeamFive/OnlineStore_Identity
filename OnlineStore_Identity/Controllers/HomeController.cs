@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -29,10 +31,12 @@ namespace OnlineStore_Identity.Controllers
         string url = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*&$expand=Stores";
 
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
 
@@ -64,6 +68,12 @@ namespace OnlineStore_Identity.Controllers
             string sizeResult = sizeRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
             ViewBag.sizes = sizes.Value.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList();
+
+            string userID = _userManager.GetUserId(HttpContext.User) != null? _userManager.GetUserId(HttpContext.User) : "";
+            HttpContext.Session.SetString("userID", userID);
+
+            string stored = HttpContext.Session.GetString("userID");
+            
 
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             HttpResponseMessage response = client.GetAsync(url).Result;

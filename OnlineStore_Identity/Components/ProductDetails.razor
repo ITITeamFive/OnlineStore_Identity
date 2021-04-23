@@ -113,8 +113,8 @@
                 <p><span class="mr-3"><strong>@Product.productPrice</strong></span><span class="px-3 badge-danger"><strong>@Product.productDiscount%</strong></span></p>
                 <p class="pt-1">
                     @*Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-                        error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-                        officia quis dolore quos sapiente tempore alias.*@
+            error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+            officia quis dolore quos sapiente tempore alias.*@
                     @Product.productDescription
                 </p>
                 <div class="table-responsive">
@@ -129,7 +129,7 @@
                                 <td>@Product.productMaterial</td>
                             </tr>
                             <tr>
-                                <th class="pl-0 w-25" scope="row"><strong>Size</strong></th>
+                                <th class="pl-0 w-25" scope="row"><strong>Select Size</strong></th>
                                 <td>
                                     <div class="form-group">
 
@@ -153,7 +153,7 @@
                         <tbody>
                             <tr>
                                 <td class="pl-0 pb-0">Quantity</td>
-                                <td class="pb-0">Select size</td>
+                                <td class="pb-0">Select Color</td>
                             </tr>
                             <tr>
                                 <td class="pl-0">
@@ -161,15 +161,15 @@
                                     {
 
                                         <div class="def-number-input number-input safari_only mb-0">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                    class="btn">
-                                                +
-                                            </button>
-                                            <input class="max-width-100 form-control" disabled min="0" max="@Max" name="quantity" value="@qunantity" type="number">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                    class="btn">
-                                                -
-                                            </button>
+                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                            class="btn">
+                                        +
+                                    </button>*@
+                                            <input class="max-width-100 form-control" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
+                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                            class="btn">
+                                        -
+                                    </button>*@
                                         </div>
                                     }
                                 </td>
@@ -183,31 +183,32 @@
                                             }
                                         </select>
                                         @*<div class="form-check form-check pl-0">
-                                                <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
-                                                        checked>
-                                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                                        for="small">Small</label>
-                                            </div>
-                                            <div class="form-check form-check pl-0">
-                                                <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios">
-                                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                                        for="medium">Medium</label>
-                                            </div>
-                                            <div class="form-check form-check pl-0">
-                                                <input type="radio" class="form-check-input" id="large" name="materialExampleRadios">
-                                                <label class="form-check-label small text-uppercase card-link-secondary"
-                                                        for="large">Large</label>
-                                            </div>*@
+                                    <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
+                                            checked>
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                            for="small">Small</label>
+                                </div>
+                                <div class="form-check form-check pl-0">
+                                    <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios">
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                            for="medium">Medium</label>
+                                </div>
+                                <div class="form-check form-check pl-0">
+                                    <input type="radio" class="form-check-input" id="large" name="materialExampleRadios">
+                                    <label class="form-check-label small text-uppercase card-link-secondary"
+                                            for="large">Large</label>
+                                </div>*@
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-                <button type="button" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@qunantity)">
+                <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+                <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@quantity)">
                     <i class="fas fa-shopping-cart pr-2"></i>Add to cart
                 </button>
+                <button class="btn @loveColor btn-md mr-1 mb-2" type="button" @onclick="WishList"><span class="fa fa-heart"></span></button>
             </div>
         </div>
 
@@ -221,13 +222,15 @@
 
     [Parameter] public int rate { get; set; }
 
+    [Parameter] public string loveColor { get; set; } = "btn-light";
+
     public string Size { get; set; }
 
     public List<string> Colors { get; set; } = new List<string>();
 
     public int Max { get; set; } = 0;
 
-    public int qunantity { get; set; } = 1;
+    public int quantity { get; set; }
 
     public bool newSize { get; set; } = true;
 
@@ -240,6 +243,8 @@
         newSize = true;
 
         Colors = Product.Stores.Where(s => s.productSize == Size).Select(s => s.productColor).ToList();
+
+        quantity = 0;
     }
 
     public void ColorChange(ChangeEventArgs args)
@@ -249,7 +254,15 @@
         newSize = false;
 
         Max = Product.Stores.Where(s => s.productColor == color && s.productSize == Size).Select(s => s.productQuantity).FirstOrDefault() ?? 0;
-
         storeID = Product.Stores.Where(s => s.productSize == Size && s.productColor == color).Select(s => s.ID).FirstOrDefault();
+        quantity = 0;
+    }
+
+    public void WishList()
+    {
+        if (loveColor == "btn-light")
+            loveColor = "btn-danger";
+        else
+            loveColor = "btn-light";
     }
 }
