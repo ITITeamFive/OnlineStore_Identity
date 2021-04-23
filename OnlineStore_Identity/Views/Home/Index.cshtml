@@ -22,39 +22,47 @@
                 <li class="nav-item mt-3">
                     <h6 style="color:black" class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Color</h6>
                     <ul style="list-style-type:none">
-                        <li><input type="checkbox" name="colorFilter" id="black" /> Black</li>
-                        <li><input type="checkbox" name="colorFilter" id="red" /> Red</li>
+
+                        @foreach (var item in ViewBag.colors)
+                        {
+                            <li><input type="checkbox" name="colorFilter" id="@item" /> @item</li>
+                        }
+                        <!--<li><input type="checkbox" name="colorFilter" id="black" /> Black</li>
+                        <li><input type="checkbox" name="colorFilter" id="red" /> Red</li>-->
                         @*<li>@Html.CheckBox("white",false,new { onchange="colorFilter(event)"}) White</li>*@
-                        <li><input type="checkbox" name="colorFilter" id="white" /> White</li>
+                        <!--<li><input type="checkbox" name="colorFilter" id="white" /> White</li>
                         <li><input type="checkbox" name="colorFilter" id="yellow" /> Yellow</li>
                         <li><input type="checkbox" name="colorFilter" id="blue" /> Blue</li>
                         <li><input type="checkbox" name="colorFilter" id="green" /> Green</li>
                         <li><input type="checkbox" name="colorFilter" id="orange" /> Orange</li>
                         <li><input type="checkbox" name="colorFilter" id="pink" /> Pink</li>
-                        <li><input type="checkbox" name="colorFilter" id="purple" /> Purple</li>
+                        <li><input type="checkbox" name="colorFilter" id="purple" /> Purple</li>-->
                     </ul>
                 </li>
                 <li class="nav-item mt-3">
                     <h6 style="color:black" class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Size</h6>
                     <ul style="list-style-type:none">
-                        <li><input type="checkbox" name="sizeFilter" id="xsmall" /> XSmall</li>
+                        @foreach (var item in ViewBag.sizes)
+                        {
+                            <li><input type="checkbox" name="sizeFilter" id="@item" /> @item</li>
+                        }
+                        @*<li><input type="checkbox" name="sizeFilter" id="xsmall" /> XSmall</li>
                         <li><input type="checkbox" name="sizeFilter" id="small" /> Small</li>
                         <li><input type="checkbox" name="sizeFilter" id="medium" /> Medium</li>
                         <li><input type="checkbox" name="sizeFilter" id="large" /> Large</li>
-                        <li><input type="checkbox" name="sizeFilter" id="xlarge" /> XLarge</li>
+                        <li><input type="checkbox" name="sizeFilter" id="xlarge" /> XLarge</li>*@
                     </ul>
                 </li>
                 <li class="nav-item mt-3">
                     <h6 style="color:black" class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Class</h6>
                     <ul style="list-style-type:none">
-                        <li><input type="checkbox" name="classFilter" id="class1" /> Children</li>
-                        <li><input type="checkbox" name="classFilter" id="class2" /> Men</li>
-                        <li><input type="checkbox" name="classFilter" id="class3" /> Women</li>
-                        <li>@*<input type="checkbox" name="classFilter" id="boys" /> Boys*@</li>
+                        @{var i = 1; }
+                        @foreach (var item in ViewBag.classes)
+                        {
+                            <li><input type="checkbox" name="classFilter" id="@("class" + i)" /> @item.className</li>
+                            i++;
+                        }
                     </ul>
-                </li>
-                <li class="nav-item mt-3">
-                <input type="button" class="btn btn-outline-primary btn-sm mb-0" name="colorFilter" value="Apply" id="Apply" />
                 </li>
             </ul>
         </div>
@@ -79,7 +87,13 @@
     <div class="container py-4">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <button style="display:inline-block; vertical-align:top;" type="button" id="1" class="btn btn-outline-primary btn-sm mb-0">Pants</button>
+                @{ var ii = 1;}
+                @foreach (var item in ViewBag.categories)
+                {
+                    <button style="display:inline-block; vertical-align:top;" type="button" id="@ii" class="btn btn-outline-primary btn-sm mb-0">@item.categoryName</button>
+                    ii++;
+                }
+                @*<button style="display:inline-block; vertical-align:top;" type="button" id="1" class="btn btn-outline-primary btn-sm mb-0">Pants</button>
                 <button style="display:inline-block; vertical-align:top;" type="button" id="2" class="btn btn-outline-primary btn-sm mb-0">Blouses</button>
                 <button style="display:inline-block; vertical-align:top;" type="button" id="3" class="btn btn-outline-primary btn-sm mb-0">T-Shirts</button>
                 <button style="display:inline-block; vertical-align:top;" type="button" id="4" class="btn btn-outline-primary btn-sm mb-0">Shirts</button>
@@ -87,7 +101,7 @@
                 <button style="display:inline-block; vertical-align:top;" type="button" id="6" class="btn btn-outline-primary btn-sm mb-0">Jeans</button>
                 <button style="display:inline-block; vertical-align:top;" type="button" id="7" class="btn btn-outline-primary btn-sm mb-0">Jackets</button>
                 <button style="display:inline-block; vertical-align:top;" type="button" id="8" class="btn btn-outline-primary btn-sm mb-0">Skirts</button>
-                <button style="display:inline-block; vertical-align:top;" type="button" id="9" class="btn btn-outline-primary btn-sm mb-0">Coats</button>
+                <button style="display:inline-block; vertical-align:top;" type="button" id="9" class="btn btn-outline-primary btn-sm mb-0">Coats</button>*@
             </div>
         </div>
     </div>

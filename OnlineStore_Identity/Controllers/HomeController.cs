@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
@@ -46,17 +47,39 @@ namespace OnlineStore_Identity.Controllers
         }
 
 
+
         HttpClient client = new HttpClient();
 
         public IActionResult Index()
         {
-            string userID = _userManager.GetUserId(HttpContext.User);
+            HttpResponseMessage classRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Classes").Result;
+            string classResult = classRes.Content.ReadAsStringAsync().Result;
+            RootObject<Class> classes = JsonConvert.DeserializeObject<RootObject<Class>>(classResult);
+            ViewBag.classes = classes.Value;
+            HttpResponseMessage categoryRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            string categoryResult = categoryRes.Content.ReadAsStringAsync().Result;
+            RootObject<Category> categories = JsonConvert.DeserializeObject<RootObject<Category>>(categoryResult);
+            ViewBag.categories = categories.Value;
+            HttpResponseMessage colorRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string colorResult = colorRes.Content.ReadAsStringAsync().Result;
+            RootObject<Store> colors = JsonConvert.DeserializeObject<RootObject<Store>>(colorResult);
+            ViewBag.colors = colors.Value.Select(s => s.productColor).GroupBy(s => s).Select(s => s.First()).ToList();
+            HttpResponseMessage sizeRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
+            string sizeResult = sizeRes.Content.ReadAsStringAsync().Result;
+            RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
+            ViewBag.sizes = sizes.Value.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList();
+
+            string userID = _userManager.GetUserId(HttpContext.User) != null? _userManager.GetUserId(HttpContext.User) : "";
             HttpContext.Session.SetString("userID", userID);
+
+            string stored = HttpContext.Session.GetString("userID");
+            
 
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             HttpResponseMessage response = client.GetAsync(url).Result;
             string Result = response.Content.ReadAsStringAsync().Result;
             RootObject<Product> products = JsonConvert.DeserializeObject<RootObject<Product>>(Result);
+            //products.Value.Select(p=>p.)
             return View(products.Value);
 
             //Byte[] b = System.IO.File.ReadAllBytes(@"D:\ITI\Projects\Project4\New Project Online\OnlineStore_Identity\OnlineStore_Identity\wwwroot\css\assets\Images\img1.jpg");   // You can use your own method over here.         

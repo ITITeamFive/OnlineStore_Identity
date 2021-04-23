@@ -11,16 +11,15 @@ namespace OnlineStore_Identity.Models
 {
     using System;
     using System.Collections.Generic;
-
-    public partial class Store
+    
+    public partial class Cart
     {
-        public Nullable<int> productID { get; set; }
-        public string productColor { get; set; }
-        public string productSize { get; set; }
-        public byte[] productImage { get; set; }
-        //public string productImage { get; set; }
-        public Nullable<int> productQuantity { get; set; }
-        public int ID { get; set; }
-        //public virtual Product Product { get; set; }
+        public int cartID { get; set; }
+        public string userID { get; set; }
+        public Nullable<int> storeID { get; set; }
+        public Nullable<int> quantity { get; set; }
+    
+        //public virtual AspNetUser AspNetUser { get; set; }
+        //public virtual Store Store { get; set; }
     }
 }
