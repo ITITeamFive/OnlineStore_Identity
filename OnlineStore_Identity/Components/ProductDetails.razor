@@ -1,4 +1,4 @@
-﻿@* you should put these 2 using 
+﻿@* you should put these 2 using
     as well as the script that is put under the component tag in the partial view or view holding the component
     as well as the the service and endpoints added in the Startup.cs
     to make the event firing work *@
@@ -176,12 +176,12 @@
                                 <td>
                                     <div class="mt-1">
                                         <select @onchange="ColorChange" class="form-select w-50">
-                                                <option selected="@newSize"></option>
-                                                @foreach (var item in Colors)
-                                                {
-                                                    <option value="@item">@item</option>
-                                                }
-                                            </select>
+                                            <option selected="@newSize"></option>
+                                            @foreach (var item in Colors)
+                                            {
+                                                <option value="@item">@item</option>
+                                            }
+                                        </select>
                                         @*<div class="form-check form-check pl-0">
                                                 <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
                                                         checked>
@@ -205,7 +205,7 @@
                     </table>
                 </div>
                 <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-                <button type="button" class="btn btn-light btn-md mr-1 mb-2">
+                <button type="button" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@qunantity)">
                     <i class="fas fa-shopping-cart pr-2"></i>Add to cart
                 </button>
             </div>
@@ -231,6 +231,8 @@
 
     public bool newSize { get; set; } = true;
 
+    public int storeID { get; set; }
+
     public void SizeChange(ChangeEventArgs args)
     {
         Size = args.Value as string;
@@ -246,6 +248,8 @@
 
         newSize = false;
 
-        Max = Product.Stores.Where(s =>  s.productColor == color && s.productSize == Size).Select(s => s.productQuantity).FirstOrDefault() ?? 0;
+        Max = Product.Stores.Where(s => s.productColor == color && s.productSize == Size).Select(s => s.productQuantity).FirstOrDefault() ?? 0;
+
+        storeID = Product.Stores.Where(s => s.productSize == Size && s.productColor == color).Select(s => s.ID).FirstOrDefault();
     }
 }

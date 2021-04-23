@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,8 +40,16 @@ namespace OnlineStore_Identity
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>{ 
+            options.SignIn.RequireConfirmedAccount = false;
+            //// Your Cookie settings
+            //options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(1);
+            //options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+            //options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOut";
+            }).AddEntityFrameworkStores<ApplicationDbContext>()/*.AddDefaultTokenProviders()*/;
+
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             // needed to make the razor component's event firing works
@@ -52,7 +61,21 @@ namespace OnlineStore_Identity
             //{
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             //});
-            services.ConfigureApplicationCookie(c => { c.LoginPath = "/Identity/Account/Login";c.AccessDeniedPath = "/Identity/Account/AccessDenied";});
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //});
+
+            services.ConfigureApplicationCookie(c =>
+            { c.LoginPath = "/Identity/Account/Login";
+                c.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                //c.Events.OnRedirectToLogin = context =>
+                //{
+                //    context.Response.StatusCode = 401;
+                //    return Task.CompletedTask;
+                //};
+            });
             //services.AddMvc().AddJsonOptions(options => {
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             //});
