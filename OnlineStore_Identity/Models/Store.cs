@@ -22,9 +22,6 @@ namespace OnlineStore_Identity.Models
         //public string productImage { get; set; }
         public Nullable<int> productQuantity { get; set; }
         public int ID { get; set; }
-   
-
-
         //public virtual Product Product { get; set; }
     }
 }
