@@ -69,11 +69,15 @@ namespace OnlineStore_Identity.Controllers
             RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
             ViewBag.sizes = sizes.Value.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList();
 
-            string userID = _userManager.GetUserId(HttpContext.User) != null? _userManager.GetUserId(HttpContext.User) : "";
-            HttpContext.Session.SetString("userID", userID);
+            string userID = _userManager.GetUserId(User) != null ? _userManager.GetUserId(User) : "";
+            //HttpContext.Session.SetString("userID", userID);
+            //CookieOptions options = new CookieOptions();
+            //options.Expires = DateTime.Now.AddDays(1);
+            //Response.Cookies.Append("userID", userID, options);
 
-            string stored = HttpContext.Session.GetString("userID");
-            
+            //string stored = Request.Cookies["userID"];
+            //string stored = HttpContext.Session.GetString("userID");
+
 
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             HttpResponseMessage response = client.GetAsync(url).Result;
