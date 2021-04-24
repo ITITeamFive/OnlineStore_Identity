@@ -205,7 +205,7 @@
                     </table>
                 </div>
                 <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-                <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@quantity)">
+                <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@quantity, event)">
                     <i class="fas fa-shopping-cart pr-2"></i>Add to cart
                 </button>
                 <button class="btn @loveColor btn-md mr-1 mb-2" type="button" @onclick="WishList"><span class="fa fa-heart"></span></button>

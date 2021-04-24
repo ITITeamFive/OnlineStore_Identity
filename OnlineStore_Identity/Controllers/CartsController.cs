@@ -32,7 +32,6 @@ namespace OnlineStore_Identity.Controllers
             return View();
         }
 
-        [HttpPost]
         public IActionResult AddToCart(int id,int quantity)
         {
             string userId = _userManager.GetUserId(User);

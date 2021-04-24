@@ -211,9 +211,18 @@ remove = (url) => {
     });
 }
 
-AddToCart = (id, quantity) => {
-    alert(id + "beeeeb" + quantity);
-    //$.ajax({
-    //    type="get"
-    //});
+AddToCart = (id, quantity, e) => {
+    var btn = e.target;
+    $.ajax({
+        url: "Carts/AddToCart",
+        type:"get",
+        data: { "id": id, "quantity": quantity },
+        traditional: true,
+        success: function (res) {
+            btn.setAttribute("disabled", "true");
+        },
+        error: function (err) {
+            alert("You need to login first");
+        }
+    });
 }
