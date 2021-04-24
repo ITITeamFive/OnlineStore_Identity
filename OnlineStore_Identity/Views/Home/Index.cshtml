@@ -114,8 +114,8 @@
         <partial name="CategoryFilter" model="Model">
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="details-modal">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    @*<div class="modal" tabindex="-1" role="dialog" id="details-modal">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
@@ -128,7 +128,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 <script>
     var id;
@@ -323,7 +323,7 @@
 
 </script>
 
-<script>
+@*<script>
     showDetails = (url) => {
         console.log("hi");
         $.ajax({
@@ -339,7 +339,8 @@
     CloseModel = () => {
         $('#details-modal').modal('hide');
     }
-</script>
+
+</script>*@
 
 
 

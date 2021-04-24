@@ -180,3 +180,49 @@ $(document).ready(function () {
     //    $('#tableFilter').DataTable();
     //});
 });
+
+
+//------------------Show Product Details----------------------
+showDetails = (url) => {
+    console.log("hi");
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (res) {
+            $('#details-modal .modal-body').html(res);
+            $('#details-modal').modal('show');
+        }
+    })
+}
+
+CloseModel = () => {
+    $('#details-modal').modal('hide');
+}
+
+//-------------------Delete Wishlist-----------------------
+remove = (url) => {
+    $.ajax({
+        method: "GET",
+        url: url,
+        success: function (res) {
+            //debugger;
+            $('#wishlist').html(res);
+        }
+    });
+}
+
+AddToCart = (id, quantity, e) => {
+    var btn = e.target;
+    $.ajax({
+        url: "Carts/AddToCart",
+        type:"get",
+        data: { "id": id, "quantity": quantity },
+        traditional: true,
+        success: function (res) {
+            btn.setAttribute("disabled", "true");
+        },
+        error: function (err) {
+            alert("You need to login first");
+        }
+    });
+}

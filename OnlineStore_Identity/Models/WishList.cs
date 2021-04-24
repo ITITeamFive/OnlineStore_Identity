@@ -17,8 +17,8 @@ namespace OnlineStore_Identity.Models
         public int wishListID { get; set; }
         public Nullable<int> productID { get; set; }
         public string userID { get; set; }
-    
-        //public virtual Product Product { get; set; }
+
+        public virtual Product Product { get; set; }
         //public virtual AspNetUser AspNetUser { get; set; }
     }
 }
