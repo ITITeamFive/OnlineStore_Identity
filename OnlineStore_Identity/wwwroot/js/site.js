@@ -213,16 +213,37 @@ remove = (url) => {
 
 AddToCart = (id, quantity, e) => {
     var btn = e.target;
+    if (btn.nodeName === 'SPAN') {
+        btn = btn.parentNode;
+    }
     $.ajax({
         url: "Carts/AddToCart",
         type:"get",
         data: { "id": id, "quantity": quantity },
         traditional: true,
         success: function (res) {
+            CloseModel();
             btn.setAttribute("disabled", "true");
+            $.notify('Added successfuly', { globalPosition: 'top center', className: 'success' });
         },
         error: function (err) {
-            alert("You need to login first");
+            $.notify('You need to login first', { globalPosition: 'top center', className: 'warning' });
         }
     });
+}
+
+AddToWishlist = (id, e) => {
+    var btn = e.target;
+
+    if (btn.nodeName==='SPAN') {
+        btn = btn.parentNode;
+    }
+        if (btn.classList.contains("btn-light")) {
+            btn.classList.remove("btn-light");
+            btn.classList.add("btn-danger");
+        }
+        else {
+            btn.classList.remove("btn-danger");
+            btn.classList.add("btn-light");
+        }
 }

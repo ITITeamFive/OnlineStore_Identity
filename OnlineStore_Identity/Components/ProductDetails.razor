@@ -96,25 +96,25 @@
                     {
                         if (i <= rate)
                         {
-                            <li>
-                                <i class="fas fa-star fa-sm text-primary"></i>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <i class="far fa-star fa-sm text-primary"></i>
-                            </li>
-                        }
-                    }
+        <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+        </li>
+ }
+    else
+    {
+<li>
+    <i class="far fa-star fa-sm text-primary"></i>
+</li>
+}
+}
 
                 </ul>
                 <span>@Product.Reviews.Count reviews</span>
                 <p><span class="mr-3"><strong>@Product.productPrice</strong></span><span class="px-3 badge-danger"><strong>@Product.productDiscount%</strong></span></p>
                 <p class="pt-1">
                     @*Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-            error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-            officia quis dolore quos sapiente tempore alias.*@
+                        error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+                        officia quis dolore quos sapiente tempore alias.*@
                     @Product.productDescription
                 </p>
                 <div class="table-responsive">
@@ -138,8 +138,8 @@
                                             @* to select distinct size *@
                                             @foreach (var item in Product.Stores.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList())
                                             {
-                                                <option value="@item">@item</option>
-                                            }
+                                <option value="@item">@item</option>
+}
                                         </select>
                                     </div>
                                 </td>
@@ -160,18 +160,17 @@
                                     @if (!string.IsNullOrEmpty(Size))
                                     {
 
-                                        <div class="def-number-input number-input safari_only mb-0">
-                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="btn">
-                                        +
-                                    </button>*@
-                                            <input class="max-width-100 form-control" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
-                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                            class="btn">
-                                        -
-                                    </button>*@
-                                        </div>
-                                    }
+                        <div class="def-number-input number-input safari_only mb-0">
+                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                        class="btn">
+                                    +
+                                </button>*@
+                            <input class="max-width-100 form-control" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
+                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                        class="btn">
+                                    -
+                                </button>*@
+                        </div>}
                                 </td>
                                 <td>
                                     <div class="mt-1">
@@ -179,25 +178,25 @@
                                             <option selected="@newSize"></option>
                                             @foreach (var item in Colors)
                                             {
-                                                <option value="@item">@item</option>
-                                            }
+                                <option value="@item">@item</option>
+}
                                         </select>
                                         @*<div class="form-check form-check pl-0">
-                                    <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
-                                            checked>
-                                    <label class="form-check-label small text-uppercase card-link-secondary"
-                                            for="small">Small</label>
-                                </div>
-                                <div class="form-check form-check pl-0">
-                                    <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios">
-                                    <label class="form-check-label small text-uppercase card-link-secondary"
-                                            for="medium">Medium</label>
-                                </div>
-                                <div class="form-check form-check pl-0">
-                                    <input type="radio" class="form-check-input" id="large" name="materialExampleRadios">
-                                    <label class="form-check-label small text-uppercase card-link-secondary"
-                                            for="large">Large</label>
-                                </div>*@
+                                                <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
+                                                        checked>
+                                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                                        for="small">Small</label>
+                                            </div>
+                                            <div class="form-check form-check pl-0">
+                                                <input type="radio" class="form-check-input" id="medium" name="materialExampleRadios">
+                                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                                        for="medium">Medium</label>
+                                            </div>
+                                            <div class="form-check form-check pl-0">
+                                                <input type="radio" class="form-check-input" id="large" name="materialExampleRadios">
+                                                <label class="form-check-label small text-uppercase card-link-secondary"
+                                                        for="large">Large</label>
+                                            </div>*@
                                     </div>
                                 </td>
                             </tr>
@@ -205,10 +204,11 @@
                     </table>
                 </div>
                 <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-                <button type="button" disabled="@(quantity == 0 || quantity > Max)" class="btn btn-light btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@quantity, event)">
-                    <i class="fas fa-shopping-cart pr-2"></i>Add to cart
+                <button type="button" disabled="@(quantity == 0 || quantity > Max || productCheck)" class="btn btn-info btn-md mr-1 mb-2" onclick="AddToCart(@storeID,@quantity, event)">
+                    <span class="fas fa-shopping-cart pr-2"></span>Add to cart
                 </button>
-                <button class="btn @loveColor btn-md mr-1 mb-2" type="button" @onclick="WishList"><span class="fa fa-heart"></span></button>
+                <button class="btn @loveColor btn-md mr-1 mb-2" type="button" onclick="AddToWishlist(@Product.productID,event)"><span class="fa fa-heart"></span></button>
+                <p class="text-info font-weight-bolder" hidden="@(!productCheck)">Already in cart <i class="fas fa-shopping-cart pr-2"></i></p>
             </div>
         </div>
 
@@ -217,12 +217,14 @@
 
 </div>
 
-@code {
+@code { #region Properties
     [Parameter] public HomeProductDetailsVM Product { get; set; }
 
     [Parameter] public int rate { get; set; }
 
-    [Parameter] public string loveColor { get; set; } = "btn-light";
+    [Parameter] public string loveColor { get; set; }
+
+    [Parameter] public string user { get; set; }
 
     public string Size { get; set; }
 
@@ -235,6 +237,9 @@
     public bool newSize { get; set; } = true;
 
     public int storeID { get; set; }
+
+    public bool productCheck { get; set; }
+    #endregion
 
     public void SizeChange(ChangeEventArgs args)
     {
@@ -253,16 +258,31 @@
 
         newSize = false;
 
-        Max = Product.Stores.Where(s => s.productColor == color && s.productSize == Size).Select(s => s.productQuantity).FirstOrDefault() ?? 0;
-        storeID = Product.Stores.Where(s => s.productSize == Size && s.productColor == color).Select(s => s.ID).FirstOrDefault();
+        var store = GetStore(color);
+        //Max = Product.Stores.Where(s => s.productColor == color && s.productSize == Size).Select(s => s.productQuantity).FirstOrDefault() ?? 0;
+        Max = store.productQuantity ?? 0;
+        storeID = store.ID;
+        productCheck = Product.Stores.Where(s => s.ID == storeID).FirstOrDefault().Carts.Where(c => c.userID == user).FirstOrDefault() != null;
         quantity = 0;
     }
 
-    public void WishList()
+    //public void WishList()
+    //{
+    //    if (loveColor == "btn-light")
+    //        loveColor = "btn-danger";
+    //    else
+    //        loveColor = "btn-light";
+    //} }
+
+    public OnlineStore_Identity.Models.Store GetStore(string color)
     {
-        if (loveColor == "btn-light")
-            loveColor = "btn-danger";
-        else
-            loveColor = "btn-light";
+        OnlineStore_Identity.Models.Store store;
+        do
+        {
+            store = Product.Stores.Where(s => s.productColor == color && s.productSize == Size).FirstOrDefault();
+        } 
+        while (store == null);
+
+        return store;
     }
 }

@@ -384,7 +384,10 @@ namespace OnlineStore_Identity.Controllers
 
         public IActionResult ProductDetails(int id)
         {
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,Class,Stores,Reviews").Result;
+            string userID = _userManager.GetUserId(HttpContext.User);
+            ViewBag.userID = userID;
+
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,WishLists,Class,Stores/Carts,Reviews").Result;
             string Result = response.Content.ReadAsStringAsync().Result;
             HomeProductDetailsVM productDetails = JsonConvert.DeserializeObject<HomeProductDetailsVM>(Result);
             int rate = 0;
@@ -397,6 +400,7 @@ namespace OnlineStore_Identity.Controllers
             }
 
             ViewBag.rate = rate;
+            ViewBag.wishlistColor = productDetails.WishLists.Where(s => s.userID == userID).FirstOrDefault() == null ? "btn-light" : "btn-danger";
             return PartialView(productDetails);
         }
     }
