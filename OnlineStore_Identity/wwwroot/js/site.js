@@ -156,6 +156,7 @@ function canelDel() {
     $('#delete-modal .modal-title').html('');
     $('#delete-modal').modal('hide');
 }
+
 function editDel() {
     $('#form-modal .modal-body').html('');
     $('#form-modal .modal-title').html('');
@@ -212,6 +213,7 @@ remove = (url) => {
 }
 
 AddToCart = (id, quantity, e) => {
+ 
     var btn = e.target;
     if (btn.nodeName === 'SPAN') {
         btn = btn.parentNode;
@@ -234,16 +236,25 @@ AddToCart = (id, quantity, e) => {
 
 AddToWishlist = (id, e) => {
     var btn = e.target;
-
+    var act;
     if (btn.nodeName==='SPAN') {
         btn = btn.parentNode;
     }
         if (btn.classList.contains("btn-light")) {
             btn.classList.remove("btn-light");
             btn.classList.add("btn-danger");
+            act = "Add";
         }
         else {
             btn.classList.remove("btn-danger");
             btn.classList.add("btn-light");
-        }
+            act = "Delete";
+    }
+    $.ajax({
+        type: 'get',
+        url: "Wishlists/AddOrRemove",
+        traditional: true,
+        data: { "id": id, "act": act }
+    });
 }
+

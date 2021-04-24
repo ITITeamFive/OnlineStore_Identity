@@ -68,7 +68,7 @@
                 <button type="button" class="btn btn-light btn-sm mr-1 mb-2" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
                     <i class="fas fa-info-circle pr-2"></i>Details
                 </button>
-                <button type="button" class="btn btn-elegant btn-sm px-3 mb-2 material-tooltip-main"
+                <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main"
                         data-toggle="tooltip" data-placement="top" title="Remove from wishlist" onclick="remove('@Url.Action("RemoveFromWishlist","Wishlists",new {id=item.wishListID})')">
                     <i class="fas fa-times"></i>
                 </button>

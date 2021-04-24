@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OnlineStore_Identity.Controllers
@@ -52,7 +53,29 @@ namespace OnlineStore_Identity.Controllers
         {
             if (id != 0)
             {
-                HttpResponseMessage response=client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists({id})").Result;
+                HttpResponseMessage response = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists({id})").Result;
+            }
+            return RedirectToAction("Wishlist");
+        }
+        public IActionResult AddOrRemove(int id,string act)
+        {
+            string userID = _userManager.GetUserId(User);
+           
+            if (act == "Delete")
+            {
+                HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$filter=userID eq '{userID}' and productID eq {id}").Result;
+                string wishResult = response.Content.ReadAsStringAsync().Result;
+                RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
+                int wishlistID = wishlists.Value.Select(w => w.wishListID).FirstOrDefault();
+
+                HttpResponseMessage response2 = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists({wishlistID})").Result;
+            }
+            else
+            {
+                WishList wishlist = new WishList() { userID=userID,productID=id };
+                string _wishlist = JsonConvert.SerializeObject(wishlist);
+                StringContent request = new StringContent(_wishlist, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists", request).Result;
             }
             return RedirectToAction("Wishlist");
         }
