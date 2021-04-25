@@ -300,48 +300,14 @@ function IncOrDec(e, price, status, id) {
         }
     }
     if (flag) {
-        //function reqListener() {
-        //    console.log(this.responseText);
-        //}
 
-        //var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-        //var theUrl = "http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")";
-        //xmlhttp.open("PATCH", theUrl);
-        //xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        //xmlhttp.send(JSON.stringify({ "quantity": myInput.value }));
-
-        //fetch("http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")",
-        //      {
-        //    method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-        //    mode: 'cors', // no-cors, *cors, same-origin
-        //    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //    //credentials: 'same-origin', // include, *same-origin, omit
-        //          headers: {
-        //        //'Content-Security-Policy': 'upgrade-insecure-requests',
-        //        'Content-Type': 'application/json'
-        //        // 'Content-Type': 'application/x-www-form-urlencoded',
-        //    },
-        //    //redirect: 'follow', // manual, *follow, error
-        //          //referrerPolicy: 'same-origin', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        //          body: JSON.stringify({ "quantity": myInput.value }), // body data type must match "Content-Type" header
-        //});
-
-        $.ajax({
-            type: "patch",
-            url: "http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")",
-            data: { "quantity": myInput.value },
-            //dataType: 'jsonp',
-            headers: {
-                //'Content-Security-Policy': 'upgrade-insecure-requests',
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'application/json'
+        fetch("http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")",
+              {
+                  method: 'PATCH',
+                  headers: {
+                'Content-Type': 'application/json'
             },
+                  body: JSON.stringify({ "quantity": parseInt(myInput.value) }),
         });
     }
 }
-
-//function getTemp(e, p){
-//    var val = e.target.value;
-//    document.getElementById("koto").innerHTML += val * p;
-//}
