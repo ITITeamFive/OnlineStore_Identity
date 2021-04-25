@@ -258,3 +258,90 @@ AddToWishlist = (id, e) => {
     });
 }
 
+function prevent(e) {
+    e.preventDefault();
+}
+
+removeFromCart = (id, e) => {
+    e.preventDefault();
+    $.ajax({
+        type:"get",
+        traditional: true,
+        url: "Carts/RemoveFromCart",
+        data: { "id": id },
+        success: function (res) {
+            $("#newCart").html(res)
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+
+
+function IncOrDec(e, price, status, id) {
+    var T = document.getElementById("total");
+    var myInput = e.target.parentNode.querySelector('input[type=number]');
+    var flag=false;
+
+    if (status == "minus") {
+        if (myInput.value > 1) {
+            e.target.parentNode.querySelector('input[type=number]').stepDown();
+            T.innerHTML = (parseFloat(T.innerHTML) - price).toString();
+            flag = true;
+        }
+    }
+
+    else {
+        if (myInput.value < myInput.max) {
+            e.target.parentNode.querySelector('input[type=number]').stepUp();
+            T.innerHTML = (parseFloat(T.innerHTML) + price).toString();
+            flag = true;
+        }
+    }
+    if (flag) {
+        //function reqListener() {
+        //    console.log(this.responseText);
+        //}
+
+        //var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+        //var theUrl = "http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")";
+        //xmlhttp.open("PATCH", theUrl);
+        //xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //xmlhttp.send(JSON.stringify({ "quantity": myInput.value }));
+
+        //fetch("http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")",
+        //      {
+        //    method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+        //    mode: 'cors', // no-cors, *cors, same-origin
+        //    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //    //credentials: 'same-origin', // include, *same-origin, omit
+        //          headers: {
+        //        //'Content-Security-Policy': 'upgrade-insecure-requests',
+        //        'Content-Type': 'application/json'
+        //        // 'Content-Type': 'application/x-www-form-urlencoded',
+        //    },
+        //    //redirect: 'follow', // manual, *follow, error
+        //          //referrerPolicy: 'same-origin', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        //          body: JSON.stringify({ "quantity": myInput.value }), // body data type must match "Content-Type" header
+        //});
+
+        $.ajax({
+            type: "patch",
+            url: "http://shirleyomda-001-site1.etempurl.com/odata/Carts(" + id + ")",
+            data: { "quantity": myInput.value },
+            //dataType: 'jsonp',
+            headers: {
+                //'Content-Security-Policy': 'upgrade-insecure-requests',
+                'Access-Control-Allow-Credentials': true,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'application/json'
+            },
+        });
+    }
+}
+
+//function getTemp(e, p){
+//    var val = e.target.value;
+//    document.getElementById("koto").innerHTML += val * p;
+//}

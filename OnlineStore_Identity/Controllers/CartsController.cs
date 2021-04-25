@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.OData;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -27,9 +28,23 @@ namespace OnlineStore_Identity.Controllers
             public string Metadata { get; set; }
             public IEnumerable<T> Value { get; set; }
         }
+
         public IActionResult Index()
         {
-            return View();
+            string userId = _userManager.GetUserId(User);
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            string cart = response.Content.ReadAsStringAsync().Result;
+            RootObject<Cart> carts = JsonConvert.DeserializeObject <RootObject<Cart>>(cart);
+            return View(carts.Value);
+        }
+
+        public IActionResult CartList()
+        {
+            string userId = _userManager.GetUserId(User);
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            string cart = response.Content.ReadAsStringAsync().Result;
+            RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart);
+            return PartialView(carts.Value);
         }
 
         public IActionResult AddToCart(int id,int quantity)
@@ -46,6 +61,19 @@ namespace OnlineStore_Identity.Controllers
             }
             return BadRequest("Error");
             //return RedirectToAction("Index");
+        }
+
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            string userID = _userManager.GetUserId(User);
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$filter=userID eq '{userID}' and storeID eq {id}").Result;
+            string cartResult = response.Content.ReadAsStringAsync().Result;
+            RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cartResult);
+            int cartID = carts.Value.Select(w => w.cartID).FirstOrDefault();
+
+            HttpResponseMessage response2 = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts({cartID})").Result;
+            return RedirectToAction("CartList");
         }
     }
 }

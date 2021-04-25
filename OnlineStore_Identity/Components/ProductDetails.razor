@@ -165,7 +165,7 @@
                                         class="btn">
                                     +
                                 </button>*@
-                            <input class="max-width-100 form-control" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
+                            <input class="max-width-100 form-control" onkeydown="prevent(event)" id="Quantity" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
 
                             @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
                                         class="btn">

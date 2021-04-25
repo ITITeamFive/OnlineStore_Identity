@@ -48,7 +48,7 @@ namespace OnlineStore_Identity.Models
 
         //public virtual ICollection<BillProduct> BillProducts { get; set; }
         //[JsonIgnore]
-        //public virtual Category Category { get; set; }
+        public virtual Category Category { get; set; }
         //[JsonIgnore]
 
         //public virtual Class Class { get; set; }
