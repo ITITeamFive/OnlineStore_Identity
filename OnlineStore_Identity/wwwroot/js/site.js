@@ -240,7 +240,7 @@ AddToWishlist = (id, e) => {
     if (btn.nodeName==='SPAN') {
         btn = btn.parentNode;
     }
-        if (btn.classList.contains("btn-light")) {
+    if (btn.classList.contains("btn-light") || btn.classList.contains("card-link-secondary")) {
             btn.classList.remove("btn-light");
             btn.classList.add("btn-danger");
             act = "Add";
@@ -278,16 +278,17 @@ removeFromCart = (id, e) => {
     })
 }
 
-
 function IncOrDec(e, price, status, id) {
-    var T = document.getElementById("total");
+    var Temp = document.getElementById("tempTotal");
+    var Total = document.getElementById("total");
     var myInput = e.target.parentNode.querySelector('input[type=number]');
     var flag=false;
 
     if (status == "minus") {
         if (myInput.value > 1) {
             e.target.parentNode.querySelector('input[type=number]').stepDown();
-            T.innerHTML = (parseFloat(T.innerHTML) - price).toString();
+            Temp.innerHTML = (parseFloat(Temp.innerHTML) - price);
+            Total.innerHTML = (parseFloat(Total.innerHTML) - price);
             flag = true;
         }
     }
@@ -295,7 +296,8 @@ function IncOrDec(e, price, status, id) {
     else {
         if (myInput.value < myInput.max) {
             e.target.parentNode.querySelector('input[type=number]').stepUp();
-            T.innerHTML = (parseFloat(T.innerHTML) + price).toString();
+            Temp.innerHTML = (parseFloat(Temp.innerHTML) + price);
+            Total.innerHTML = (parseFloat(Total.innerHTML) + price);
             flag = true;
         }
     }
@@ -310,4 +312,23 @@ function IncOrDec(e, price, status, id) {
                   body: JSON.stringify({ "quantity": parseInt(myInput.value) }),
         });
     }
+}
+
+MoveToWishlistFromCart = (sID, pID, e) => {
+    AddToWishlist(pID, e);
+    removeFromCart(sID, e);
+    $.notify('Moved to wishlist successfuly', { globalPosition: 'top center', className: 'success' });
+}
+
+function changeTotal(e){
+    const shippingCost = e.target.options[e.target.selectedIndex].value;
+    console.log($("#tempTotal").html());
+    $("#total").html(parseFloat(shippingCost) + parseFloat($("#tempTotal").html()));
+    $("#shipping").html(shippingCost);
+}
+
+function checkOut(e) {
+    e.preventDefault();
+    var form = document.getElementById("formAddress");
+
 }

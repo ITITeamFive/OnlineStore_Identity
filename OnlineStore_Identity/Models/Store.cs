@@ -23,6 +23,7 @@ namespace OnlineStore_Identity.Models
         public int ID { get; set; }
         public virtual Product Product { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
+        //public virtual ICollection<BillProduct> BillProducts { get; set; }
 
     }
 }

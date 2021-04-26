@@ -31,18 +31,28 @@ namespace OnlineStore_Identity.Controllers
 
         public IActionResult Index()
         {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Shippings").Result;
+            string shipping = response.Content.ReadAsStringAsync().Result;
+            RootObject<Shipping> shippings = JsonConvert.DeserializeObject<RootObject<Shipping>>(shipping);
+            ViewBag.shippingList = shippings.Value;
+
             string userId = _userManager.GetUserId(User);
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
-            string cart = response.Content.ReadAsStringAsync().Result;
+            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            string cart = response2.Content.ReadAsStringAsync().Result;
             RootObject<Cart> carts = JsonConvert.DeserializeObject <RootObject<Cart>>(cart);
             return View(carts.Value);
         }
 
         public IActionResult CartList()
         {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Shippings").Result;
+            string shipping = response.Content.ReadAsStringAsync().Result;
+            RootObject<Shipping> shippings = JsonConvert.DeserializeObject<RootObject<Shipping>>(shipping);
+            ViewBag.shippingList = shippings.Value;
+
             string userId = _userManager.GetUserId(User);
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
-            string cart = response.Content.ReadAsStringAsync().Result;
+            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            string cart = response2.Content.ReadAsStringAsync().Result;
             RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart);
             return PartialView(carts.Value);
         }
@@ -62,7 +72,6 @@ namespace OnlineStore_Identity.Controllers
             return BadRequest("Error");
             //return RedirectToAction("Index");
         }
-
 
         public IActionResult RemoveFromCart(int id)
         {

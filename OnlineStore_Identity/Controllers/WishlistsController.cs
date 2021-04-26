@@ -60,23 +60,27 @@ namespace OnlineStore_Identity.Controllers
         public IActionResult AddOrRemove(int id,string act)
         {
             string userID = _userManager.GetUserId(User);
-           
+
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$filter=userID eq '{userID}' and productID eq {id}").Result;
+            string wishResult = response.Content.ReadAsStringAsync().Result;
+            RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
+            int wishlistID = wishlists.Value.Select(w => w.wishListID).FirstOrDefault();
+
             if (act == "Delete")
             {
-                HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$filter=userID eq '{userID}' and productID eq {id}").Result;
-                string wishResult = response.Content.ReadAsStringAsync().Result;
-                RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
-                int wishlistID = wishlists.Value.Select(w => w.wishListID).FirstOrDefault();
-
                 HttpResponseMessage response2 = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists({wishlistID})").Result;
             }
             else
             {
-                WishList wishlist = new WishList() { userID=userID,productID=id };
-                string _wishlist = JsonConvert.SerializeObject(wishlist);
-                StringContent request = new StringContent(_wishlist, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = client.PostAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists", request).Result;
+                if (wishlists.Value.Count() == 0)
+                {
+                    WishList wishlist = new WishList() { userID = userID, productID = id };
+                    string _wishlist = JsonConvert.SerializeObject(wishlist);
+                    StringContent request = new StringContent(_wishlist, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response2 = client.PostAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists", request).Result;
+                }
             }
+
             return RedirectToAction("Wishlist");
         }
 
