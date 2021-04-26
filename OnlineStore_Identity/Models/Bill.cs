@@ -24,7 +24,7 @@ namespace OnlineStore_Identity.Models
         public Nullable<double> billSubTotal { get; set; }
         public Nullable<double> billTotal { get; set; }
         public Nullable<System.DateTime> billDate { get; set; }
-        public string billNotes { get; set; }
+        public string billNotes { get; set; } = "We hope you enjoyed shopping here";
         public Nullable<int> addressID { get; set; }
         public Nullable<int> paymentID { get; set; }
         public string userID { get; set; }

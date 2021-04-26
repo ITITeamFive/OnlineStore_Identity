@@ -328,7 +328,28 @@ function changeTotal(e){
 }
 
 function checkOut(e) {
+   //Address => Payment => Bill => BillProduct
     e.preventDefault();
-    var form = document.getElementById("formAddress");
+    //Address Table Data
+    let shippingList = document.getElementById("shippingAddress");
+    let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
+    let phone = parseInt($("#phone").val());
+    let addressDetails = $("#address").val();
+    //Payment
+    var payMethod = $("input[name='pay']:checked").attr('id');
+    //Bill
+    let tempTotal = parseInt($("#tempTotal").html());
+    let total = parseInt($("#total").html());
+    
 
+    $.ajax({
+        url: "Bills/Index",
+        type: 'get',
+        traditional: true,
+        data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
+        success: function (res) {
+            //Search For passing Form Mn Here !!
+            //Render partial view or full view ????
+        }
+    });
 }

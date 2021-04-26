@@ -36,6 +36,11 @@ namespace OnlineStore_Identity.Controllers
             RootObject<Shipping> shippings = JsonConvert.DeserializeObject<RootObject<Shipping>>(shipping);
             ViewBag.shippingList = shippings.Value;
 
+            HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Payments").Result;
+            string payment = response3.Content.ReadAsStringAsync().Result;
+            RootObject<Payment> payments = JsonConvert.DeserializeObject<RootObject<Payment>>(payment);
+            ViewBag.paymentList = payments.Value;
+
             string userId = _userManager.GetUserId(User);
             HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
             string cart = response2.Content.ReadAsStringAsync().Result;
@@ -49,6 +54,11 @@ namespace OnlineStore_Identity.Controllers
             string shipping = response.Content.ReadAsStringAsync().Result;
             RootObject<Shipping> shippings = JsonConvert.DeserializeObject<RootObject<Shipping>>(shipping);
             ViewBag.shippingList = shippings.Value;
+
+            HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Payments").Result;
+            string payment = response3.Content.ReadAsStringAsync().Result;
+            RootObject<Payment> payments = JsonConvert.DeserializeObject<RootObject<Payment>>(payment);
+            ViewBag.paymentList = payments.Value;
 
             string userId = _userManager.GetUserId(User);
             HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
