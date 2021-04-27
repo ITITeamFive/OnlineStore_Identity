@@ -353,3 +353,7 @@ function checkOut(e) {
         }
     });
 }
+
+function ConfirmPayment(e) {
+    //Modal carry all things(payment details of address)
+}
