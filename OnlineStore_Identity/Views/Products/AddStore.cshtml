@@ -1,47 +1,206 @@
-﻿@model OnlineStore_Identity.Models.Store
+﻿@model OnlineStore_Identity.ViewModels.StoreItemVM
 @{
     ViewData["Title"] = "Create";
+
+    //    IEnumerable<string> sizes = { { },{ } };
+    SelectListItem x = new SelectListItem()
+    {
+        Text = "",
+        Value = ""
+    };
+
+    IEnumerable<SelectListItem> sizes = new List<SelectListItem>() {
+        new SelectListItem(){ Text="XXS",Value="XXS"},
+        new SelectListItem(){ Text="XS",Value="XS"},
+        new SelectListItem(){ Text="S",Value="S"},
+        new SelectListItem(){ Text="L",Value="L"},
+        new SelectListItem(){ Text="XL",Value="XL"},
+        new SelectListItem(){ Text="XXL",Value="XXL"},
+        new SelectListItem(){ Text="XXXL",Value="XXXL"}
+    };
 }
 
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<hr/>
+<div class="col-md-12">
+    <div class="row">
+        <div class="row-cols-md-12">
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddStore">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="productID" class="control-label"></label>
-                <input asp-for="productID" class="form-control" value="@ViewData["id"]" readonly />
-                <span asp-validation-for="productID" class="text-danger"></span>
+            <div class="row form-group mx-2">
+                <div class="col-md-4 ">
+                    <label class="control-label "> productID </label>
+                </div>
+                <div class="col-md-8">
+                    <input id="productID" class="form-control "  type="text" value="@ViewData["id"]" readonly />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="productColor" class="control-label"></label>
-                <input asp-for="productColor" class="form-control" />
-                <span asp-validation-for="productColor" class="text-danger"></span>
+            <div class="row mx-2">
+                <div class="col-md-4">
+                    <label class="control-label "> productColor </label>
+                </div>
+                <div class="col-md-8">
+                    <input id="productColor" type="text" class="form-control " />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="productImage" class="control-label"></label>
-                <input asp-for="productImage" class="form-control" accept="image/*"/>
-                <span asp-validation-for="productImage" class="text-danger"></span>
+            <div class="row m-2">
+                <div class="col-md-4">
+                    <label class="control-label "> productQuantity </label>
+                </div>
+                <div class="col-md-8">
+                    <input id="productQuantity" type="text" class="form-control " />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="productQuantity" class="control-label"></label>
-                <input asp-for="productQuantity" class="form-control" />
-                <span asp-validation-for="productQuantity" class="text-danger"></span>
+            <div class="row m-2">
+                <div class="col-md-4">
+                    <label class="control-label col-md-2"> productSize </label>
+                </div>
+                <div class="col-md-8">
+                    <input id="productSize" type="text" class="form-control " />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="productSize" class="control-label"></label>
-                <input asp-for="productSize" class="form-control" />
-                @*                <select asp-for="DepId" class="form-control" asp-items="ViewBag."></select>*@
+            <div class="row m-2">
+                <div class="col-md-4">
+                    <label class="control-label"> product Image </label>
+                </div>
+                <div class="col-md-4">
+                    <input id="productImage" type="file" multiple  size="1" value="Upload image" />
+                </div>
+                <div class="col-md-4">
+                    <img id="imgViewer" width="200" height="200" />
+                </div>
+
             </div>
-            <div class="form-group">
-                <input type="submit" value="AddStore" class="btn btn-primary" />
+            <div class="col-md-12 m-2">
+                <button id="AddStore" class="btn btn-primary">AddStore</button>
             </div>
-        </form>
+        </div>
+                    @*<div class="form-group">
+                        <input type="submit" value="AddStore" class="btn btn-primary" />
+                    </div>*@
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+    <!--<div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="AddStore">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="productID" class="control-label"></label>
+                        <input asp-for="productID" class="form-control" value="@ViewData["id"]" readonly />
+                        <span asp-validation-for="productID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="productColor" class="control-label"></label>
+                        <input asp-for="productColor" class="form-control"  accept="image/*" />
+                        <span asp-validation-for="productColor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="file" class="control-label"></label>-->
+            @*<input asp-for="file" class="form-control" accept="image/*" />
+            <span asp-validation-for="file" class="text-danger"></span>
+        <!--<input type='file' name="file" accept="image/*"  value="Chose Image" class="form-group"/>
+                            <br><img id="myImg" src="#">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="productQuantity" class="control-label"></label>
+                            <input asp-for="productQuantity" class="form-control" value="0" />
+                            <span asp-validation-for="productQuantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(s => s.productSize)
+            @Html.DropDownListFor(s => s.productSize, (IEnumerable<SelectListItem>)sizes, new { @class = "form-control" })-->
+            @*<label asp-for="productSize" class="control-label"></label>
+        <input asp-for="productSize" class="form-control" />*@
+            @*                <select asp-for="DepId" class="form-control" asp-items="ViewBag."></select>*@
+            <!--</div>
+                    <div class="form-group">
+                        <input type="submit" value="AddStore" class="btn btn-primary" />
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>-->
+
+<script>
+            var file1;
+                //window.addEventListener('load', function () {
+                //    document.querySelector('input[type="file"]').addEventListener('change', function () {
+                //        if (this.files && this.files[0]) {
+                //            var img = document.querySelector('img');
+                //            img.onload = () => {
+                //                URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                //            }
+                //            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+                //        }
+                //        var formData = new FormData();
+                //        formData.append()
+
+                //    });
+                //});
+
+
+
+
+                $(document).ready(function () {
+
+                });
+            $("#productImage").change(function (event) {
+                    var files = event.target.files;
+                $("#imgViewer").attr("src", window.URL.createObjectURL(files[0]));
+                file1 = files[0];
+                console.log(files);
+            });
+
+
+            $("#AddStore").click(function () {
+
+
+                //var files  = $("productImage").prop("files");
+                //file1 = files[0];
+                console.log(file1);
+                var formDate = new FormData();
+
+                formDate.append("file", file1);
+                console.log(file1);
+                formDate.append("productID",@ViewData["id"]);
+                console.log(@ViewData["id"]);
+                var txt = $("#productColor").val();
+                formDate.append("productColor", txt);
+                console.log($("#productColor").val());
+                formDate.append("productSize", $("#productSize").val());
+                console.log($("#productSize").val());
+                formDate.append("productQuantity", $("#productQuantity").val());
+                console.log($("#productQuantity").val());
+
+                @*var formDate = {
+                    file:file1,
+                    productID:@ViewData["id"],
+                    productColor:$("#productColor").val,
+                    productSize:$("#productSize").val,
+            productQuantity : $("#productQuantity").val,
+                };*@
+//                console.log(formDate);
+
+                    $.ajax({
+                        type: "post",
+                        url: "",
+                        data: formDate,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            console.log("succes");
+                            window.location = "../Details/@ViewData["id"]";
+                        },
+                        error: function (data) {
+                            console.log("failed");
+                        }
+                    });
+                });
+</script>

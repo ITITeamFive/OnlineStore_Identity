@@ -1,60 +1,109 @@
 ﻿@model OnlineStore_Identity.ViewModels.ProductDetailsVM
-<h1>
-    @Html.DisplayFor(modelItem => Model.product.productName)
-</h1>
-<h1>
-    @Html.DisplayFor(modelItem => Model.product.productPrice)
-</h1>
-<h1>
-    @Html.DisplayFor(modelItem => Model.product.productMaterial)
-</h1>
-<h1>
-    @Html.DisplayFor(modelItem => Model.product.productDiscount)
-</h1>
-<h1>
-    @Html.DisplayFor(modelItem => Model.product.productDescription)
-</h1>
+@{
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID in store</th>
-            <th>Color </th>
-            <th>      </th>
-            <th>Size</th>
-            <th>Quantity</th>
-            <th> </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.stores)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productColor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productImage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productSize)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productQuantity)
-                </td>
-                <td>
-                    @*<a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-secondary">Edit</a> 
-                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-dark">Details</a>*@ 
-                    <a asp-action="Deletestore" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+}
+<!--Section: Block Content-->
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<section class="container">
+    <div class="row my-1">
+        <div class="col-md-6">
+            <h3>    @Html.DisplayFor(modelItem => Model.product.productName)</h3>
+            <p class="pt-1">
+                @Html.DisplayFor(modelItem => Model.product.productDescription)
+            </p>
 
-<p>
-    <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-success">Add new product</a>
-</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Material</strong></th>
+                            <td>    @Html.DisplayFor(modelItem => Model.product.productMaterial)</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Discount </strong></th>
+                            <td>@Html.DisplayFor(modelItem => Model.product.productDiscount) %</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Price </strong></th>
+                            <td>@Html.DisplayFor(modelItem => Model.product.productPrice) LE</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Brand </strong></th>
+                            <td>@Html.DisplayFor(modelItem => Model.product.productBrand) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mx-1 my-3">
+        <div class="col-6">
+            <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-primary btn-md mr-1 mb-2">Add new product</a>
+            @*       <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white">New Product</a>*@
+            @*            <a onclick="showPopUp('@Url.Action("AddStore","Products", new {id =@Model.product.productID})', 'Add Products in store')" class="btn btn-success text-white">New Product</a>*@
+            @*<a onclick="showPopUp('@Url.Action("AddStore","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white">New Product</a>
+                @RedirectToAction("Details", new RouteValueDictionary(
+                new { controller = "Products", action = "Details", id = x.productID }))*@
+        </div>
+        <div class="col-6 content-left">
+            <a asp-action="DashBoard" class="btn btn-light btn-md mr-1 mb-2">Back to Product details</a>
+        </div>
+    </div>
+
+    <div class="row my-1 mx-1">
+        <div>
+            <table class="table table-responsive table-borderless mb-0">
+                <thead>
+                    <tr>
+                        <th>ID in store</th>
+                        <th>  Image         </th>
+                        <th> Color     </th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.stores)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ID)
+                            </td>
+                            <td>
+                                @*<script>
+            document.getElementById("itemImage").src = "data:image/png;base64," + @item.productImage;
+            console.log(@item.productImage);
+        </script>*@
+                                @*@Html.DisplayFor(modelItem => item.productImage)
+        @* <img  src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" class="img-fluid z-depth-1" style="width:50%">*@
+                   
+                                <img id="img-@item.ID" src="data: image / jpg;base64,@(item.productImage == null ? "": Convert.ToBase64String(item.productImage))">
+                                
+    @*<img id="img-@item.ID" src="">*@
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.productColor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.productSize)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.productQuantity)
+                            </td>
+                            <td>
+                                <a asp-action="DeleteStore" asp-route-id="@item.ID" class="btn btn-primary btn-md mr-1 mb-2">Delete</a>
+                                <a asp-action="EditStore" asp-route-id="@item.ID" class="btn btn-light btn-md mr-1 mb-2">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <img id="img1" src="" />
+        <img id="img2" />
+    </div>
+</section>
