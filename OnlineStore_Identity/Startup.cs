@@ -1,3 +1,4 @@
+using BlazorDownloadFile;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,6 +56,7 @@ namespace OnlineStore_Identity
             services.AddRazorPages();
             // needed to make the razor component's event firing works
             services.AddServerSideBlazor();
+            services.AddBlazorDownloadFile();
 
             //services.AddKendo();
             //services.AddControllers()
