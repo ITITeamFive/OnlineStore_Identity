@@ -408,6 +408,8 @@ namespace OnlineStore_Identity.Controllers
                     store.productImage = fileBytes;
                 }
             }
+            store.Carts =new List<Cart>();
+            store.BillProducts = new List<BillProduct>();
             store.ID = storeItem.ID;
             store.productColor = storeItem.productColor;
             store.productID = storeItem.productID;
