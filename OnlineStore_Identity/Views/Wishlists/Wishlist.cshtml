@@ -1,0 +1,82 @@
+﻿
+@foreach (var item in Model)
+{
+    <!-- Grid column -->
+    <div class="col-md-4 mb-5 justify-content-center d-flex">
+
+        <!-- Card -->
+        <div class="w-85  justify-content-center">
+
+            <div class="view zoom overlay z-depth-2 rounded">
+                <img class="img-fluid w-100"
+                     src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+                @*<a href="#!">
+                        <div class="mask">
+                            <img class="img-fluid w-100"
+                                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg">
+                            <div class="mask rgba-black-slight"></div>
+                        </div>
+                    </a>*@
+            </div>
+
+            <div class="text-center pt-4">
+
+                <h5>@item.Product.productName</h5>
+
+                <p class="mb-2 text-muted text-uppercase small">
+                    @{ var catName = "";}
+
+                    @foreach (var c in ViewBag.catIDs)
+                    {
+                        if (item.Product.categoryID == c.categoryID)
+                        {
+                            catName = c.categoryName;
+                            break;
+                        }
+                    }
+                    @catName
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center">
+                    @{var rate = 0; var count = 0;}
+                    @foreach (var rev in ViewBag.review)
+                    {
+                        if (item.productID == rev.productID)
+                        {
+                            rate += rev.rate;
+                            count++;
+                        }
+                    }
+                    @{ rate = count == 0 ? rate : rate / count;}
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= rate)
+                        {
+                            <li>
+                                <i class="fas fa-star fa-sm text-primary"></i>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <i class="far fa-star fa-sm text-primary"></i>
+                            </li>
+                        }
+                    }
+                </ul>
+                <hr>
+                <h6 class="mb-3">EGP @item.Product.productPrice</h6>
+                <button type="button" class="btn btn-light btn-sm mr-1 mb-2" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
+                    <i class="fas fa-info-circle pr-2"></i>Details
+                </button>
+                <button type="button" class="btn btn-danger btn-sm px-3 mb-2 material-tooltip-main"
+                        data-toggle="tooltip" data-placement="top" title="Remove from wishlist" onclick="remove('@Url.Action("RemoveFromWishlist","Wishlists",new {id=item.wishListID})')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Card -->
+
+    </div>
+    <!-- Grid column -->
+}
+

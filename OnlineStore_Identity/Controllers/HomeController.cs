@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -29,10 +31,12 @@ namespace OnlineStore_Identity.Controllers
         string url = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*&$expand=Stores";
 
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
 
@@ -64,6 +68,16 @@ namespace OnlineStore_Identity.Controllers
             string sizeResult = sizeRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
             ViewBag.sizes = sizes.Value.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList();
+
+            string userID = _userManager.GetUserId(User) != null ? _userManager.GetUserId(User) : "";
+            //HttpContext.Session.SetString("userID", userID);
+            //CookieOptions options = new CookieOptions();
+            //options.Expires = DateTime.Now.AddDays(1);
+            //Response.Cookies.Append("userID", userID, options);
+
+            //string stored = Request.Cookies["userID"];
+            //string stored = HttpContext.Session.GetString("userID");
+
 
             //HttpResponseMessage response = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -374,7 +388,10 @@ namespace OnlineStore_Identity.Controllers
 
         public IActionResult ProductDetails(int id)
         {
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,Class,Stores,Reviews").Result;
+            string userID = _userManager.GetUserId(HttpContext.User);
+            ViewBag.userID = userID;
+
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,WishLists,Class,Stores/Carts,Reviews").Result;
             string Result = response.Content.ReadAsStringAsync().Result;
             HomeProductDetailsVM productDetails = JsonConvert.DeserializeObject<HomeProductDetailsVM>(Result);
             int rate = 0;
@@ -387,6 +404,7 @@ namespace OnlineStore_Identity.Controllers
             }
 
             ViewBag.rate = rate;
+            ViewBag.wishlistColor = productDetails.WishLists.Where(s => s.userID == userID).FirstOrDefault() == null ? "btn-light" : "btn-danger";
             return PartialView(productDetails);
         }
     }

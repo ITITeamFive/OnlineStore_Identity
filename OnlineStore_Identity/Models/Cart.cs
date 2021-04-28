@@ -18,8 +18,8 @@ namespace OnlineStore_Identity.Models
         public string userID { get; set; }
         public Nullable<int> storeID { get; set; }
         public Nullable<int> quantity { get; set; }
-    
+
         //public virtual AspNetUser AspNetUser { get; set; }
-        //public virtual Store Store { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

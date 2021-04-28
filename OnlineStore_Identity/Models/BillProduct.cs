@@ -19,8 +19,11 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> productID { get; set; }
         public Nullable<int> billProductQuantity { get; set; }
         public Nullable<double> billProductPrice { get; set; }
-    
+        public Nullable<int> storeID { get; set; }
+
+
         //public virtual Bill Bill { get; set; }
         //public virtual Product Product { get; set; }
+        //public virtual Store Store { get; set; }
     }
 }

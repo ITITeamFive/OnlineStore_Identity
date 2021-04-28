@@ -4,7 +4,10 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<component type="typeof(ProductDetails)" render-mode="ServerPrerendered" param-Product="Model" param-rate="ViewBag.rate" />
+<component type="typeof(ProductDetails)" render-mode="ServerPrerendered" param-loveColor="ViewBag.wishlistColor" param-Product="Model" param-rate="ViewBag.rate" param-user="ViewBag.userID" />
 
 @* needed to make the razor component's event firing works *@
 <script src="_framework/blazor.server.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
+
+ @*render-mode="WebAssemblyPrerendered"*@

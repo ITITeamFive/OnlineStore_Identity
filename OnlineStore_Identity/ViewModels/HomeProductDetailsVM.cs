@@ -21,6 +21,8 @@ namespace OnlineStore_Identity.ViewModels
         public int categoryID { get; set; }
         public List<Review> Reviews { get; set; }
         public List<Store> Stores { get; set; }
+        public List<WishList> WishLists { get; set; }
+
         public Class Class { get; set; }
         public Category Category { get; set; }
     }

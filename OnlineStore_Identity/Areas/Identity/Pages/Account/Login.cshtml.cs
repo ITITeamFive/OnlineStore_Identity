@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace OnlineStore_Identity.Areas.Identity.Pages.Account
 {
@@ -84,6 +85,9 @@ namespace OnlineStore_Identity.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    //CookieOptions options = new CookieOptions();
+                    //options.Expires = DateTime.Now.AddDays(3);
+                    //Response.Cookies.Append("name", "txtCookie", options);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

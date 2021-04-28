@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,8 +41,16 @@ namespace OnlineStore_Identity
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>{ 
+            options.SignIn.RequireConfirmedAccount = false;
+            //// Your Cookie settings
+            //options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(1);
+            //options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+            //options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOut";
+            }).AddEntityFrameworkStores<ApplicationDbContext>()/*.AddDefaultTokenProviders()*/;
+
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             // needed to make the razor component's event firing works
@@ -52,10 +62,34 @@ namespace OnlineStore_Identity
             //{
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             //});
-            services.ConfigureApplicationCookie(c => { c.LoginPath = "/Identity/Account/Login";c.AccessDeniedPath = "/Identity/Account/AccessDenied";});
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //});
+
+            services.ConfigureApplicationCookie(c =>
+            { c.LoginPath = "/Identity/Account/Login";
+                c.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                //c.Events.OnRedirectToLogin = context =>
+                //{
+                //    context.Response.StatusCode = 401;
+                //    return Task.CompletedTask;
+                //};
+            });
             //services.AddMvc().AddJsonOptions(options => {
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             //});
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true; options.Cookie.IsEssential = true;
+            });
+            services.AddMvc().AddRazorOptions(options =>
+            {
+                options.ViewLocationFormats.Add("/{0}.cshtml");
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +115,8 @@ namespace OnlineStore_Identity
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 // needed to make the razor component's event firing works
@@ -89,9 +125,11 @@ namespace OnlineStore_Identity
                 ///////////////////////////////
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Products}/{action=DashBoard}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                
                 endpoints.MapRazorPages();
             });
+            
         }
     }
 }
