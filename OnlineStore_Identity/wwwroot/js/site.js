@@ -198,6 +198,7 @@ showDetails = (url) => {
 
 CloseModel = () => {
     $('#details-modal').modal('hide');
+    $('#checkout-modal').modal('hide');
 }
 
 //-------------------Delete Wishlist-----------------------
@@ -338,8 +339,8 @@ function checkOut(e) {
     //Payment
     var payMethod = $("input[name='pay']:checked").attr('id');
     //Bill
-    let tempTotal = parseInt($("#tempTotal").html());
-    let total = parseInt($("#total").html());
+    let tempTotal = parseFloat($("#tempTotal").html());
+    let total = parseFloat($("#total").html());
     
 
     $.ajax({
@@ -355,5 +356,20 @@ function checkOut(e) {
 }
 
 function ConfirmPayment(e) {
+    //e.preventDefault();
+    let total = parseFloat($("#total").html());
+    $.ajax({
+        type: 'get',
+        url: "Carts/Purchase",
+        traditional: true,
+        data: { "total": total },
+        success: function (res) {
+            $('#checkout-modal .modal-body').html(res);
+            $('#checkout-modal').modal('show');
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
     //Modal carry all things(payment details of address)
 }

@@ -22,11 +22,11 @@
 
                     <div class="col-12 mb-0">
                         <figure class="view overlay rounded z-depth-1 main-img">
-                            <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                               data-size="710x823">
-                                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                                     class="img-fluid z-depth-1">
-                            </a>
+                            @*<a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                                data-size="710x823">*@
+                            <img src="data: image / jpg;base64,@(Product.Stores[2].productImage==null?"":Convert.ToBase64String(Product.Stores[2].productImage))"
+                                 class="img-fluid z-depth-1">
+                            @*</a>*@
                         </figure>
                         <figure class="view overlay rounded z-depth-1 hide">
                             <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
@@ -98,15 +98,13 @@
                         {
         <li>
             <i class="fas fa-star fa-sm text-primary"></i>
-        </li>
- }
-    else
-    {
-<li>
-    <i class="far fa-star fa-sm text-primary"></i>
-</li>
-}
-}
+        </li> }
+                        else
+                        {
+        <li>
+            <i class="far fa-star fa-sm text-primary"></i>
+        </li>}
+                    }
 
                 </ul>
                 <span>@Product.Reviews.Count reviews</span>
@@ -138,8 +136,7 @@
                                             @* to select distinct size *@
                                             @foreach (var item in Product.Stores.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList())
                                             {
-                                <option value="@item">@item</option>
-}
+                                <option value="@item">@item</option>}
                                         </select>
                                     </div>
                                 </td>
@@ -179,8 +176,7 @@
                                             <option selected="@newSize"></option>
                                             @foreach (var item in Colors)
                                             {
-                                <option value="@item">@item</option>
-}
+                                <option value="@item">@item</option>}
                                         </select>
                                         @*<div class="form-check form-check pl-0">
                                                 <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"

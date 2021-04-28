@@ -113,9 +113,25 @@ namespace OnlineStore_Identity.Controllers
             return RedirectToAction("CartList");
         }
 
-        public IActionResult Purchase()
+        public IActionResult Purchase(float total)
         {
-            return PartialView();
+            //Send data from cartList to site.js
+            //and from ajax to here 
+            //and from here to purchase partial view
+
+            string userID = _userManager.GetUserId(User);
+
+            //carts data to get(product price, description, quantity and price)
+            #region Carts
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product&$filter=userID eq '{userID}'").Result;
+            string cart = response.Content.ReadAsStringAsync().Result;
+            RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart);
+            #endregion
+
+            //send total in view bag
+            ViewBag.total = total;
+
+            return PartialView(carts.Value);
         }
 
     }
