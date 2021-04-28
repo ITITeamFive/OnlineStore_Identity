@@ -89,7 +89,7 @@ namespace OnlineStore_Identity
                 ///////////////////////////////
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Products}/{action=DashBoard}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
