@@ -1,22 +1,6 @@
-﻿@model OnlineStore_Identity.ViewModels.StoreItemVM
+﻿@model OnlineStore_Identity.Models.Store
 @{
     ViewData["Title"] = "Create";
-
-    SelectListItem x = new SelectListItem()
-    {
-        Text = "",
-        Value = ""
-    };
-
-    //IEnumerable<SelectListItem> sizes = new List<SelectListItem>() {
-    //    new SelectListItem(){ Text="XXS",Value="XXS"},
-    //    new SelectListItem(){ Text="XS",Value="XS"},
-    //    new SelectListItem(){ Text="S",Value="S"},
-    //    new SelectListItem(){ Text="L",Value="L"},
-    //    new SelectListItem(){ Text="XL",Value="XL"},
-    //    new SelectListItem(){ Text="XXL",Value="XXL"},
-    //    new SelectListItem(){ Text="XXXL",Value="XXXL"}
-    //};
 }
 
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -27,20 +11,20 @@
         <div class="form-group row">
             <label for="productID" class="col-sm-2 col-form-label">product ID</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control-plaintext" id="productID" value="@ViewData["id"]" readonly>
+                <input type="text" class="form-control-plaintext" id="productID" value="@Model.productID" readonly>
             </div>
         </div>
         <div class="form-group">
             <label for="productColor">product Color</label>
-            <input type="text" class="form-control" id="productColor" aria-describedby="emailHelp" placeholder="Enter color">
+            <input type="text" class="form-control" id="productColor" value="@Model.productColor" aria-describedby="emailHelp" placeholder="Enter color">
         </div>
         <div class="form-group">
             <label for="productQuantity">product Quantity</label>
-            <input type="text" class="form-control" id="productQuantity" placeholder="enter quantity">
+            <input type="text" class="form-control" id="productQuantity"value="@Model.productQuantity" placeholder="enter quantity">
         </div>
         <div class="form-group">
             <label for="productSize">product Size</label>
-            <select class="form-control" id="productSize">
+            <select class="form-control" id="productSize" value="@Model.productSize">
                 <option>XXS</option>
                 <option>XS</option>
                 <option>S</option>
@@ -56,10 +40,10 @@
             <input type="file" class="form-control-file" accept="image/*" id="productImage" multiple size="1" value="Upload image" aria-describedby="fileHelp">
         </div>
         <div class="col-md-4">
-            <img id="imgViewer" width="200" height="200" />
+            <img id="imgViewer"width="200" height="200" src="data: image / jpg;base64,@(Model.productImage == null ? "": Convert.ToBase64String(Model.productImage))">
         </div>
         <div class="col-md-12 m-2">
-            <button id="AddStore" class="btn btn-primary">AddStore</button>
+            <button id="Edittore" class="btn btn-primary">Save changes</button>
         </div>
     </div>
 </div>
@@ -77,14 +61,18 @@
             });
 
 
-            $("#AddStore").click(function () {
+    $("#Edittore").click(function () {
                 console.log(file1);
                 var formDate = new FormData();
-
+        @*if (file1 == null) {
+            formDate.append("productImage",@Model.productImage);
+        }
+        else {
+            formDate.append("file", file1);
+        }*@
                 formDate.append("file", file1);
                 console.log(file1);
-                formDate.append("productID",@ViewData["id"]);
-                console.log(@ViewData["id"]);
+                formDate.append("productID",@Model.productID);
                 var txt = $("#productColor").val();
                 formDate.append("productColor", txt);
                 console.log($("#productColor").val());
@@ -92,7 +80,6 @@
                 console.log($("#productSize").val());
                 formDate.append("productQuantity", $("#productQuantity").val());
                 console.log($("#productQuantity").val());
-
                     $.ajax({
                         type: "post",
                         url: "",
@@ -101,7 +88,7 @@
                         contentType: false,
                         success: function (data) {
                             console.log("succes");
-                            window.location = "../Details/@ViewData["id"]";
+                            window.location = "../Details/@Model.productID";
                         },
                         error: function (data) {
                             console.log("failed");

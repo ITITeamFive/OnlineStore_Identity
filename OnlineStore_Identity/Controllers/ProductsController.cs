@@ -43,6 +43,20 @@ namespace OnlineStore_Identity.Controllers
             public int categoryID { get; set; }
         }
 
+        public partial class StoreRoot
+        {
+            public string metadata { get; set; }
+            public Nullable<int> productID { get; set; }
+            public string productColor { get; set; }
+            public string productSize { get; set; }
+            public byte[] productImage { get; set; }
+            public Nullable<int> productQuantity { get; set; }
+            public int ID { get; set; }
+            public virtual Product Product { get; set; }
+            public virtual ICollection<Cart> Carts { get; set; }
+            public virtual ICollection<BillProduct> BillProducts { get; set; }        
+        }
+
         HttpClient client = new HttpClient();
        [Authorize(Roles= "Admin")]
         public IActionResult DashBoard()
@@ -395,17 +409,80 @@ namespace OnlineStore_Identity.Controllers
             return RedirectToAction("Details", new RouteValueDictionary(
                 new { controller = "Products", action = "Details", id = s.productID}));
         }
-       
-    public Store StoreVmToStore(StoreItemVM storeItem)
+        [HttpGet]
+        public ActionResult EditStore(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Stores({id})").Result;
+            string Result = response.Content.ReadAsStringAsync().Result;
+            var storeRoot = JsonConvert.DeserializeObject<StoreRoot>(Result);
+            Store store = new Store{ID=storeRoot.ID,Carts=storeRoot.Carts,Product=storeRoot.Product,
+            productColor=storeRoot.productColor,productID=storeRoot.productID,productImage=storeRoot.productImage,
+           productQuantity=storeRoot.productQuantity,productSize=storeRoot.productSize};
+            return View(store);
+        }
+        public partial class Store2
+        {
+            public Nullable<int> productID { get; set; }
+            public string productColor { get; set; }
+            public string productSize { get; set; }
+            public byte[] productImage { get; set; }
+            public Nullable<int> productQuantity { get; set; }
+            public int ID { get; set; }
+            public virtual Product Product { get; set; }
+        }
+        //[Bind("file,ID,productID,productColor,productSize,productQuantity")]
+        [HttpPost]
+        public ActionResult EditStore(StoreItemVM storeItem)
+        {
+            var keys = Request.Form;
+            var x = Request.Body;
+            Store s = StoreVmToStore(storeItem);
+            Store2 s2 = new Store2
+            {
+                productID = s.productID,
+                productColor = s.productColor,
+                productSize = s.productSize,
+                productImage = s.productImage,
+                productQuantity = s.productQuantity,
+                ID = s.ID,
+                Product = s.Product
+            };
+
+
+        string data = JsonConvert.SerializeObject(s2);
+            StringContent reqBody = new StringContent(data, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage responseMessage = client.PutAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Stores({s.ID})", reqBody).Result;
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                ViewBag.Message = "added";
+            }
+            else
+            {
+
+                ViewBag.Message = "Error not added";
+            }
+            return RedirectToAction("Details", new RouteValueDictionary(
+                new { controller = "Products", action = "Details", id = s.productID }));
+        }
+
+        public Store StoreVmToStore(StoreItemVM storeItem)
         {
             Store store = new Store();
-            if (storeItem.file.Length > 0)
+            if (storeItem.file == null)
             {
-                using (var ms = new MemoryStream())
+                store.productImage = storeItem.productImage;
+            }
+            else 
+            { 
+                if (storeItem.file.Length > 0)
                 {
-                    storeItem.file.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    store.productImage = fileBytes;
+                    using (var ms = new MemoryStream())
+                    {
+                        storeItem.file.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        store.productImage = fileBytes;
+                    }
                 }
             }
             store.Carts =new List<Cart>();
@@ -416,27 +493,6 @@ namespace OnlineStore_Identity.Controllers
             store.productSize = storeItem.productSize;
             store.productQuantity = storeItem.productQuantity;
             return store;
-        }
-    
-    //public StoreItemVM StoreToStoreVM(Store store)
-    //{
-    //    StoreItemVM storeVM = new StoreItemVM();
-
-    //    if (storeItem.file.Length > 0)
-    //    {
-    //        using (var ms = new MemoryStream())
-    //        {
-    //            storeItem.file.CopyTo(ms);
-    //            var fileBytes = ms.ToArray();
-    //            store.productImage = fileBytes;
-    //        }
-    //    }
-    //    storeVM.ID = store.ID;
-    //    storeVM.productColor = store.productColor;
-    //    storeVM.productID = store.productID;
-    //    storeVM.productSize = store.productSize;
-    //    storeVM.productQuantity = store.productQuantity;
-    //    return storeVM;
-    //}
+        }    
     }
 }
