@@ -115,6 +115,19 @@ namespace OnlineStore_Identity.Controllers
 
         public IActionResult Purchase(float total)
         {
+            #region Shipping
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Shippings").Result;
+            string shipping = response.Content.ReadAsStringAsync().Result;
+            RootObject<Shipping> shippings = JsonConvert.DeserializeObject<RootObject<Shipping>>(shipping);
+            ViewBag.shippingList = shippings.Value;
+            #endregion
+
+            #region Payment
+            HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Payments").Result;
+            string payment = response3.Content.ReadAsStringAsync().Result;
+            RootObject<Payment> payments = JsonConvert.DeserializeObject<RootObject<Payment>>(payment);
+            ViewBag.paymentList = payments.Value;
+            #endregion
             //Send data from cartList to site.js
             //and from ajax to here 
             //and from here to purchase partial view
@@ -123,8 +136,8 @@ namespace OnlineStore_Identity.Controllers
 
             //carts data to get(product price, description, quantity and price)
             #region Carts
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product&$filter=userID eq '{userID}'").Result;
-            string cart = response.Content.ReadAsStringAsync().Result;
+            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product&$filter=userID eq '{userID}'").Result;
+            string cart = response2.Content.ReadAsStringAsync().Result;
             RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart);
             #endregion
 

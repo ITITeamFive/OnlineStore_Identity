@@ -280,8 +280,8 @@ removeFromCart = (id, e) => {
 }
 
 function IncOrDec(e, price, status, id) {
-    var Temp = document.getElementById("tempTotal");
-    var Total = document.getElementById("total");
+    var Temp = document.getElementById("subTotal");
+    //var Total = document.getElementById("total");
     var myInput = e.target.parentNode.querySelector('input[type=number]');
     var flag=false;
 
@@ -289,16 +289,16 @@ function IncOrDec(e, price, status, id) {
         if (myInput.value > 1) {
             e.target.parentNode.querySelector('input[type=number]').stepDown();
             Temp.innerHTML = (parseFloat(Temp.innerHTML) - price);
-            Total.innerHTML = (parseFloat(Total.innerHTML) - price);
+            //Total.innerHTML = (parseFloat(Total.innerHTML) - price);
             flag = true;
         }
     }
 
     else {
-        if (myInput.value < myInput.max) {
+        if (parseInt(myInput.value) < parseInt(myInput.max)) {
             e.target.parentNode.querySelector('input[type=number]').stepUp();
             Temp.innerHTML = (parseFloat(Temp.innerHTML) + price);
-            Total.innerHTML = (parseFloat(Total.innerHTML) + price);
+            //Total.innerHTML = (parseFloat(Total.innerHTML) + price);
             flag = true;
         }
     }
@@ -308,7 +308,7 @@ function IncOrDec(e, price, status, id) {
               {
                   method: 'PATCH',
                   headers: {
-                'Content-Type': 'application/json'
+                 'Content-Type': 'application/json'
             },
                   body: JSON.stringify({ "quantity": parseInt(myInput.value) }),
         });
@@ -323,9 +323,10 @@ MoveToWishlistFromCart = (sID, pID, e) => {
 
 function changeTotal(e){
     const shippingCost = e.target.options[e.target.selectedIndex].value;
-    console.log($("#tempTotal").html());
-    $("#total").html(parseFloat(shippingCost) + parseFloat($("#tempTotal").html()));
+    const tempTotal = $("#tempTotal").html();
+    //console.log($("#tempTotal").html());
     $("#shipping").html(shippingCost);
+    $("#totalt").html((parseFloat(shippingCost) + parseFloat(tempTotal)));
 }
 
 function checkOut(e) {
@@ -336,11 +337,11 @@ function checkOut(e) {
     let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
     let phone = parseInt($("#phone").val());
     let addressDetails = $("#address").val();
+    //Bill
     //Payment
     var payMethod = $("input[name='pay']:checked").attr('id');
-    //Bill
     let tempTotal = parseFloat($("#tempTotal").html());
-    let total = parseFloat($("#total").html());
+    let total = parseFloat($("#totalt").html());
     
 
     $.ajax({
@@ -349,6 +350,10 @@ function checkOut(e) {
         traditional: true,
         data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
         success: function (res) {
+            CloseModel();
+            $("#newCart").html(res);
+            $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
+
             //Search For passing Form Mn Here !!
             //Render partial view or full view ????
         }
@@ -357,7 +362,7 @@ function checkOut(e) {
 
 function ConfirmPayment(e) {
     //e.preventDefault();
-    let total = parseFloat($("#total").html());
+    let total = parseFloat($("#subTotal").html());
     $.ajax({
         type: 'get',
         url: "Carts/Purchase",
@@ -373,3 +378,4 @@ function ConfirmPayment(e) {
     });
     //Modal carry all things(payment details of address)
 }
+

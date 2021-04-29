@@ -78,11 +78,22 @@ namespace OnlineStore_Identity.Controllers
                 string _billProduct = JsonConvert.SerializeObject(billProduct);
                 StringContent request3 = new StringContent(_billProduct, Encoding.UTF8, "application/json");
                 HttpResponseMessage response3 = client.PostAsync($"http://shirleyomda-001-site1.etempurl.com/odata/BillProducts", request3).Result;
-            } 
+                HttpResponseMessage response5 = client.DeleteAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts({item.cartID})").Result;
+
+                #region Modifying store quantity after purchasing
+                int removedQuantity = item.quantity ?? 0;
+                int storeQuantity = item.Store.productQuantity ?? 0;
+                storeQuantity -= removedQuantity;
+                string _storeQuantityUpdate = JsonConvert.SerializeObject(new { productQuantity= storeQuantity });
+                StringContent request6 = new StringContent(_storeQuantityUpdate, Encoding.UTF8, "application/json");
+                HttpResponseMessage response6 = client.PatchAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Stores({item.storeID})", request6).Result; 
+                #endregion
+
+            }
             #endregion
 
             //return partial view and design modal
-            return View();
+            return RedirectToAction("CartList", "Carts");
         }
     }
 }
