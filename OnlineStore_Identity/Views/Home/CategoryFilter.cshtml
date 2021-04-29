@@ -2,19 +2,94 @@
 
 @foreach (var item in Model)
 {
-    <div class="col-md-4" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
-        <div class="card">
-            <img src="https://upload.3dlat.com/uploads/3dlat.com_14_18_4723_d7d382a455061.jpg" class="card-img-top" alt="Girl in a Shirt">
-            <div class="card-body">
-                <h5 class="card-title">@item.productName</h5>
-                <p class="card-text">@item.productDescription</p>
+<div class="col-md-4" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
+    <!-- Card -->
+    <div class="">
 
-                <div class="smallData">
-                    <p>Price: <b>@item.productPrice</b></p>
-                    <p>Brand: <b>@item.productBrand</b></p>
-                    <p>Material: <b>@item.productMaterial</b></p>
-                </div>
+        <div class="view zoom overlay z-depth-2 rounded">
+            <img class="img-fluid w-100"
+                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+        </div>
+
+        <div class="text-center pt-4">
+
+            <h5>@item.productName</h5>
+            <p class="mb-2 text-muted text-uppercase small">@item.productBrand / @item.Category.categoryName</p>
+            <ul class="list-unstyled d-inline-flex">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= (item.Reviews.Count()==0?0: item.Reviews.Select(r=>r.rate).Sum()/item.Reviews.Count()))
+                    {
+                        <li>
+                            <i class="fas fa-star fa-sm text-primary"></i>
+                        </li>
+ }
+                    else
+                    {
+                        <li>
+                            <i class="far fa-star fa-sm text-primary"></i>
+                        </li>
+}
+                }
+
+            </ul>
+            @*<ul class="rating">
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                </li>
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                </li>
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                </li>
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                </li>
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                </li>
+            </ul>*@
+            <hr>
+            @if (item.productDiscount == 0)
+            {
+                <h6 class="mb-3">EGP @item.productPrice</h6>
+            }
+            else
+            {
+                <h6 class="mb-3">
+                    <span class="text-danger mr-1">EGP @((item.productPrice)*(1-item.productDiscount/100))</span>
+                    <span class="text-grey"><s>EGP @item.productPrice</s></span>
+                </h6>
+            }
+            
+            <button type="button" class="btn btn-primary btn-sm mr-1 mb-2">
+                <i class="fas fa-shopping-cart pr-2"></i>Add to cart
+            </button>
+            <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+                <i class="fas fa-info-circle pr-2"></i>Details
+            </button>
+            <button type="button" class="btn @item btn-light btn-sm px-3 mb-2 material-tooltip-main" data-toggle="tooltip"
+                    data-placement="top" title="Add to wishlist" onclick="AddToWishlist(@item.productID,event)">
+                <i class="far fa-heart"></i>
+            </button>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+    @*<div class="card">
+        <img src="https://upload.3dlat.com/uploads/3dlat.com_14_18_4723_d7d382a455061.jpg" class="card-img-top" alt="Girl in a Shirt">
+        <div class="card-body">
+            <h5 class="card-title">@item.productName</h5>
+            <p class="card-text">@item.productDescription</p>
+
+            <div class="smallData">
+                <p>Price: <b>@item.productPrice</b></p>
+                <p>Brand: <b>@item.productBrand</b></p>
+                <p>Material: <b>@item.productMaterial</b></p>
             </div>
         </div>
-    </div>
+    </div>*@
+</div>
 }

@@ -19,7 +19,7 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> rate { get; set; }
         public string reviewNotes { get; set; }
         public int reviewID { get; set; }
-    
+
         //public virtual AspNetUser AspNetUser { get; set; }
         //public virtual Product Product { get; set; }
     }

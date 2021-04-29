@@ -56,5 +56,7 @@ namespace OnlineStore_Identity.Models
         //[JsonIgnore]
 
         //public virtual ICollection<WishList> WishLists { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+
     }
 }

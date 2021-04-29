@@ -28,7 +28,7 @@ namespace OnlineStore_Identity.Controllers
 
     public class HomeController : Controller
     {
-        string url = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*&$expand=Stores";
+        string url = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$expand=Reviews,Category,Stores";
 
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<IdentityUser> _userManager;
@@ -56,14 +56,17 @@ namespace OnlineStore_Identity.Controllers
             string classResult = classRes.Content.ReadAsStringAsync().Result;
             RootObject<Class> classes = JsonConvert.DeserializeObject<RootObject<Class>>(classResult);
             ViewBag.classes = classes.Value;
+
             HttpResponseMessage categoryRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
             string categoryResult = categoryRes.Content.ReadAsStringAsync().Result;
             RootObject<Category> categories = JsonConvert.DeserializeObject<RootObject<Category>>(categoryResult);
             ViewBag.categories = categories.Value;
+
             HttpResponseMessage colorRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
             string colorResult = colorRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> colors = JsonConvert.DeserializeObject<RootObject<Store>>(colorResult);
             ViewBag.colors = colors.Value.Select(s => s.productColor).GroupBy(s => s).Select(s => s.First()).ToList();
+            
             HttpResponseMessage sizeRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
             string sizeResult = sizeRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
@@ -403,7 +406,7 @@ namespace OnlineStore_Identity.Controllers
                 }
             }
 
-            ViewBag.rate = rate;
+            ViewBag.rate = productDetails.Reviews.Count==0 ? 0 : rate/productDetails.Reviews.Count;
             ViewBag.wishlistColor = productDetails.WishLists.Where(s => s.userID == userID).FirstOrDefault() == null ? "btn-light" : "btn-danger";
             return PartialView(productDetails);
         }

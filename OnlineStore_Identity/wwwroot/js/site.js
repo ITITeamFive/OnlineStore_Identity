@@ -236,6 +236,7 @@ AddToCart = (id, quantity, e) => {
 }
 
 AddToWishlist = (id, e) => {
+    e.stopPropagation();
     var btn = e.target;
     var act;
     if (btn.nodeName==='SPAN') {
