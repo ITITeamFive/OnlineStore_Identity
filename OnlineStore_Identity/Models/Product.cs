@@ -23,7 +23,7 @@ namespace OnlineStore_Identity.Models
             //this.BillProducts = new HashSet<BillProduct>();
             //this.WishLists = new HashSet<WishList>();
         }
-    
+
         public int productID { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         [MaxLength(12)]
@@ -56,7 +56,8 @@ namespace OnlineStore_Identity.Models
         //[JsonIgnore]
 
         //public virtual ICollection<WishList> WishLists { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Review> Reviews { get; set; }
-
+        
     }
 }
