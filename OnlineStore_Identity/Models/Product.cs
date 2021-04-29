@@ -22,8 +22,9 @@ namespace OnlineStore_Identity.Models
         {
             //this.BillProducts = new HashSet<BillProduct>();
             //this.WishLists = new HashSet<WishList>();
+            this.Reviews = new HashSet<Review>();
         }
-    
+
         public int productID { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         [MaxLength(12)]
