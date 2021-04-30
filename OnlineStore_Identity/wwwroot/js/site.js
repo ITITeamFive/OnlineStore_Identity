@@ -330,37 +330,6 @@ function changeTotal(e){
     $("#totalt").html((parseFloat(shippingCost) + parseFloat(tempTotal)));
 }
 
-function checkOut(e) {
-   //Address => Payment => Bill => BillProduct
-    e.preventDefault();
-    //Address Table Data
-    let shippingList = document.getElementById("shippingAddress");
-    let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
-    let phone = parseInt($("#phone").val());
-    let addressDetails = $("#address").val();
-    //Bill
-    //Payment
-    var payMethod = $("input[name='pay']:checked").attr('id');
-    let tempTotal = parseFloat($("#tempTotal").html());
-    let total = parseFloat($("#totalt").html());
-    
-
-    $.ajax({
-        url: "Bills/Index",
-        type: 'get',
-        traditional: true,
-        data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
-        success: function (res) {
-            CloseModel();
-            $("#newCart").html(res);
-            $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
-
-            //Search For passing Form Mn Here !!
-            //Render partial view or full view ????
-        }
-    });
-}
-
 function ConfirmPayment(e) {
     //e.preventDefault();
     let total = parseFloat($("#subTotal").html());
@@ -379,4 +348,40 @@ function ConfirmPayment(e) {
     });
     //Modal carry all things(payment details of address)
 }
+
+function checkOut(e) {
+    //Address => Payment => Bill => BillProduct
+    //e.preventDefault();
+    //Address Table Data
+    let shippingList = document.getElementById("shippingAddress");
+    let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
+    let phone = parseInt($("#phone").val());
+    let addressDetails = $("#address").val();
+    //Bill
+    //Payment
+    var payMethod = $("input[name='pay']:checked").attr('id');
+    let tempTotal = parseFloat($("#tempTotal").html());
+    let total = parseFloat($("#totalt").html());
+
+
+    $.ajax({
+        url: "Bills/Index",
+        type: 'get',
+        traditional: true,
+        data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
+        success: function (res) {
+            CloseModel();
+            $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
+
+            //window.location.href = 'Url.Action("BillDetails", "Bills", new { id: res.id } )';
+            window.location.href = 'Bills/BillDetails/'+res.id;
+
+            //$("#newCart").html(res);
+
+            //Search For passing Form Mn Here !!
+            //Render partial view or full view ????
+        }
+    });
+}
+
 

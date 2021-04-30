@@ -22,11 +22,6 @@ namespace OnlineStore_Identity.Controllers
         {
             _userManager = userManager;
         }
-        public class RootObject<T>
-        {
-            public string Metadata { get; set; }
-            public IEnumerable<T> Value { get; set; }
-        }
 
         public class RootObject
         {
@@ -34,10 +29,24 @@ namespace OnlineStore_Identity.Controllers
             public int addressID { get; set; }
             public int billID { get; set; }
             public List<Cart> Value { get; set; }
-
         }
 
-        public IActionResult Index(int shippingID,int phone,string addressDetails,int paymentID,int tempTotal,int total)
+        public class BillDetailsRootObject
+        {
+            public string Metadata { get; set; }
+            public int billID { get; set; }
+            public double billSubTotal { get; set; }
+            public double billTotal { get; set; }
+            public DateTime billDate { get; set; }
+            public string billNotes { get; set; } 
+            public int addressID { get; set; }
+            public int paymentID { get; set; }
+            public string userID { get; set; }
+            public Payment payment { get; set; }
+            public Address address { get; set; }
+            public List<BillProduct> billProducts { get; set; }
+        }
+        public IActionResult Index(int shippingID,int phone,string addressDetails,int paymentID,float tempTotal,float total)
         {
             //POST//Address => Payment => Bill => BillProduct
             string userID = _userManager.GetUserId(User);
@@ -98,18 +107,22 @@ namespace OnlineStore_Identity.Controllers
 
             //return partial view and design modal
             //return RedirectToAction("CartList", "Carts");
-            return RedirectToAction("BillDetails");
+            //return RedirectToAction("BillDetails", new { id = billID });
+            //return Ok(new { id = billID });
+            return Json(new { id = billID });
         }
 
-        public IActionResult BillDetails()
+        public IActionResult BillDetails(int id)
         {
-            string userID = _userManager.GetUserId(User);
-             
-            HttpResponseMessage response=client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Bills?$expand=Address,Payment&$filter=userID eq '{userID}'").Result;
-            string bill = response.Content.ReadAsStringAsync().Result;
-            RootObject<Bill> bills = JsonConvert.DeserializeObject<RootObject<Bill>>(bill);
+            string u = _userManager.GetUserName(User);
+            string[] userName = u.Split('@');
+            ViewBag.User = userName[0];
 
-            return View(bills.Value);
+            HttpResponseMessage response =client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Bills({id})?$expand=BillProducts/Product,Address/Shipping,Payment").Result;
+            string bill = response.Content.ReadAsStringAsync().Result;
+            BillDetailsRootObject myBill = JsonConvert.DeserializeObject<BillDetailsRootObject>(bill);
+            return View(myBill);
         }
+
     }
 }
