@@ -22,7 +22,11 @@ namespace OnlineStore_Identity.Controllers
         {
             _userManager = userManager;
         }
-
+        public class RootObject<T>
+        {
+            public string Metadata { get; set; }
+            public IEnumerable<T> Value { get; set; }
+        }
 
         public class RootObject
         {
@@ -93,7 +97,19 @@ namespace OnlineStore_Identity.Controllers
             #endregion
 
             //return partial view and design modal
-            return RedirectToAction("CartList", "Carts");
+            //return RedirectToAction("CartList", "Carts");
+            return RedirectToAction("BillDetails");
+        }
+
+        public IActionResult BillDetails()
+        {
+            string userID = _userManager.GetUserId(User);
+             
+            HttpResponseMessage response=client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Bills?$expand=Address,Payment&$filter=userID eq '{userID}'").Result;
+            string bill = response.Content.ReadAsStringAsync().Result;
+            RootObject<Bill> bills = JsonConvert.DeserializeObject<RootObject<Bill>>(bill);
+
+            return View(bills.Value);
         }
     }
 }
