@@ -175,7 +175,12 @@ $(document).ready(function () {
         "ordering": true,
         "searching": true,
         "scrollX": false,
-        "autoWidth": true
+        "autoWidth": true,
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+   
     });
     //$(document).ready(function () {
     //    $('#tableFilter').DataTable();
