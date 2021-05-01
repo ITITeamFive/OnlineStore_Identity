@@ -123,7 +123,28 @@ function AjaxDelete(e){
                     "ordering": true,
                     "searching": true,
                     "scrollX": false,
-                    "autoWidth": true
+                    "autoWidth": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-copy"></i> Copy'
+                        }, {
+                            extend: 'excel',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-file-excel"></i> Excel'
+                        }, {
+                            extend: 'pdf',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-file-pdf"></i> Pdf'
+                        }, {
+                            extend: 'print',
+                            className: 'bg-primary',
+                            text: '<i class="fas fa-print"></i> Print'
+                        }
+
+                    ]
                 });
 
             },
@@ -178,7 +199,24 @@ $(document).ready(function () {
         "autoWidth": true,
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            {
+                extend: 'copy',
+                className: 'bg-primary',
+                text: '<i class="far fa-copy"></i> Copy'
+            }, {
+                extend: 'excel',
+                className: 'bg-primary',
+                text: '<i class="far fa-file-excel"></i> Excel'
+            }, {
+                extend: 'pdf',
+                className: 'bg-primary',
+                text: '<i class="far fa-file-pdf"></i> Pdf'
+            }, {
+                extend: 'print',
+                className: 'bg-primary',
+                text: '<i class="fas fa-print"></i> Print'
+            }
+            
         ]
    
     });
