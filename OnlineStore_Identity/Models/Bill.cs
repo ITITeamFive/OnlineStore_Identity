@@ -28,9 +28,9 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> addressID { get; set; }
         public Nullable<int> paymentID { get; set; }
         public string userID { get; set; }
-    
+
         //public virtual Address Address { get; set; }
-        //public virtual Payment Payment { get; set; }
+        public virtual Payment Payment { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<BillProduct> BillProducts { get; set; }
         //public virtual AspNetUser AspNetUser { get; set; }
