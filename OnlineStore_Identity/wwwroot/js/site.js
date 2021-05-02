@@ -417,14 +417,20 @@ function checkOut(e) {
             $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
 
             //window.location.href = 'Url.Action("BillDetails", "Bills", new { id: res.id } )';
+            //$("#loaderbody").removeClass('loaderbody');
+            //$("#loadload").removeClass('loader'); 
             window.location.href = 'Bills/BillDetails/'+res.id;
-
+          
             //$("#newCart").html(res);
-
+            //$("#loaderbody").addClass('hide');
             //Search For passing Form Mn Here !!
             //Render partial view or full view ????
         }
     });
 }
+//function printClick(){
+//    $("#loaderbody").addClass('hide');
+
+//}
 
 

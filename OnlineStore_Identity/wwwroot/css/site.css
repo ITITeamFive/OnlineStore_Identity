@@ -115,7 +115,7 @@ table {
 
 
 /*------------------Bill details CSS-------------------*/
-body {
+/*body {
     margin-top: 20px;
     color: #484b51;
 }
@@ -249,7 +249,7 @@ hr {
 .align-bottom {
     vertical-align: bottom !important;
 }
-
+*/
 /*---------------------Orders-----------------------*/
 
 /* Tabs*/
@@ -291,9 +291,34 @@ section {
     }
 
 
-    /*--------------------User Orders Table--------------------*/
+    /*--------------------Bill Details Print styling--------------------*/
+.flexrow {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex !important;
+}
 
+    .flexrow > div {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+    }
 
+.flexrowT {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex !important;
+}
+.printDetails {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex !important;
+}
+.printDetails > li {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
 
 
 

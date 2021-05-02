@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
+//using Rotativa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Rotativa.AspNetCore;
 
 namespace OnlineStore_Identity.Controllers
 {
@@ -122,6 +124,32 @@ namespace OnlineStore_Identity.Controllers
             string bill = response.Content.ReadAsStringAsync().Result;
             BillDetailsRootObject myBill = JsonConvert.DeserializeObject<BillDetailsRootObject>(bill);
             return View(myBill);
+        }
+
+        public IActionResult printPdf(int id)
+        {
+            
+            string u = _userManager.GetUserName(User);
+            string[] userName = u.Split('@');
+            ViewBag.User = userName[0];
+
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Bills({id})?$expand=BillProducts/Product,Address/Shipping,Payment").Result;
+            string bill = response.Content.ReadAsStringAsync().Result;
+            BillDetailsRootObject myBill = JsonConvert.DeserializeObject<BillDetailsRootObject>(bill);
+            //return View(myBill);
+            return new ViewAsPdf("BillDetails", myBill)
+            {
+
+                CustomSwitches = "--print-media-type --viewport-size 1024x768",
+               
+                //PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape,
+                //PageSize = Rotativa.AspNetCore.Options.Size.Letter,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(7, 7, 7, 7),
+                IsJavaScriptDisabled = false
+            };
+
         }
 
     }
