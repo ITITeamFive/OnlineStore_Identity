@@ -462,6 +462,21 @@ $(document).ready(function () {
 
 
     });
+    //$('#openTableUser').DataTable({
+    //    "scrollY": "350px",
+    //    "scrollCollapse": false,
+    //    "paging": true,
+    //    "select": true,
+    //    "ordering": true,
+    //    "searching": true,
+    //    "scrollX": false,
+    //    "autoWidth": true
+    //    /*   "autoWidth": true*/
+
+
+    //});
+});
+$(document).ready(function () {
     $('#openTableUser').DataTable({
         "scrollY": "350px",
         "scrollCollapse": false,
@@ -470,25 +485,11 @@ $(document).ready(function () {
         "ordering": true,
         "searching": true,
         "scrollX": false
-        /*   "autoWidth": true*/
+        
 
 
     });
 });
-//$(body).ready(function () {
-//    $('#openTableUser').DataTable({
-//        "scrollY": "350px",
-//        "scrollCollapse": false,
-//        "paging": true,
-//        "select": true,
-//        "ordering": true,
-//        "searching": true,
-//        "scrollX": false
-//        /*   "autoWidth": true*/
-
-
-//    });
-//});
 
 /*>>>>>>>>>>>>>>>>>>>dobule click on row detect<<<<<<<<<<<<<<<<<*/
 $(document).ready(function () {
@@ -508,4 +509,9 @@ $(document).ready(function () {
         //alert('You clicked on ' + data[0] + '\'s row');
         window.location.href = 'Bills/BillDetails/' + data[0];
     });
+});
+
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust();
 });
