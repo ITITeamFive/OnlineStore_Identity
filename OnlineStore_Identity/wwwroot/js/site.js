@@ -434,3 +434,78 @@ function checkOut(e) {
 //}
 
 
+
+//$(document).ready(function () {
+//    $('#openTableUser').DataTable({
+//        "scrollY": "350px",
+//        "scrollCollapse": false,
+//        "paging": true,
+//        "select": true,
+//        "ordering": true,
+//        "searching": true,
+//        "scrollX": false
+//       /* "autoWidth": true*/
+       
+
+//    });
+//});
+$(document).ready(function () {
+    $('#closeTableUser').DataTable({
+        "scrollY": "350px",
+        "scrollCollapse": false,
+        "paging": true,
+        "select": true,
+        "ordering": true,
+        "searching": true,
+        "scrollX": false
+        /*   "autoWidth": true*/
+
+
+    });
+    $('#openTableUser').DataTable({
+        "scrollY": "350px",
+        "scrollCollapse": false,
+        "paging": true,
+        "select": true,
+        "ordering": true,
+        "searching": true,
+        "scrollX": false
+        /*   "autoWidth": true*/
+
+
+    });
+});
+//$(body).ready(function () {
+//    $('#openTableUser').DataTable({
+//        "scrollY": "350px",
+//        "scrollCollapse": false,
+//        "paging": true,
+//        "select": true,
+//        "ordering": true,
+//        "searching": true,
+//        "scrollX": false
+//        /*   "autoWidth": true*/
+
+
+//    });
+//});
+
+/*>>>>>>>>>>>>>>>>>>>dobule click on row detect<<<<<<<<<<<<<<<<<*/
+$(document).ready(function () {
+    var table = $('#openTableUser').DataTable();
+
+    $('#openTableUser tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        //alert('You clicked on ' + data[0] + '\'s row');
+        window.location.href = 'Bills/BillDetails/' + data[0];
+    });
+});
+$(document).ready(function () {
+    var table = $('#closeTableUser').DataTable();
+
+    $('#closeTableUser tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        //alert('You clicked on ' + data[0] + '\'s row');
+        window.location.href = 'Bills/BillDetails/' + data[0];
+    });
+});
