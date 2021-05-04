@@ -201,20 +201,20 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'copy',
-                className: 'bg-primary',
-                text: '<i class="far fa-copy"></i> Copy'
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-copy" style="color: #cb0c9f;"></i> Copy'
             }, {
                 extend: 'excel',
-                className: 'bg-primary',
-                text: '<i class="far fa-file-excel"></i> Excel'
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-file-excel" style="color: #cb0c9f;"></i> Excel'
             }, {
                 extend: 'pdf',
-                className: 'bg-primary',
-                text: '<i class="far fa-file-pdf"></i> Pdf'
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-file-pdf" style="color: #cb0c9f;"></i> Pdf'
             }, {
                 extend: 'print',
-                className: 'bg-primary',
-                text: '<i class="fas fa-print"></i> Print'
+                className: 'bg-white text-primary butHover',
+                text: '<i class="fas fa-print icoExport" style="color: #cb0c9f;"></i> Print'
             }
             
         ]

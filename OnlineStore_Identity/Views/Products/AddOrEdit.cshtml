@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label asp-for="productDescription" class="control-label"></label>
                 <div class="input-group">
-                    <input asp-for="productDescription" class="form-control" />
+                    <input asp-for="productDescription" class="form-control" id="proDesc" />
                 </div>
                 <span asp-validation-for="productDescription" class="text-danger"></span>
             </div>
@@ -26,14 +26,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="productBrand" class="control-label"></label>
-                        <input asp-for="productBrand" class="form-control" />
+                        <input asp-for="productBrand" class="form-control" id="proBrand" />
                         <span asp-validation-for="productBrand" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="productMaterial" class="control-label"></label>
-                        <input asp-for="productMaterial" class="form-control" />
+                        <input asp-for="productMaterial" class="form-control" id="proMaterial" />
                         <span asp-validation-for="productMaterial" class="text-danger"></span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <input asp-for="productPrice" class="form-control" />
+                            <input asp-for="productPrice" class="form-control" id="proPrice" />
                         </div>
                         <span asp-validation-for="productPrice" class="text-danger"></span>
                     </div>
@@ -62,7 +62,7 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <input asp-for="productDiscount" class="form-control" />
+                            <input asp-for="productDiscount" class="form-control" id="proDiscount" />
                         </div>
                         <span asp-validation-for="productDiscount" class="text-danger"></span>
                     </div>
@@ -142,6 +142,7 @@
     //});
     var i = 0;
     var cs = document.getElementById("nameId").classList.contains('valid');
+
     //var valName = document.getElementById("nameId").getAttribute("aria-invalid");
 
     function addordelete(e) {
@@ -149,8 +150,14 @@
         /*  var $form = $(this);*/
         var form = document.getElementById("productFrom");
         var cs = document.getElementById("nameId").classList.contains('valid');
+        var cv = document.getElementById("proDesc").classList.contains('valid');
+        var cd = document.getElementById("proBrand").classList.contains('valid');
+        var ce = document.getElementById("proMaterial").classList.contains('valid');
+        var cf = document.getElementById("proPrice").classList.contains('valid');
+        var cb = document.getElementById("proDiscount").classList.contains('valid');
         console.log(cs);
-        if (cs) {
+        console.log(cv);
+        if (cs == true && cv == true && cd == true && ce == true && cf == true && cb == true ) {
             try {
                 $.ajax({
                     type: 'POST',

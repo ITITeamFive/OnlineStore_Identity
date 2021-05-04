@@ -332,10 +332,24 @@ section {
 }
 
 
+/*removing arrows from dashboard table edit delete details*/
+/*dashSort:before,
+dashSort:after {
+    content: "" !important;
+}
+*/
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
 
 
-
-
+/*change the color of button after hover*/
+.butHover:hover,
+.butHover:hover i {
+    background-color: #cb0c9f !important;
+    color: #fff !important;
+}
 
 
 
