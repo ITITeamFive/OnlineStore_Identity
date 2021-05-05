@@ -51,33 +51,33 @@
 
 
 <div class="card-body container pt-0 pb-2">
-    <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white">New Product</a>
+    <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)', 'New Product')" class="btn bg-gradient-primary text-white">New Product</a>
     <div class="card wish-list mb-3 max-height-550">
         <div class="card-body w-100 justify-content-center d-flex">
 
             <div class="table-responsive p-0">
 
-                <table id="tableFilter" class="table-stripedd table-borderless border-0 border-b-2 brc-default-l1 border-radius-sm"">
+                <table id="tableFilter" class="table-stripedd table-borderless border-0 border-b-2 brc-default-l1 border-radius-sm">
 
-                    <thead class="bg-primary  bgc-default-tp1">
+                    <thead class="bg-primary bgc-default-tp1" >
                         <tr class="text-white justify-content-center">
-                            <th class=" text-sm font-weight-bolder  text-white  text-center" style="border-top-left-radius:5px">
+                            <th class=" text-lg font-weight-bolder  text-white  text-center" style="border-top-left-radius:5px">
                                 @*@Html.DisplayNameFor(model=>model.productName)*@
                                 Product Name
                             </th>
-                            <th class=" text-sm font-weight-bolder text-white  text-center">
+                            <th class=" text-lg font-weight-bolder text-white  text-center">
                                 @*@Html.DisplayNameFor(model => model.productBrand)*@
                                 Product Brand
                             </th>
-                            <th class="  text-sm font-weight-bolder   text-white  text-center">
+                            <th class="  text-lg font-weight-bolder   text-white  text-center">
                                 @*@Html.DisplayNameFor(model => model.productMaterial)*@
                                 Product Material
                             </th>
-                            <th class="  text-sm font-weight-bolder  text-white   text-center">
+                            <th class="  text-lg font-weight-bolder  text-white   text-center">
                                 @*@Html.DisplayNameFor(model => model.productPrice)*@
                                 Product Price
                             </th>
-                            <th class=" text-sm font-weight-bolder  text-white  text-center">
+                            <th class=" text-lg font-weight-bolder  text-white  text-center">
                                 @*@Html.DisplayNameFor(model => model.productDiscount)*@
                                 Discount
                             </th>
@@ -91,13 +91,13 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     @Html.DisplayNameFor(model => model.Class)
                                 </th>*@
-                            <th class=" text-sm font-weight-bolder  text-white  text-center">Class</th>
-                            <th class="  text-sm font-weight-bolder  text-white  text-center">Category</th>
-                            <th class="  text-sm font-weight-bolder text-white  text-center">Sales</th>
+                            <th class=" text-lg font-weight-bolder  text-white  text-center">Class</th>
+                            <th class="  text-lg font-weight-bolder  text-white  text-center">Category</th>
+                            <th class="  text-lg font-weight-bolder text-white  text-center">Sales</th>
                             @*<th class="  text-sm font-weight-bolder opacity-7 align-middle text-center">Stock</th>*@
-                            <th class=" text-sm font-weight-bolder  text-white  text-center dashSort"></th>
-                            <th class=" text-sm font-weight-bolder  text-white  text-center dashSort"></th>
-                            <th class=" text-sm font-weight-bolder  text-white text-center dashSort" style="border-top-right-radius:5px"></th>
+                            <th class=" text-lg font-weight-bolder  text-white  text-center dashSort"></th>
+                            <th class=" text-lg font-weight-bolder  text-white  text-center dashSort"></th>
+                            <th class=" text-lg font-weight-bolder  text-white text-center dashSort" style="border-top-right-radius:5px"></th>
 
                         </tr>
                     </thead>

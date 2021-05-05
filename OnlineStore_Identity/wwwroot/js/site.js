@@ -315,7 +315,8 @@ removeFromCart = (id, e) => {
         url: "Carts/RemoveFromCart",
         data: { "id": id },
         success: function (res) {
-            $("#newCart").html(res)
+            $("#newCart").html(res);
+            Changing();
         },
         error: function (err) {
             console.log(err)
@@ -332,7 +333,7 @@ function IncOrDec(e, price, status, id) {
     if (status == "minus") {
         if (myInput.value > 1) {
             e.target.parentNode.querySelector('input[type=number]').stepDown();
-            Temp.innerHTML = (parseFloat(Temp.innerHTML) - price);
+            Temp.innerHTML = Math.round((parseFloat(Temp.innerHTML) - price)*100, 2)/100;
             //Total.innerHTML = (parseFloat(Total.innerHTML) - price);
             flag = true;
         }
@@ -341,7 +342,7 @@ function IncOrDec(e, price, status, id) {
     else {
         if (parseInt(myInput.value) < parseInt(myInput.max)) {
             e.target.parentNode.querySelector('input[type=number]').stepUp();
-            Temp.innerHTML = (parseFloat(Temp.innerHTML) + price);
+            Temp.innerHTML = Math.round((parseFloat(Temp.innerHTML) + price)*100, 2)/100;
             //Total.innerHTML = (parseFloat(Total.innerHTML) + price);
             flag = true;
         }
@@ -362,6 +363,7 @@ function IncOrDec(e, price, status, id) {
 MoveToWishlistFromCart = (sID, pID, e) => {
     AddToWishlist(pID, e);
     removeFromCart(sID, e);
+    Changing();
     $.notify('Moved to wishlist successfuly', { globalPosition: 'top center', className: 'success' });
 }
 
@@ -371,10 +373,25 @@ function changeTotal(e){
     //console.log($("#tempTotal").html());
     $("#shipping").html(shippingCost);
     $("#totalt").html((parseFloat(shippingCost) + parseFloat(tempTotal)));
+
+    //Validation
+    let shippingID = e.target.options[e.target.selectedIndex].getAttribute("id");
+
+    if (shippingID == null) {
+        $("#goverVal").show();
+    }
+    else {
+        $("#goverVal").hide();
+    }
 }
 
 function ConfirmPayment(e) {
-    //e.preventDefault();
+    const itemCount = parseInt($("#itemCount").html());
+    if (itemCount==0) {
+    $.notify('Your cart is empty, Please continue shopping', { globalPosition: 'top center', className: 'danger' });
+    }
+    else {
+
     let total = parseFloat($("#subTotal").html());
     $.ajax({
         type: 'get',
@@ -390,9 +407,38 @@ function ConfirmPayment(e) {
         }
     });
     //Modal carry all things(payment details of address)
+    }
+}
+
+$(document).ready(function () {
+    const itemCount = parseInt($("#itemCount").html());
+    const myBtn = document.getElementById("btnCheckout");
+    if (itemCount == 0) {
+        myBtn.setAttribute("disabled", "true");
+        $("#whenEmpty").show();
+        var scrollableDiv = document.getElementById("scrollDiv");
+        scrollableDiv.classList.remove("scrollDiv");
+        var cartNote = document.getElementById("cartNote");
+        cartNote.classList.add("hide");
+    }
+})
+
+
+function Changing() {
+    const itemCount = parseInt($("#itemCount").html());
+    const myBtn = document.getElementById("btnCheckout");
+    if (itemCount == 0) {
+        myBtn.setAttribute("disabled", "true");
+        $("#whenEmpty").show();
+        var scrollableDiv = document.getElementById("scrollDiv");
+        scrollableDiv.classList.remove("scrollDiv");
+        var cartNote = document.getElementById("cartNote");
+        cartNote.classList.add("hide");
+    }
 }
 
 function checkOut(e) {
+    
     //Address => Payment => Bill => BillProduct
     //e.preventDefault();
     //Address Table Data
@@ -400,33 +446,56 @@ function checkOut(e) {
     let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
     let phone = parseInt($("#phone").val());
     let addressDetails = $("#address").val();
+
     //Bill
     //Payment
     var payMethod = $("input[name='pay']:checked").attr('id');
+
     let tempTotal = parseFloat($("#tempTotal").html());
     let total = parseFloat($("#totalt").html());
 
+    if (shippingID != null && !isNaN(phone) && addressDetails != "" && payMethod != null) {
+        $("#goverVal").hide();
+        $("#phoneVal").hide();
+        $("#addVal").hide();
+        $("#payVal").hide();
 
-    $.ajax({
-        url: "Bills/Index",
-        type: 'get',
-        traditional: true,
-        data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
-        success: function (res) {
-            CloseModel();
-            $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
+        $.ajax({
+            url: "Bills/Index",
+            type: 'get',
+            traditional: true,
+            data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
+            success: function (res) {
+                CloseModel();
+                $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
 
-            //window.location.href = 'Url.Action("BillDetails", "Bills", new { id: res.id } )';
-            //$("#loaderbody").removeClass('loaderbody');
-            //$("#loadload").removeClass('loader'); 
-            window.location.href = 'Bills/BillDetails/'+res.id;
-          
-            //$("#newCart").html(res);
-            //$("#loaderbody").addClass('hide');
-            //Search For passing Form Mn Here !!
-            //Render partial view or full view ????
+                //window.location.href = 'Url.Action("BillDetails", "Bills", new { id: res.id } )';
+                //$("#loaderbody").removeClass('loaderbody');
+                //$("#loadload").removeClass('loader'); 
+                window.location.href = 'Bills/BillDetails/' + res.id;
+
+                //$("#newCart").html(res);
+                //$("#loaderbody").addClass('hide');
+                //Search For passing Form Mn Here !!
+                //Render partial view or full view ????
+            }
+        });
+    }
+    else {
+        e.preventDefault();
+        if (shippingID == null) {
+            $("#goverVal").show();
         }
-    });
+        if (isNaN(phone)) {
+            $("#phoneVal").show();
+        }
+        if (addressDetails == "") {
+            $("#addVal").show();
+        }
+        if (payMethod == null) {
+            $("#payVal").show();
+        }
+    }
 }
 //function printClick(){
 //    $("#loaderbody").addClass('hide');
@@ -515,3 +584,34 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     $($.fn.dataTable.tables(true)).DataTable()
         .columns.adjust();
 });
+
+    
+    function ValidatePhone() {
+    let phone = parseInt($("#phone").val());
+    if (isNaN(phone)) {
+        $("#phoneVal").show();
+    }
+    else {
+        $("#phoneVal").hide();
+    }
+}
+
+    function ValidateAdd() {
+        let addressDetails = $("#address").val();
+        if (addressDetails == "") {
+            $("#addVal").show();
+        }
+        else {
+            $("#addVal").hide();
+        }
+    }
+
+    function ValidatePay() {
+    var payMethod = $("input[name='pay']:checked").attr('id');
+    if (payMethod == null) {
+        $("#payVal").show();
+    }
+    else {
+        $("#payVal").hide();
+    }
+}

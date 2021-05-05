@@ -4,7 +4,7 @@
 
     <!--Grid row-->
     <div class="row">
-      
+
         <!--Grid column-->
         <div class="col-lg-7 mb-4">
 
@@ -23,15 +23,18 @@
                             }
                         </select>
                     </div>
+                    <div style="display:none; color:red" id="goverVal">*Please select your government</div>
                     <div class="form-group md-outline mb-2">
                         <input type="tel" required id="phone" class="form-control font-weight-light"
-                               placeholder="Enter Phone Number" pattern="^01[0-2]\d{8}$">
+                               placeholder="Enter Phone Number" pattern="^01[0-2]\d{8}$" onchange="ValidatePhone()">
                     </div>
+                    <div style="display:none; color:red" id="phoneVal">*This field is required</div>
                     <div class="form-group md-outline mb-2 md-form">
                         <input type="text" required id="address" class="form-control font-weight-light"
-                               placeholder="Enter Address">
+                               placeholder="Enter Address" onchange="ValidateAdd()">
                     </div>
-                    
+                    <div style="display:none; color:red" id="addVal">*This field is required</div>
+
 
                 </div>
 
@@ -46,7 +49,7 @@
                             @foreach (var item in ViewBag.paymentList)
                             {
                                 <div class="form-check form-check-inline mb-2">
-                                    <input class="form-check-input" style="font-size:15px" type="radio" name="pay" id="@item.paymentID" value="@item.paymentType" />
+                                    <input class="form-check-input" style="font-size:15px" type="radio" name="pay" id="@item.paymentID" value="@item.paymentType" onchange="ValidatePay()" />
                                     @switch (item.paymentID)
                                     {
                                         case 1:<i class="fab fa-cc-paypal text-primary fa-2x"></i>
@@ -60,10 +63,13 @@
                                 </div>
                             }
                         </div>
+                        <div id="payVal" style="display:none;color:red">*Please select a payment method</div>
                     </div>
                     <hr />
                     <div>
-                        Credit card methods are vrified,if you want to return order you must return it in 14 days without any dododododododo
+                        <h5 class="mb-4">Expected shipping delivery</h5>
+                        <p class="mb-0"> @DateTime.Now.AddDays(3).ToLongDateString() - @DateTime.Now.AddDays(5).ToLongDateString()</p>
+                        @*Credit card methods are verified,if you want to return order you must return it in 14 days without any dododododododo*@
                     </div>
                 </div>
             </div>
@@ -158,10 +164,12 @@
         </div>
         <!--Grid column-->
         <!--Grid row-->
+
+
     </div>
 
     <div class="justify-content-center d-flex">
-        <button type="button" class="btn btn-primary waves-effect waves-light mt-3 mb-0" style="width:50%;font-size:16px" onclick="checkOut(event)">Make purchase</button>
+        <button type="button" class="btn btn-primary waves-effect waves-light mt-3 mb-0" style="width:50%;font-size:16px" onclick="checkOut(event)" id="Bla">Make purchase</button>
     </div>
 </section>
 <!--Section: Block Content-->

@@ -350,7 +350,9 @@ dashSort:after {
     background-color: #cb0c9f !important;
     color: #fff !important;
 }
-
+.scrollDiv {
+    overflow-y:scroll;
+}
 
 
 

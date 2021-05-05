@@ -139,7 +139,6 @@ namespace OnlineStore_Identity.Controllers
             //return View(myBill);
             return new ViewAsPdf("BillDetails", myBill)
             {
-
                 CustomSwitches = "--print-media-type --viewport-size 1024x768",
                
                 //PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
