@@ -123,7 +123,28 @@ function AjaxDelete(e){
                     "ordering": true,
                     "searching": true,
                     "scrollX": false,
-                    "autoWidth": true
+                    "autoWidth": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-copy"></i> Copy'
+                        }, {
+                            extend: 'excel',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-file-excel"></i> Excel'
+                        }, {
+                            extend: 'pdf',
+                            className: 'bg-primary',
+                            text: '<i class="far fa-file-pdf"></i> Pdf'
+                        }, {
+                            extend: 'print',
+                            className: 'bg-primary',
+                            text: '<i class="fas fa-print"></i> Print'
+                        }
+
+                    ]
                 });
 
             },
@@ -175,7 +196,29 @@ $(document).ready(function () {
         "ordering": true,
         "searching": true,
         "scrollX": false,
-        "autoWidth": true
+        "autoWidth": true,
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copy',
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-copy" style="color: #cb0c9f;"></i> Copy'
+            }, {
+                extend: 'excel',
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-file-excel" style="color: #cb0c9f;"></i> Excel'
+            }, {
+                extend: 'pdf',
+                className: 'bg-white text-primary butHover',
+                text: '<i class="far fa-file-pdf" style="color: #cb0c9f;"></i> Pdf'
+            }, {
+                extend: 'print',
+                className: 'bg-white text-primary butHover',
+                text: '<i class="fas fa-print icoExport" style="color: #cb0c9f;"></i> Print'
+            }
+            
+        ]
+   
     });
     //$(document).ready(function () {
     //    $('#tableFilter').DataTable();
@@ -272,7 +315,8 @@ removeFromCart = (id, e) => {
         url: "Carts/RemoveFromCart",
         data: { "id": id },
         success: function (res) {
-            $("#newCart").html(res)
+            $("#newCart").html(res);
+            Changing();
         },
         error: function (err) {
             console.log(err)
@@ -289,7 +333,7 @@ function IncOrDec(e, price, status, id) {
     if (status == "minus") {
         if (myInput.value > 1) {
             e.target.parentNode.querySelector('input[type=number]').stepDown();
-            Temp.innerHTML = (parseFloat(Temp.innerHTML) - price);
+            Temp.innerHTML = Math.round((parseFloat(Temp.innerHTML) - price)*100, 2)/100;
             //Total.innerHTML = (parseFloat(Total.innerHTML) - price);
             flag = true;
         }
@@ -298,7 +342,7 @@ function IncOrDec(e, price, status, id) {
     else {
         if (parseInt(myInput.value) < parseInt(myInput.max)) {
             e.target.parentNode.querySelector('input[type=number]').stepUp();
-            Temp.innerHTML = (parseFloat(Temp.innerHTML) + price);
+            Temp.innerHTML = Math.round((parseFloat(Temp.innerHTML) + price)*100, 2)/100;
             //Total.innerHTML = (parseFloat(Total.innerHTML) + price);
             flag = true;
         }
@@ -319,6 +363,7 @@ function IncOrDec(e, price, status, id) {
 MoveToWishlistFromCart = (sID, pID, e) => {
     AddToWishlist(pID, e);
     removeFromCart(sID, e);
+    Changing();
     $.notify('Moved to wishlist successfuly', { globalPosition: 'top center', className: 'success' });
 }
 
@@ -328,41 +373,25 @@ function changeTotal(e){
     //console.log($("#tempTotal").html());
     $("#shipping").html(shippingCost);
     $("#totalt").html((parseFloat(shippingCost) + parseFloat(tempTotal)));
-}
 
-function checkOut(e) {
-   //Address => Payment => Bill => BillProduct
-    e.preventDefault();
-    //Address Table Data
-    let shippingList = document.getElementById("shippingAddress");
-    let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
-    let phone = parseInt($("#phone").val());
-    let addressDetails = $("#address").val();
-    //Bill
-    //Payment
-    var payMethod = $("input[name='pay']:checked").attr('id');
-    let tempTotal = parseFloat($("#tempTotal").html());
-    let total = parseFloat($("#totalt").html());
-    
+    //Validation
+    let shippingID = e.target.options[e.target.selectedIndex].getAttribute("id");
 
-    $.ajax({
-        url: "Bills/Index",
-        type: 'get',
-        traditional: true,
-        data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
-        success: function (res) {
-            CloseModel();
-            $("#newCart").html(res);
-            $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
-
-            //Search For passing Form Mn Here !!
-            //Render partial view or full view ????
-        }
-    });
+    if (shippingID == null) {
+        $("#goverVal").show();
+    }
+    else {
+        $("#goverVal").hide();
+    }
 }
 
 function ConfirmPayment(e) {
-    //e.preventDefault();
+    const itemCount = parseInt($("#itemCount").html());
+    if (itemCount==0) {
+    $.notify('Your cart is empty, Please continue shopping', { globalPosition: 'top center', className: 'danger' });
+    }
+    else {
+
     let total = parseFloat($("#subTotal").html());
     $.ajax({
         type: 'get',
@@ -378,5 +407,217 @@ function ConfirmPayment(e) {
         }
     });
     //Modal carry all things(payment details of address)
+    }
 }
 
+$(document).ready(function () {
+    Changing();
+    //const itemCount = parseInt($("#itemCount").html());
+    //const myBtn = document.getElementById("btnCheckout");
+    //if (itemCount == 0) {
+    //    myBtn.setAttribute("disabled", "true");
+    //    $("#whenEmpty").show();
+    //    var scrollableDiv = document.getElementById("scrollDiv");
+    //    scrollableDiv.classList.remove("scrollDiv");
+    //    var cartNote = document.getElementById("cartNote");
+    //    cartNote.classList.add("hide");
+    //}
+})
+
+
+function Changing() {
+    const itemCount = parseInt($("#itemCount").html());
+    const myBtn = document.getElementById("btnCheckout");
+    if (itemCount == 0) {
+        myBtn.setAttribute("disabled", "true");
+        $("#whenEmpty").show();
+        var scrollableDiv = document.getElementById("scrollDiv");
+        scrollableDiv.classList.remove("scrollDiv");
+        var cartNote = document.getElementById("cartNote");
+        cartNote.classList.add("hide");
+    }
+}
+
+function checkOut(e) {
+    
+    //Address => Payment => Bill => BillProduct
+    //e.preventDefault();
+    //Address Table Data
+    let shippingList = document.getElementById("shippingAddress");
+    let shippingID = shippingList.options[shippingList.selectedIndex].getAttribute("id");
+    let phone = parseInt($("#phone").val());
+    let addressDetails = $("#address").val();
+
+    //Bill
+    //Payment
+    var payMethod = $("input[name='pay']:checked").attr('id');
+
+    let tempTotal = parseFloat($("#tempTotal").html());
+    let total = parseFloat($("#totalt").html());
+
+    if (shippingID != null && !isNaN(phone) && addressDetails != "" && payMethod != null) {
+        $("#goverVal").hide();
+        $("#phoneVal").hide();
+        $("#addVal").hide();
+        $("#payVal").hide();
+
+        if (payMethod == 1) {
+            window.location.href = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&amount=" + (total / 15.67) + "&business=sherif_kotb122@yahoo.com&item_name=products&return=Page";
+        }
+        else {
+        $.ajax({
+            url: "Bills/Index",
+            type: 'get',
+            traditional: true,
+            data: { "shippingID": shippingID, "phone": phone, "addressDetails": addressDetails, "paymentID": payMethod, "tempTotal": tempTotal, "total": total },
+            success: function (res) {
+                CloseModel();
+                $.notify('Order Submitted Successfully', { globalPosition: 'top center', className: 'success' });
+
+                //window.location.href = 'Url.Action("BillDetails", "Bills", new { id: res.id } )';
+                //$("#loaderbody").removeClass('loaderbody');
+                //$("#loadload").removeClass('loader'); 
+                window.location.href = 'Bills/BillDetails/' + res.id;
+
+                //$("#newCart").html(res);
+                //$("#loaderbody").addClass('hide');
+                //Search For passing Form Mn Here !!
+                //Render partial view or full view ????
+            }
+        });
+        }
+    }
+    else {
+        e.preventDefault();
+        if (shippingID == null) {
+            $("#goverVal").show();
+        }
+        if (isNaN(phone)) {
+            $("#phoneVal").show();
+        }
+        if (addressDetails == "") {
+            $("#addVal").show();
+        }
+        if (payMethod == null) {
+            $("#payVal").show();
+        }
+    }
+}
+//function printClick(){
+//    $("#loaderbody").addClass('hide');
+
+//}
+
+
+
+//$(document).ready(function () {
+//    $('#openTableUser').DataTable({
+//        "scrollY": "350px",
+//        "scrollCollapse": false,
+//        "paging": true,
+//        "select": true,
+//        "ordering": true,
+//        "searching": true,
+//        "scrollX": false
+//       /* "autoWidth": true*/
+       
+
+//    });
+//});
+$(document).ready(function () {
+    $('#closeTableUser').DataTable({
+        "scrollY": "350px",
+        "scrollCollapse": false,
+        "paging": true,
+        "select": true,
+        "ordering": true,
+        "searching": true,
+        "scrollX": false
+        /*   "autoWidth": true*/
+
+
+    });
+    //$('#openTableUser').DataTable({
+    //    "scrollY": "350px",
+    //    "scrollCollapse": false,
+    //    "paging": true,
+    //    "select": true,
+    //    "ordering": true,
+    //    "searching": true,
+    //    "scrollX": false,
+    //    "autoWidth": true
+    //    /*   "autoWidth": true*/
+
+
+    //});
+});
+$(document).ready(function () {
+    $('#openTableUser').DataTable({
+        "scrollY": "350px",
+        "scrollCollapse": false,
+        "paging": true,
+        "select": true,
+        "ordering": true,
+        "searching": true,
+        "scrollX": false
+        
+
+
+    });
+});
+
+/*>>>>>>>>>>>>>>>>>>>dobule click on row detect<<<<<<<<<<<<<<<<<*/
+$(document).ready(function () {
+    var table = $('#openTableUser').DataTable();
+
+    $('#openTableUser tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        //alert('You clicked on ' + data[0] + '\'s row');
+        window.location.href = 'Bills/BillDetails/' + data[0];
+    });
+});
+$(document).ready(function () {
+    var table = $('#closeTableUser').DataTable();
+
+    $('#closeTableUser tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        //alert('You clicked on ' + data[0] + '\'s row');
+        window.location.href = 'Bills/BillDetails/' + data[0];
+    });
+});
+
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust();
+});
+
+    
+    function ValidatePhone() {
+    let phone = parseInt($("#phone").val());
+    if (isNaN(phone)) {
+        $("#phoneVal").show();
+    }
+    else {
+        $("#phoneVal").hide();
+    }
+}
+
+    function ValidateAdd() {
+        let addressDetails = $("#address").val();
+        if (addressDetails == "") {
+            $("#addVal").show();
+        }
+        else {
+            $("#addVal").hide();
+        }
+    }
+
+    function ValidatePay() {
+    var payMethod = $("input[name='pay']:checked").attr('id');
+    if (payMethod == null) {
+        $("#payVal").show();
+    }
+    else {
+        $("#payVal").hide();
+    }
+}
