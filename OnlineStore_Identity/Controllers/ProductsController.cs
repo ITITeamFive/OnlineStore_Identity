@@ -243,7 +243,7 @@ namespace OnlineStore_Identity.Controllers
         }
         [Authorize]
         [HttpPost]
-        public IActionResult AddOrEdit(int id,[Bind("productID,productName,productBrand,productDescription,productMaterial,productPrice,productDiscount,classID,categoryID")] Product _product)
+        public IActionResult AddOrEdit(int id, Product _product)
         {
             if (ModelState.IsValid)
             {
@@ -268,10 +268,19 @@ namespace OnlineStore_Identity.Controllers
                 {
                     //Product l = new Product { productID = 1, productName = "koko", productBrand = "koko", productMaterial = "koko", productPrice = 120, productDiscount = 120, productDescription = "koko", classID= null, categoryID= null};
 
-                    string cha = JsonConvert.SerializeObject(_product);
+                    //string cha = JsonConvert.SerializeObject(_product);
+                    string cha = JsonConvert.SerializeObject(new { 
+                        productName=_product.productName,
+                        productBrand=_product.productBrand,
+                        productDescription=_product.productDescription,
+                        productMaterial=_product.productMaterial,
+                        productPrice=_product.productPrice,
+                        productDiscount=_product.productDiscount,
+                        classID=_product.classID,
+                        categoryID=_product.categoryID});
                     //StringContent request = new StringContent(cha, Encoding.UTF8, "application/json");
                     HttpContent request = new StringContent(cha, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response =  client.PutAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})", request).Result;
+                    HttpResponseMessage response =  client.PatchAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})", request).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         HttpResponseMessage respons = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Products").Result;

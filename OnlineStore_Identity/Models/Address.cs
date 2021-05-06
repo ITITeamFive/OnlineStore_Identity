@@ -24,8 +24,8 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> addressPhone { get; set; }
         public string addressDetails { get; set; }
         public Nullable<int> shippingID { get; set; }
-    
-        //public virtual Shipping Shipping { get; set; }
+
+        public virtual Shipping Shipping { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<Bill> Bills { get; set; }
     }
