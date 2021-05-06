@@ -25,7 +25,7 @@
                             @*<a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
                                 data-size="710x823">*@
                             @*<img src="data: image / jpg;base64,@(Product.Stores[0].productImage==null?"":Convert.ToBase64String(Product.Stores[0].productImage))"
-                                 class="img-fluid z-depth-1">*@
+                                class="img-fluid z-depth-1">*@
                             @*</a>*@
                         </figure>
                         <figure class="view overlay rounded z-depth-1 hide">
@@ -96,19 +96,30 @@
                     {
                         if (i <= rate)
                         {
-        <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-        </li> }
+                            <li>
+                                <i class="fas fa-star fa-sm text-primary"></i>
+                            </li>
+ }
                         else
                         {
-        <li>
-            <i class="far fa-star fa-sm text-primary"></i>
-        </li>}
+                            <li>
+                                <i class="far fa-star fa-sm text-primary"></i>
+                            </li>
+}
                     }
 
                 </ul>
                 <span>@Product.Reviews.Count reviews</span>
-                <p><span class="mr-3"><strong>@Product.productPrice</strong></span><span class="px-3 badge-danger"><strong>@Product.productDiscount%</strong></span></p>
+                <p>
+                    @if (Product.productDiscount == 0)
+                    {
+                        <span class="mr-3"><strong>EGP @Product.productPrice</strong></span>
+                    }
+                    else
+                    {
+                        <span class="mr-3 text-danger"><strong>EGP @((Product.productPrice)*(1-Product.productDiscount/100))</strong></span><span class="px-3"><strong><s>EGP @Product.productPrice</s></strong></span>
+                    }
+                </p>
                 <p class="pt-1">
                     @*Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
                         error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
@@ -136,7 +147,8 @@
                                             @* to select distinct size *@
                                             @foreach (var item in Product.Stores.Select(s => s.productSize).GroupBy(s => s).Select(s => s.First()).ToList())
                                             {
-                                <option value="@item">@item</option>}
+                                                <option value="@item">@item</option>
+}
                                         </select>
                                     </div>
                                 </td>
@@ -157,18 +169,18 @@
                                     @if (!string.IsNullOrEmpty(Size))
                                     {
 
-                        <div class="def-number-input number-input safari_only mb-0">
-                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                        class="btn">
-                                    +
-                                </button>*@
-                            <input class="max-width-100 form-control" onkeydown="prevent(event)" id="Quantity" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
+                                        <div class="def-number-input number-input safari_only mb-0">
+                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                        class="btn">
+                                                    +
+                                                </button>*@
+                                            <input class="max-width-100 form-control" onkeydown="prevent(event)" id="Quantity" @bind="quantity" min="0" max="@Max" name="quantity" type="number">
 
-                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                        class="btn">
-                                    -
-                                </button>*@
-                        </div>}
+                                            @*<button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                        class="btn">
+                                                    -
+                                                </button>*@
+                                        </div>}
                                 </td>
                                 <td>
                                     <div class="mt-1">
@@ -176,7 +188,8 @@
                                             <option selected="@newSize"></option>
                                             @foreach (var item in Colors)
                                             {
-                                <option value="@item">@item</option>}
+                                                <option value="@item">@item</option>
+}
                                         </select>
                                         @*<div class="form-check form-check pl-0">
                                                 <input type="radio" class="form-check-input" id="small" name="materialExampleRadios"
@@ -214,6 +227,57 @@
 
     </section>
     <!--Section: Block Content-->
+    
+    <!-- Classic tabs -->
+    <div class="classic-tabs border rounded px-4 pt-1">
+
+        <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active show" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Reviews (@Product.Reviews.Count)</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="advancedTabContent">
+            <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <h5><span>@Product.Reviews.Count</span> review for <span>@Product.productName</span></h5>
+                @foreach (var item in Product.Reviews)
+                {
+                    <div class="media mt-3 mb-4">
+                        <img class="d-flex mr-3 z-depth-1" src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg" width="62" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <div class="d-sm-flex justify-content-between">
+                                <p class="mt-1 mb-2">
+                                    <strong>@item.AspNetUser.UserName </strong>
+                                    @*<span>– </span><span>January 28, 2020</span>*@
+                                </p>
+                                <ul class="list-unstyled d-inline-flex">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= item.rate)
+                                        {
+                                            <li>
+                                                <i class="fas fa-star fa-sm text-primary"></i>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <i class="far fa-star fa-sm text-primary"></i>
+                                            </li>
+                                        }
+                                    }
+
+                                </ul>
+                            </div>
+                            <p class="mb-0">@item.reviewNotes</p>
+                        </div>
+                    </div>
+                    <hr>
+                }
+            </div>
+        </div>
+
+    </div>
+    <!-- Classic tabs -->
 
 </div>
 
@@ -286,4 +350,5 @@
         while (store == null);
 
         return store;
-    } }
+    } 
+}

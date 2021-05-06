@@ -23,7 +23,7 @@ namespace OnlineStore_Identity.Models
 
 
         //public virtual Bill Bill { get; set; }
-        //public virtual Product Product { get; set; }
-        //public virtual Store Store { get; set; }
+        public virtual Product Product { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

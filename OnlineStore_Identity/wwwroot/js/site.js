@@ -380,3 +380,22 @@ function ConfirmPayment(e) {
     //Modal carry all things(payment details of address)
 }
 
+function AddReview(e) {
+    const review = e.target.previousElementSibling.value;
+    const id = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("data-id");
+    const rate = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("data-value");
+
+    $.ajax({
+        type: 'get',
+        url: "Reviews/AddReview",
+        traditional: true,
+        data: { "id": parseInt(id), "review": review, "rate": parseInt(rate) },
+        success: function (res) {
+            $('#toReview').html(res);
+            $.notify('thanks for your review', { globalPosition: 'top center', className: 'success' });
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
