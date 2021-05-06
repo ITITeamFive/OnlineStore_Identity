@@ -411,16 +411,17 @@ function ConfirmPayment(e) {
 }
 
 $(document).ready(function () {
-    const itemCount = parseInt($("#itemCount").html());
-    const myBtn = document.getElementById("btnCheckout");
-    if (itemCount == 0) {
-        myBtn.setAttribute("disabled", "true");
-        $("#whenEmpty").show();
-        var scrollableDiv = document.getElementById("scrollDiv");
-        scrollableDiv.classList.remove("scrollDiv");
-        var cartNote = document.getElementById("cartNote");
-        cartNote.classList.add("hide");
-    }
+    Changing();
+    //const itemCount = parseInt($("#itemCount").html());
+    //const myBtn = document.getElementById("btnCheckout");
+    //if (itemCount == 0) {
+    //    myBtn.setAttribute("disabled", "true");
+    //    $("#whenEmpty").show();
+    //    var scrollableDiv = document.getElementById("scrollDiv");
+    //    scrollableDiv.classList.remove("scrollDiv");
+    //    var cartNote = document.getElementById("cartNote");
+    //    cartNote.classList.add("hide");
+    //}
 })
 
 
@@ -460,6 +461,10 @@ function checkOut(e) {
         $("#addVal").hide();
         $("#payVal").hide();
 
+        if (payMethod == 1) {
+            window.location.href = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&amount=" + (total / 15.67) + "&business=sherif_kotb122@yahoo.com&item_name=products&return=Page";
+        }
+        else {
         $.ajax({
             url: "Bills/Index",
             type: 'get',
@@ -480,6 +485,7 @@ function checkOut(e) {
                 //Render partial view or full view ????
             }
         });
+        }
     }
     else {
         e.preventDefault();
