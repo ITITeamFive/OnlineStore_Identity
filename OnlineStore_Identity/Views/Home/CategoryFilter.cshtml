@@ -7,8 +7,7 @@
     <div class="">
 
         <div class="view zoom overlay z-depth-2 rounded">
-            <img class="img-fluid w-100"
-                 src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+        <img src="~/Images/@(item.Stores.Count!=0?item.Stores.FirstOrDefault().productPhoto:"MicrosoftTeams-image.png")" class="w-100" height="250"/>
         </div>
 
         <div class="text-center pt-4">

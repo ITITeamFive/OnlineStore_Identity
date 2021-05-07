@@ -21,13 +21,13 @@
                 <div class="row mx-1">
 
                     <div class="col-12 mb-0">
-                        <figure class="view overlay rounded z-depth-1 main-img">
+                        <figure class="view overlay rounded z-depth-1 main-img text-center">
                             @*<a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
             data-size="710x823">*@
                             @*<img src="data: image / jpg;base64,@(Product.Stores[0].productImage==null?"":Convert.ToBase64String(Product.Stores[0].productImage))"
             class="img-fluid z-depth-1">*@
                             @*</a>*@
-                            <img id="masterImage" src="/Images/@(Product.Stores.Count()!=0?Product.Stores[0].productPhoto:"")" />
+                            <img id="masterImage" class="w-80" src="/Images/@(Product.Stores.Count()!=0?Product.Stores[0].productPhoto:"")" height="344" />
                         </figure>
                         <div class="col-12">
                             <div class="row d-flex justify-content-center">
@@ -40,7 +40,7 @@
 
                                     <div class="col-3" style="cursor:pointer">
                                         <div class="view overlay rounded z-depth-1 gallery-item" onclick="changeImage(event)">
-                                            <img class="img-fluid" src="/Images/@Product.Stores[i].productPhoto" />
+                                            <img class="w-100" src="/Images/@Product.Stores[i].productPhoto" height="80" />
                                             @*<div class="mask rgba-white-slight"></div>*@
                                         </div>
                                     </div>

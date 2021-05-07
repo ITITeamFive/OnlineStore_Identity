@@ -23,6 +23,7 @@ namespace OnlineStore_Identity.Models
             //this.BillProducts = new HashSet<BillProduct>();
             //this.WishLists = new HashSet<WishList>();
             this.Reviews = new HashSet<Review>();
+            this.Stores = new HashSet<Store>();
         }
 
         public int productID { get; set; }
@@ -59,6 +60,9 @@ namespace OnlineStore_Identity.Models
         //public virtual ICollection<WishList> WishLists { get; set; }
         [JsonIgnore]
         public virtual ICollection<Review> Reviews { get; set; }
-        
+
+        public virtual ICollection<Store> Stores { get; set; }
+
+
     }
 }
