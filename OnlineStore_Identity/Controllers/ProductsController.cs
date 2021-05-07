@@ -16,12 +16,17 @@ using Microsoft.AspNetCore.Routing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using static System.Net.Mime.MediaTypeNames;
-
+using Microsoft.AspNetCore.Hosting;
 
 namespace OnlineStore_Identity.Controllers
 {
     public class ProductsController : Controller
     {
+        private IWebHostEnvironment Environment;
+        public ProductsController(IWebHostEnvironment _environment)
+        {
+            Environment = _environment;
+        }
         public class RootObject<T>
         {
             public string Metadata { get; set; }
@@ -480,18 +485,30 @@ namespace OnlineStore_Identity.Controllers
             Store store = new Store();
             if (storeItem.file == null)
             {
-                store.productImage = storeItem.productImage;
+                //store.productImage = storeItem.productImage;
+                store.productPhoto = "";
             }
             else 
             { 
                 if (storeItem.file.Length > 0)
                 {
-                    using (var ms = new MemoryStream())
+                    string uploadsFolder = Path.Combine(this.Environment.WebRootPath, "Images");
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + storeItem.file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        storeItem.file.CopyTo(ms);
-                        var fileBytes = ms.ToArray();
-                        store.productImage = fileBytes;
+                        storeItem.file.CopyTo(fileStream);
                     }
+
+                    store.productPhoto = uniqueFileName;
+
+                    //using (var ms = new MemoryStream())
+                    //{
+                    //    storeItem.file.CopyTo(ms);
+                    //    var fileBytes = ms.ToArray();
+                    //    store.productImage = fileBytes;
+                    //}
                 }
             }
             store.Carts =new List<Cart>();

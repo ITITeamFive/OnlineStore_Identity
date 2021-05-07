@@ -79,10 +79,13 @@
         </script>*@
                                 @*@Html.DisplayFor(modelItem => item.productImage)
         @* <img  src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" class="img-fluid z-depth-1" style="width:50%">*@
-                   
-                                <img id="img-@item.ID" src="data: image / jpg;base64,@(item.productImage == null ? "": Convert.ToBase64String(item.productImage))">
-                                
-    @*<img id="img-@item.ID" src="">*@
+
+                                @*<img id="img-@item.ID" src="data: image / jpg;base64,@(item.productImage == null ? "": Convert.ToBase64String(item.productImage))">*@
+                                @*@{ var stringPhoto = item.productPhoto == null ? "" : item.productPhoto.Replace('\\', '/');}*@
+                                @*<img src="@stringPhoto" />*@
+                                <img src="~/Images/@item.productPhoto" />
+
+                                @*<img id="img-@item.ID" src="">*@
 
                             </td>
                             <td>
