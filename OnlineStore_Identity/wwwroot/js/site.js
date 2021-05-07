@@ -252,6 +252,7 @@ remove = (url) => {
         success: function (res) {
             //debugger;
             $('#wishlist').html(res);
+            ChangingWishlist();
         }
     });
 }
@@ -435,6 +436,17 @@ function Changing() {
         scrollableDiv.classList.remove("scrollDiv");
         var cartNote = document.getElementById("cartNote");
         cartNote.classList.add("hide");
+    }
+}
+
+$(document).ready(function () {
+    ChangingWishlist();
+})
+
+function ChangingWishlist() {
+    const itemCount = parseInt($("#wishlistCount").html());
+    if (itemCount == 0) {
+        $("#whenEmpty").show();
     }
 }
 

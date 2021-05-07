@@ -32,19 +32,19 @@ namespace OnlineStore_Identity.Controllers
         {
             string userId = _userManager.GetUserId(User);
 
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category&$filter=userID eq '{userId}'").Result;
             string wishResult = response.Content.ReadAsStringAsync().Result;
             RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
            
-            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
-            string catResult = response2.Content.ReadAsStringAsync().Result;
-            RootObject<Category> catlists = JsonConvert.DeserializeObject<RootObject<Category>>(catResult);
-            ViewBag.catIDs = catlists.Value;
+            //HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            //string catResult = response2.Content.ReadAsStringAsync().Result;
+            //RootObject<Category> catlists = JsonConvert.DeserializeObject<RootObject<Category>>(catResult);
+            //ViewBag.catIDs = catlists.Value;
            
-            HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Reviews").Result;
-            string rateResult = response3.Content.ReadAsStringAsync().Result;
-            RootObject<Review> ratelists = JsonConvert.DeserializeObject<RootObject<Review>>(rateResult);
-            ViewBag.review = ratelists.Value;
+            //HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Reviews").Result;
+            //string rateResult = response3.Content.ReadAsStringAsync().Result;
+            //RootObject<Review> ratelists = JsonConvert.DeserializeObject<RootObject<Review>>(rateResult);
+            //ViewBag.review = ratelists.Value;
 
             return View(wishlists.Value);
         }
@@ -57,6 +57,7 @@ namespace OnlineStore_Identity.Controllers
             }
             return RedirectToAction("Wishlist");
         }
+
         public IActionResult AddOrRemove(int id,string act)
         {
             string userID = _userManager.GetUserId(User);
@@ -88,19 +89,19 @@ namespace OnlineStore_Identity.Controllers
         {
             string userId = _userManager.GetUserId(User);
 
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category&$filter=userID eq '{userId}'").Result;
             string wishResult = response.Content.ReadAsStringAsync().Result;
             RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
 
-            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
-            string catResult = response2.Content.ReadAsStringAsync().Result;
-            RootObject<Category> catlists = JsonConvert.DeserializeObject<RootObject<Category>>(catResult);
-            ViewBag.catIDs = catlists.Value;
+            //HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Categories").Result;
+            //string catResult = response2.Content.ReadAsStringAsync().Result;
+            //RootObject<Category> catlists = JsonConvert.DeserializeObject<RootObject<Category>>(catResult);
+            //ViewBag.catIDs = catlists.Value;
 
-            HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Reviews").Result;
-            string rateResult = response3.Content.ReadAsStringAsync().Result;
-            RootObject<Review> ratelists = JsonConvert.DeserializeObject<RootObject<Review>>(rateResult);
-            ViewBag.review = ratelists.Value;
+            //HttpResponseMessage response3 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Reviews").Result;
+            //string rateResult = response3.Content.ReadAsStringAsync().Result;
+            //RootObject<Review> ratelists = JsonConvert.DeserializeObject<RootObject<Review>>(rateResult);
+            //ViewBag.review = ratelists.Value;
 
             return PartialView(wishlists.Value);
         }

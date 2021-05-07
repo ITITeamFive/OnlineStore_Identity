@@ -49,7 +49,7 @@ namespace OnlineStore_Identity.Controllers
             string userId = _userManager.GetUserId(User);
 
             #region Carts
-            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category,Store/Product/Reviews&$filter=userID eq '{userId}'").Result;
             string cart = response2.Content.ReadAsStringAsync().Result;
             RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart); 
             #endregion
@@ -77,7 +77,7 @@ namespace OnlineStore_Identity.Controllers
             string userId = _userManager.GetUserId(User);
 
             #region Carts
-            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response2 = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Carts?$expand=Store/Product/Category,Store/Product/Reviews&$filter=userID eq '{userId}'").Result;
             string cart = response2.Content.ReadAsStringAsync().Result;
             RootObject<Cart> carts = JsonConvert.DeserializeObject<RootObject<Cart>>(cart); 
             #endregion

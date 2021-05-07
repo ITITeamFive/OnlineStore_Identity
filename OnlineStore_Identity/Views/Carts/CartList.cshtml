@@ -20,16 +20,39 @@
                         <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                             @*<img class="img-fluid w-100"
                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">*@
-                            <img src="data: image / jpg;base64,@(item.Store.productImage==null?"":Convert.ToBase64String(item.Store.productImage))"
-                                 class="img-fluid w-100">
+                            @*<img src="data: image / jpg;base64,@(item.Store.productImage==null?"":Convert.ToBase64String(item.Store.productImage))"
+                                 class="img-fluid w-100">*@
+                            <img  class="img-fluid w-100" src="~/Images/@item.Store.productPhoto"/>
                         </div>
                     </div>
                     <div class="col-md-7 col-lg-9 col-xl-9">
                         <div>
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h5>@item.Store.Product.productName</h5>
-                                    <p class="mb-3 text-muted text-uppercase small">@item.Store.Product.Category.categoryName</p>
+                                    <h5 class="pb-0">
+                                        @item.Store.Product.productName
+                                        <span class="ml-3">
+                                            <ul class="list-unstyled d-inline-flex">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= (item.Store.Product.Reviews.Count() == 0 ? 0 : item.Store.Product.Reviews.Select(r => r.rate).Sum() / item.Store.Product.Reviews.Count()))
+                                                    {
+                                                        <li>
+                                                            <i class="fas fa-star fa-sm text-primary"></i>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <i class="far fa-star fa-sm text-primary"></i>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        </span>
+                                    </h5>
+                                    <p class="mb-3 text-muted text-uppercase small">Category: @item.Store.Product.Category.categoryName</p>
                                     <p class="mb-2 text-muted text-uppercase small">Color: @item.Store.productColor</p>
                                     <p class="mb-3 text-muted text-uppercase small">Size: @item.Store.productSize</p>
                                 </div>
