@@ -40,7 +40,8 @@
             <input type="file" class="form-control-file" accept="image/*" id="productImage" multiple size="1" value="Upload image" aria-describedby="fileHelp">
         </div>
         <div class="col-md-4">
-            <img id="imgViewer"width="200" height="200" src="data: image / jpg;base64,@(Model.productImage == null ? "": Convert.ToBase64String(Model.productImage))">
+            @*<img id="imgViewer"width="200" height="200" src="data: image / jpg;base64,@(Model.productImage == null ? "": Convert.ToBase64String(Model.productImage))">*@
+            <img src="~/Images/@Model.productPhoto" id="imgViewer" class="img-fluid w-100" height="50"/>
         </div>
         <div class="col-md-12 m-2">
             <button id="Edittore" class="btn btn-primary">Save changes</button>

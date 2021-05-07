@@ -93,8 +93,9 @@
                                 <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                                     @*<img class="img-fluid w-100"
                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">*@
-                                    <img src="data: image / jpg;base64,@(item.Store.productImage==null?"":Convert.ToBase64String(item.Store.productImage))"
-                                         class="img-fluid w-100" height="50">
+                                    @*<img src="data: image / jpg;base64,@(item.Store.productImage==null?"":Convert.ToBase64String(item.Store.productImage))"
+                                         class="img-fluid w-100" height="50">*@
+                                    <img class="img-fluid w-100" height="50" src="~/Images/@item.Store.productPhoto" />
                                 </div>
                             </div>
                             <div class="col-md-7 col-lg-9 col-xl-9">

@@ -652,3 +652,9 @@ function AddReview(e) {
         $("#payVal").hide();
     }
 }
+
+function changeImage(e) {
+    const myImage = document.getElementById("masterImage");
+    
+    myImage.setAttribute("src", e.target.getAttribute("src"));
+}

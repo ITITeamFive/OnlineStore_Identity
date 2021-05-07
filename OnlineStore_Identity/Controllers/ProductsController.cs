@@ -54,7 +54,8 @@ namespace OnlineStore_Identity.Controllers
             public Nullable<int> productID { get; set; }
             public string productColor { get; set; }
             public string productSize { get; set; }
-            public byte[] productImage { get; set; }
+            //public byte[] productImage { get; set; }
+            public string productPhoto { get; set; }
             public Nullable<int> productQuantity { get; set; }
             public int ID { get; set; }
             public virtual Product Product { get; set; }
@@ -430,7 +431,7 @@ namespace OnlineStore_Identity.Controllers
             string Result = response.Content.ReadAsStringAsync().Result;
             var storeRoot = JsonConvert.DeserializeObject<StoreRoot>(Result);
             Store store = new Store{ID=storeRoot.ID,Carts=storeRoot.Carts,Product=storeRoot.Product,
-            productColor=storeRoot.productColor,productID=storeRoot.productID,productImage=storeRoot.productImage,
+            productColor=storeRoot.productColor,productID=storeRoot.productID,productPhoto=storeRoot.productPhoto,
            productQuantity=storeRoot.productQuantity,productSize=storeRoot.productSize};
             return View(store);
         }
@@ -439,7 +440,8 @@ namespace OnlineStore_Identity.Controllers
             public Nullable<int> productID { get; set; }
             public string productColor { get; set; }
             public string productSize { get; set; }
-            public byte[] productImage { get; set; }
+            //public byte[] productImage { get; set; }
+            public string productPhoto { get; set; }
             public Nullable<int> productQuantity { get; set; }
             public int ID { get; set; }
             public virtual Product Product { get; set; }
@@ -456,7 +458,7 @@ namespace OnlineStore_Identity.Controllers
                 productID = s.productID,
                 productColor = s.productColor,
                 productSize = s.productSize,
-                productImage = s.productImage,
+                productPhoto = s.productPhoto,
                 productQuantity = s.productQuantity,
                 ID = s.ID,
                 Product = s.Product

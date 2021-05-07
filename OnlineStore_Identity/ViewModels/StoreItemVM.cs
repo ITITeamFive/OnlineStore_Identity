@@ -13,7 +13,8 @@ namespace OnlineStore_Identity.ViewModels
         public Nullable<int> productID { get; set; }
         public string productColor { get; set; }
         public string productSize { get; set; }
-        public byte[] productImage { get; set; }
+        //public byte[] productImage { get; set; }
+
         public Nullable<int> productQuantity { get; set; }
         public int ID { get; set; }
    }
