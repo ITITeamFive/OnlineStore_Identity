@@ -32,7 +32,7 @@ namespace OnlineStore_Identity.Models
         //public virtual Address Address { get; set; }
         public virtual Payment Payment { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<BillProduct> BillProducts { get; set; }
+        public virtual ICollection<BillProduct> BillProducts { get; set; }
         //public virtual AspNetUser AspNetUser { get; set; }
     }
 }

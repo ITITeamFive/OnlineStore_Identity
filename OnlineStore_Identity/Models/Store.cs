@@ -17,10 +17,13 @@ namespace OnlineStore_Identity.Models
         public Nullable<int> productID { get; set; }
         public string productColor { get; set; }
         public string productSize { get; set; }
-        public byte[] productImage { get; set; }
+
+        //public byte[] productImage { get; set; }
         //public string productImage { get; set; }
         public Nullable<int> productQuantity { get; set; }
         public int ID { get; set; }
+        public string productPhoto { get; set; }
+
         public virtual Product Product { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }
         //public virtual ICollection<BillProduct> BillProducts { get; set; }        

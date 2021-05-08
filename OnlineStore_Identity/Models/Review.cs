@@ -20,7 +20,7 @@ namespace OnlineStore_Identity.Models
         public string reviewNotes { get; set; }
         public int reviewID { get; set; }
 
-        //public virtual AspNetUser AspNetUser { get; set; }
-        //public virtual Product Product { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

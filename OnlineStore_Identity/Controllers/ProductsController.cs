@@ -16,12 +16,17 @@ using Microsoft.AspNetCore.Routing;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using static System.Net.Mime.MediaTypeNames;
-
+using Microsoft.AspNetCore.Hosting;
 
 namespace OnlineStore_Identity.Controllers
 {
     public class ProductsController : Controller
     {
+        private IWebHostEnvironment Environment;
+        public ProductsController(IWebHostEnvironment _environment)
+        {
+            Environment = _environment;
+        }
         public class RootObject<T>
         {
             public string Metadata { get; set; }
@@ -49,7 +54,8 @@ namespace OnlineStore_Identity.Controllers
             public Nullable<int> productID { get; set; }
             public string productColor { get; set; }
             public string productSize { get; set; }
-            public byte[] productImage { get; set; }
+            //public byte[] productImage { get; set; }
+            public string productPhoto { get; set; }
             public Nullable<int> productQuantity { get; set; }
             public int ID { get; set; }
             public virtual Product Product { get; set; }
@@ -425,7 +431,7 @@ namespace OnlineStore_Identity.Controllers
             string Result = response.Content.ReadAsStringAsync().Result;
             var storeRoot = JsonConvert.DeserializeObject<StoreRoot>(Result);
             Store store = new Store{ID=storeRoot.ID,Carts=storeRoot.Carts,Product=storeRoot.Product,
-            productColor=storeRoot.productColor,productID=storeRoot.productID,productImage=storeRoot.productImage,
+            productColor=storeRoot.productColor,productID=storeRoot.productID,productPhoto=storeRoot.productPhoto,
            productQuantity=storeRoot.productQuantity,productSize=storeRoot.productSize};
             return View(store);
         }
@@ -434,7 +440,8 @@ namespace OnlineStore_Identity.Controllers
             public Nullable<int> productID { get; set; }
             public string productColor { get; set; }
             public string productSize { get; set; }
-            public byte[] productImage { get; set; }
+            //public byte[] productImage { get; set; }
+            public string productPhoto { get; set; }
             public Nullable<int> productQuantity { get; set; }
             public int ID { get; set; }
             public virtual Product Product { get; set; }
@@ -451,7 +458,7 @@ namespace OnlineStore_Identity.Controllers
                 productID = s.productID,
                 productColor = s.productColor,
                 productSize = s.productSize,
-                productImage = s.productImage,
+                productPhoto = s.productPhoto,
                 productQuantity = s.productQuantity,
                 ID = s.ID,
                 Product = s.Product
@@ -480,18 +487,30 @@ namespace OnlineStore_Identity.Controllers
             Store store = new Store();
             if (storeItem.file == null)
             {
-                store.productImage = storeItem.productImage;
+                //store.productImage = storeItem.productImage;
+                store.productPhoto = "";
             }
             else 
             { 
                 if (storeItem.file.Length > 0)
                 {
-                    using (var ms = new MemoryStream())
+                    string uploadsFolder = Path.Combine(this.Environment.WebRootPath, "Images");
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + storeItem.file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        storeItem.file.CopyTo(ms);
-                        var fileBytes = ms.ToArray();
-                        store.productImage = fileBytes;
+                        storeItem.file.CopyTo(fileStream);
                     }
+
+                    store.productPhoto = uniqueFileName;
+
+                    //using (var ms = new MemoryStream())
+                    //{
+                    //    storeItem.file.CopyTo(ms);
+                    //    var fileBytes = ms.ToArray();
+                    //    store.productImage = fileBytes;
+                    //}
                 }
             }
             store.Carts =new List<Cart>();

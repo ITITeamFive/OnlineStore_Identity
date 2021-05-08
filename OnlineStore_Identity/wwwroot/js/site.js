@@ -252,6 +252,7 @@ remove = (url) => {
         success: function (res) {
             //debugger;
             $('#wishlist').html(res);
+            ChangingWishlist();
         }
     });
 }
@@ -438,6 +439,17 @@ function Changing() {
     }
 }
 
+$(document).ready(function () {
+    ChangingWishlist();
+})
+
+function ChangingWishlist() {
+    const itemCount = parseInt($("#wishlistCount").html());
+    if (itemCount == 0) {
+        $("#whenEmpty").show();
+    }
+}
+
 function checkOut(e) {
     
     //Address => Payment => Bill => BillProduct
@@ -612,6 +624,25 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         }
     }
 
+function AddReview(e) {
+    const review = e.target.previousElementSibling.value;
+    const id = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("data-id");
+    const rate = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("data-value");
+
+    $.ajax({
+        type: 'get',
+        url: "Reviews/AddReview",
+        traditional: true,
+        data: { "id": parseInt(id), "review": review, "rate": parseInt(rate) },
+        success: function (res) {
+            $('#toReview').html(res);
+            $.notify('thanks for your review', { globalPosition: 'top center', className: 'success' });
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
     function ValidatePay() {
     var payMethod = $("input[name='pay']:checked").attr('id');
     if (payMethod == null) {
@@ -620,4 +651,10 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     else {
         $("#payVal").hide();
     }
+}
+
+function changeImage(e) {
+    const myImage = document.getElementById("masterImage");
+    
+    myImage.setAttribute("src", e.target.getAttribute("src"));
 }

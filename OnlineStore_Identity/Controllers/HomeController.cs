@@ -395,7 +395,7 @@ namespace OnlineStore_Identity.Controllers
             string userID = _userManager.GetUserId(HttpContext.User);
             ViewBag.userID = userID;
 
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,WishLists,Class,Stores/Carts,Reviews").Result;
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Products({id})?$expand=Category,WishLists,Class,Stores/Carts,Reviews/AspNetUser").Result;
             string Result = response.Content.ReadAsStringAsync().Result;
             HomeProductDetailsVM productDetails = JsonConvert.DeserializeObject<HomeProductDetailsVM>(Result);
             int rate = 0;
