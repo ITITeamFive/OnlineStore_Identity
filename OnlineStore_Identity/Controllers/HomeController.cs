@@ -67,7 +67,7 @@ namespace OnlineStore_Identity.Controllers
             string colorResult = colorRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> colors = JsonConvert.DeserializeObject<RootObject<Store>>(colorResult);
             ViewBag.colors = colors.Value.Select(s => s.productColor).GroupBy(s => s).Select(s => s.First()).ToList();
-            
+
             HttpResponseMessage sizeRes = client.GetAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores").Result;
             string sizeResult = sizeRes.Content.ReadAsStringAsync().Result;
             RootObject<Store> sizes = JsonConvert.DeserializeObject<RootObject<Store>>(sizeResult);
@@ -97,7 +97,7 @@ namespace OnlineStore_Identity.Controllers
 
         }
 
-         //string baseURL = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*";
+        //string baseURL = "http://shirleyomda-001-site1.etempurl.com/odata/Products?$select=*";
         //string basURL = "http://shirleyomda-001-site1.etempurl.com/odata/Categories({id})/Products";
         [HttpGet]
         public IActionResult CategoryFilter(int id)
@@ -127,7 +127,7 @@ namespace OnlineStore_Identity.Controllers
         //}
 
         [HttpGet]
-        public IActionResult Filter(string[] sizes, string[] colors, int[] classes,int id)
+        public IActionResult Filter(string[] sizes, string[] colors, int[] classes, int id)
         {
 
             if (classes.Length != 0)
@@ -160,7 +160,7 @@ namespace OnlineStore_Identity.Controllers
                 }
             }
 
-            if (colors.Length !=0 )
+            if (colors.Length != 0)
             {
                 if (url.Contains("&$filter="))
                 {
@@ -177,9 +177,9 @@ namespace OnlineStore_Identity.Controllers
                 url += "))";
             }
 
-            if (sizes.Length !=0)
+            if (sizes.Length != 0)
             {
-                if (url.Contains("&$filter=classID") ||url.Contains("&$filter=categoryID"))
+                if (url.Contains("&$filter=classID") || url.Contains("&$filter=categoryID"))
                 {
                     if (url.Contains("Stores/any(s : (s/"))
                     {
@@ -407,70 +407,9 @@ namespace OnlineStore_Identity.Controllers
                 }
             }
 
-            ViewBag.rate = productDetails.Reviews.Count==0 ? 0 : rate/productDetails.Reviews.Count;
+            ViewBag.rate = productDetails.Reviews.Count == 0 ? 0 : rate / productDetails.Reviews.Count;
             ViewBag.wishlistColor = productDetails.WishLists.Where(s => s.userID == userID).FirstOrDefault() == null ? "btn-light" : "btn-danger";
             return PartialView(productDetails);
-        }
-        [HttpGet]
-        public IActionResult Profile(string id)
-        {
-            id = id.ToUpper();
-            //Products?$filter=Name eq 'Milk'
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/AspNetUsers?$filter=NormalizedEmail eq'{id}'").Result;
-            string Result = response.Content.ReadAsStringAsync().Result;
-            RootObject<AspNetUser> useerRoot = JsonConvert.DeserializeObject<RootObject<AspNetUser>>(Result);
-            AspNetUser user = useerRoot.Value.First();
-            return View(user);
-        }
-
-        [HttpPost]
-        public ActionResult Profile(AspNetUser edituser)
-        {
-            //HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/AspNetUsers?$filter=NormalizedEmail eq'{edituser.Email.ToUpper()}'").Result;
-            //string Result = response.Content.ReadAsStringAsync().Result;
-            //RootObject<AspNetUser> useerRoot = JsonConvert.DeserializeObject<RootObject<AspNetUser>>(Result);
-            //AspNetUser orginUser = useerRoot.Value.First();
-
-            string userid = _userManager.GetUserId(User);
-
-            //AspNetUser aspNetUser =new AspNetUser
-            //{
-            //    AccessFailedCount=orginUser.AccessFailedCount,
-            //    ConcurrencyStamp = orginUser.ConcurrencyStamp,
-            //    EmailConfirmed = orginUser.EmailConfirmed,
-            //    LockoutEnabled = orginUser.LockoutEnabled,
-            //    LockoutEnd = orginUser.LockoutEnd,
-            //    Id = orginUser.Id,
-            //    Email = edituser.Email,
-            //    NormalizedEmail = edituser.Email.ToUpper(),
-            //    NormalizedUserName = edituser.UserName.ToUpper(),
-            //    UserName = edituser.UserName,
-            //    PasswordHash = orginUser.PasswordHash,
-            //    PhoneNumber= edituser.PhoneNumber,
-            //    PhoneNumberConfirmed =orginUser.PhoneNumberConfirmed,
-            //    SecurityStamp=orginUser.SecurityStamp,
-            //    TwoFactorEnabled=orginUser.TwoFactorEnabled
-            //};
-            string data = JsonConvert.SerializeObject(
-new {
-    Email = edituser.Email,
-    NormalizedEmail = edituser.Email.ToUpper(),
-    NormalizedUserName = edituser.UserName.ToUpper(),
-    UserName = edituser.UserName,
-    PhoneNumber = edituser.PhoneNumber
-}
-);
-            StringContent reqBody = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage responseMessage = client.PatchAsync($"http://shirleyomda-001-site1.etempurl.com/odata/AspNetUsers('{userid}')", reqBody).Result;
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                ViewBag.Message = "added";
-            }
-            else
-            {
-                ViewBag.Message = "Error not added";
-            }
-            return RedirectToAction("Index");
         }
     }
 }

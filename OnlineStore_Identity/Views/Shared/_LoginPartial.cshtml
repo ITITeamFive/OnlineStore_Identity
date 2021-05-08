@@ -10,7 +10,9 @@
         <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle nav-link text-dark"
            asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fa fa-user me-sm-1"></i> @User.Identity.Name!</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" asp-action="Profile" asp-route-id="@User.Identity.Name">Profile</a>
+            <a class="dropdown-item" asp-controller="Users" asp-action="Profile">Profile</a>
+            <a class="nav-link text-dark " asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Paaword</a>
+
             <div class="dropdown-divider"></div>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
