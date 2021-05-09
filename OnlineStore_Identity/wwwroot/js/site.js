@@ -303,6 +303,18 @@ AddToWishlist = (id, e) => {
         data: { "id": id, "act": act }
     });
 }
+AddToWishlistHome = (id, e) => {
+    e.stopPropagation();
+    var btn = e.target;
+    var act = "Add";
+   
+    $.ajax({
+        type: 'get',
+        url: "Wishlists/AddOrRemove",
+        traditional: true,
+        data: { "id": id, "act": act }
+    });
+}
 
 function prevent(e) {
     e.preventDefault();
