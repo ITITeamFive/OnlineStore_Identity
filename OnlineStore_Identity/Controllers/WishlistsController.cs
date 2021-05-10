@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OnlineStore_Identity.Models;
@@ -28,11 +29,13 @@ namespace OnlineStore_Identity.Controllers
 
         HttpClient client = new HttpClient();
 
+
+        [Authorize]
         public IActionResult Index()
         {
             string userId = _userManager.GetUserId(User);
 
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category,Product/Stores&$filter=userID eq '{userId}'").Result;
             string wishResult = response.Content.ReadAsStringAsync().Result;
             RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
            
@@ -89,7 +92,7 @@ namespace OnlineStore_Identity.Controllers
         {
             string userId = _userManager.GetUserId(User);
 
-            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category&$filter=userID eq '{userId}'").Result;
+            HttpResponseMessage response = client.GetAsync($"http://shirleyomda-001-site1.etempurl.com/odata/WishLists?$expand=Product/Reviews,Product/Category,Product/Stores&$filter=userID eq '{userId}'").Result;
             string wishResult = response.Content.ReadAsStringAsync().Result;
             RootObject<WishList> wishlists = JsonConvert.DeserializeObject<RootObject<WishList>>(wishResult);
 

@@ -10,8 +10,8 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    $@Model.todayProfit
-                                    <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                    EGP <span style="color:#e74c3c;">@(String.Format("{0:n0}", Math.Round(Model.todayProfit, 2)))</span>
+                                    @*<span class="text-success text-sm font-weight-bolder">+55%</span>*@
                                 </h5>
                             </div>
                         </div>
@@ -32,8 +32,8 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Sales</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    $@Model.allProfit
-                                    <span class="text-success text-sm font-weight-bolder">+5%</span>
+                                    EGP <span style="color:#e74c3c;">@(String.Format("{0:n0}", Math.Round(Model.allProfit, 2)))</span>
+                                    @*<span class="text-success text-sm font-weight-bolder">+5%</span>*@
                                 </h5>
                             </div>
                         </div>

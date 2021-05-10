@@ -69,13 +69,13 @@
                 $(document).ready(function () {
 
                 });
+                
             $("#productImage").change(function (event) {
                     var files = event.target.files;
                 $("#imgViewer").attr("src", window.URL.createObjectURL(files[0]));
                 file1 = files[0];
                 console.log(files);
             });
-
 
             $("#AddStore").click(function () {
                 console.log(file1);
