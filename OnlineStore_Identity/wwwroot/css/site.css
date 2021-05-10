@@ -753,3 +753,9 @@ dashSort:after {
 .btnCat:hover .pCat {
     color: #cb0c9f;
 }
+
+/*Hover heart in navbar*/
+
+#heartNav:hover {
+    color: #e74c3c;
+}
