@@ -82,7 +82,7 @@
             @if (item.productDiscount == 0)
             {
                 <div>
-                    <h6 style="color:#e74c3c">EGP @item.productPrice</h6>
+                    <h6 style="color:#e74c3c">EGP @(Math.Round(item.productPrice ?? 0,2))</h6>
                 </div>
             }
             else

@@ -95,7 +95,7 @@
                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">*@
                                     @*<img src="data: image / jpg;base64,@(item.Store.productImage==null?"":Convert.ToBase64String(item.Store.productImage))"
                                          class="img-fluid w-100" height="50">*@
-                                    <img class="img-fluid w-100" height="50" src="~/Images/@item.Store.productPhoto" />
+                                    <img class="img-fluid w-100" style="height:100px !important;" src="~/Images/@(item.Store.productPhoto!=null?item.Store.productPhoto:"ModelF1.jpg")" />
                                 </div>
                             </div>
                             <div class="col-md-7 col-lg-9 col-xl-9">
@@ -112,13 +112,13 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         @if (item.Store.Product.productDiscount == 0)
                                         {
-                                            <p class="mb-0"><span class="text-primary">EGP @item.Store.Product.productPrice</span></p>
+                                            <p class="mb-0"><span class="text-primary">EGP @(Math.Round(item.Store.Product.productPrice??0,2))</span></p>
                                         }
                                         else
                                         {
                                             <p class="mb-0">
-                                                <span class="text-danger mr-1">EGP @((item.Store.Product.productPrice)*(1-item.Store.Product.productDiscount/100))</span>
-                                                <span class="text-grey"><s>EGP @item.Store.Product.productPrice</s></span>
+                                                <span class="text-danger mr-1">EGP @(Math.Round((item.Store.Product.productPrice)*(1-item.Store.Product.productDiscount/100)??0,2))</span>
+                                                <span class="text-grey"><s>EGP @(Math.Round(item.Store.Product.productPrice??0,2))</s></span>
                                             </p>
                                         }
                                     </div>

@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Rotativa.AspNetCore;
+using System.Runtime.CompilerServices;
 
 namespace OnlineStore_Identity.Controllers
 {
