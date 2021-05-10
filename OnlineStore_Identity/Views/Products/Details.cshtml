@@ -70,7 +70,9 @@
                 <div class="card">
                     <div class="row card-body">
                         <div class="card-body col-md-3">
-                            <img src="~/Images/@item.productPhoto" class="card-img" />
+@*                            <img src="~/Images/@item.productPhoto" class="card-img" />*@
+                            <img src="~/Images/@(item.productPhoto!=null?item.productPhoto:"ModelF1.jpg")" class="card-img"/>
+
                         </div>
                         <div class="card-body col-md-4 offset-md-2">
                             <table class="table table-sm table-borderless mb-0">
