@@ -27,7 +27,7 @@
                             @*<img src="data: image / jpg;base64,@(Product.Stores[0].productImage==null?"":Convert.ToBase64String(Product.Stores[0].productImage))"
             class="img-fluid z-depth-1">*@
                             @*</a>*@
-                            <img id="masterImage" class="w-80" src="/Images/@(Product.Stores.Count()!=0?Product.Stores[0].productPhoto:"")" height="344" />
+                            <img id="masterImage" class="w-80" src="/Images/@(Product.Stores.Count!=0 && Product.Stores.FirstOrDefault().productPhoto!=null?Product.Stores.FirstOrDefault().productPhoto:"ModelF1.jpg")" height="344" />
                         </figure>
                         <div class="col-12">
                             <div class="row d-flex justify-content-center">
@@ -40,7 +40,7 @@
 
                                     <div class="col-3" style="cursor:pointer">
                                         <div class="view overlay rounded z-depth-1 gallery-item" onclick="changeImage(event)">
-                                            <img class="w-100" src="/Images/@Product.Stores[i].productPhoto" height="80" />
+                                            <img class="w-100" src="/Images/@(Product.Stores[i].productPhoto!=null?Product.Stores[i].productPhoto:"ModelF1.jpg")" height="80" />
                                             @*<div class="mask rgba-white-slight"></div>*@
                                         </div>
                                     </div>
@@ -111,11 +111,11 @@
                 <p>
                     @if (Product.productDiscount == 0)
                     {
-                        <span class="mr-3"><strong>EGP @Product.productPrice</strong></span>
+                        <span class="mr-3"><strong>EGP @(Math.Round(Product.productPrice,2))</strong></span>
                     }
                     else
                     {
-                        <span class="mr-3 text-danger"><strong>EGP @((Product.productPrice)*(1-Product.productDiscount/100))</strong></span><span class="px-3"><strong><s>EGP @Product.productPrice</s></strong></span>
+                        <span class="mr-3 text-danger"><strong>EGP @(Math.Round((Product.productPrice)*(1-Product.productDiscount/100),2))</strong></span><span class="px-3"><strong><s>EGP @Product.productPrice</s></strong></span>
                     }
                 </p>
                 <p class="pt-1">

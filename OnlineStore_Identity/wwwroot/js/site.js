@@ -670,3 +670,15 @@ function changeImage(e) {
     
     myImage.setAttribute("src", e.target.getAttribute("src"));
 }
+
+$(document).ready(function () {
+    var badge = document.getElementById("spanBadge");
+    var userID = badge.getAttribute("data-id");
+    fetch("http://shirleyomda-001-site1.etempurl.com/odata/Carts?$filter=userID eq '" + userID + "'",
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => res.json()).then((data) => { if (data.value.length > 0) { badge.innerHTML = data.value.length; badge.hidden = false } })
+})

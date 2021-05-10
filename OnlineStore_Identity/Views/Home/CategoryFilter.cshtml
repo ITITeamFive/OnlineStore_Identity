@@ -79,21 +79,21 @@
                     <h3 class="title mb-0 mt-1"><span style="cursor:pointer" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">@item.productName</span></h3>
                     <span class="product-category">@item.Category.categoryName</span>
 
-                    @if (item.productDiscount == 0)
-                    {
-                        <div>
-                            <h6 style="color:#e74c3c">EGP @item.productPrice</h6>
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <h6>
-                                <span class="mr-1" style="color:#e74c3c">EGP @(Math.Round((item.productPrice)*(1-item.productDiscount/100)??0,2))</span>
-                                <span class="text-grey" style="color:#999;"><s>EGP @item.productPrice</s></span>
-                            </h6>
-                        </div>
-                    }
+            @if (item.productDiscount == 0)
+            {
+                <div>
+                    <h6 style="color:#e74c3c">EGP @(Math.Round(item.productPrice ?? 0,2))</h6>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h6>
+                        <span class="mr-1" style="color:#e74c3c">EGP @(Math.Round((item.productPrice)*(1-item.productDiscount/100)??0,2))</span>
+                        <span class="text-grey" style="color:#999;"><s>EGP @item.productPrice</s></span>
+                    </h6>
+                </div>
+            }
 
                     <div style="cursor:pointer" class="add-to-cart pt-2" href="" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')"><i class="fa fa-shopping-cart"></i> Add To Cart</div>
                 </div>

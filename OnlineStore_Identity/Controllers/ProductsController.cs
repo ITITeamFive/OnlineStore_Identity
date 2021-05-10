@@ -417,6 +417,7 @@ namespace OnlineStore_Identity.Controllers
             //}
 
             Store s = StoreVmToStore(storeItem);
+           
             string data = JsonConvert.SerializeObject(s);
             StringContent reqBody = new StringContent(data, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = client.PostAsync("http://shirleyomda-001-site1.etempurl.com/odata/Stores", reqBody).Result;
@@ -495,7 +496,7 @@ namespace OnlineStore_Identity.Controllers
             if (storeItem.file == null)
             {
                 //store.productImage = storeItem.productImage;
-                store.productPhoto = "";
+                store.productPhoto = null;
             }
             else 
             { 

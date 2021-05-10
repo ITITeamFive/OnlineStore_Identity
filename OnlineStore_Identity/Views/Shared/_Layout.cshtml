@@ -1,4 +1,8 @@
 ﻿@using OnlineStore_Identity.Components;
+@using Microsoft.AspNetCore.Identity
+@using OnlineStore_Identity.Models
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 <!DOCTYPE html>
 <html lang="en" id="htmlTop">
 <head>
@@ -77,15 +81,15 @@
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/SiteImages/Logo1.png" width="140"/></a></li>
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/SiteImages/Logo1.png" width="140" /></a></li>
                         @*<li class="breadcrumb-item text-sm text-dark active" aria-current="page"></li>*@
                         @*@if (User.Identity.IsAuthenticated)
-                        {
-                            if (User.IsInRole("Admin"))
                             {
-                                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" asp-area="" asp-controller="Products" asp-action="DashBoard">Dashboard</a></li>
-                            }
-                        }*@
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" asp-area="" asp-controller="Products" asp-action="DashBoard">Dashboard</a></li>
+                                }
+                            }*@
                     </ol>
                     @*<h6 class="font-weight-bolder mb-0">Dashboard</h6>*@
                 </nav>
@@ -93,14 +97,25 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
-                            <a href="Carts"><i class="fas fa-2x fa-shopping-cart" style="color:orange"></i></a>
-                            <a href="WishLists" class="ml-3 mr-2"><i id="heartNav" class="fas fa-2x fa-heart" style="color:#e74c3c;"></i></a>
+                            <ul class="list-unstyled navbar-nav d-inline-flex">
+                                <li>
+                                    <a asp-controller="Carts" asp-action="Index">
+                                        <span hidden class="badge text-white" style="background-color:#495057; top:-4px; position:absolute; padding:4px; left: 19px;" id="spanBadge" data-id="@UserManager.GetUserId(User)">2</span>
+                                        <i class="fas fa-2x fa-shopping-cart" style="color:orange"><span style="font-size:0.6em"> Cart</span></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="WishLists" asp-action="Index" class="ml-3 mr-2">
+                                        <i id="heartNav" class="fas fa-2x fa-heart" style="color:#e74c3c;"><span style="font-size:0.5em"> Wishlist</span></i>
+                                    </a>
+                                </li>
+                            </ul>
                             @*<span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-        <input type="text" class="form-control" placeholder="Type here...">*@
+                                <input type="text" class="form-control" placeholder="Type here...">*@
                         </div>
                     </div>
                     <ul class="navbar-nav  justify-content-end">
-                       
+
                         @*<li class="nav-item d-flex align-items-center">
                                 <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                                     <i class="fa fa-user me-sm-1"></i>
@@ -340,11 +355,11 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
-    
-    
-    
-    
-    
+
+
+
+
+
 
 
     <script src="~/js/site.js" asp-append-version="true"></script>
