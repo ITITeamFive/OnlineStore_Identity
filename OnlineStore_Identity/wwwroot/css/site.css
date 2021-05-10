@@ -748,3 +748,8 @@ dashSort:after {
     opacity: 1;
     transform: scale(1);
 }
+
+/*Hover content category image*/
+.btnCat:hover .pCat {
+    color: #cb0c9f;
+}

@@ -6,14 +6,15 @@
 
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css /> -->
 @*<div class="container">*@
+
 @foreach (var item in Model)
 {
     <div class="col-md-4 col-sm-6 mb-5 d-flex justify-content-center">
         <div class="product-grid" style="width: 290px">
             <div class="product-image">
 
-                <img class="pic-1 w-100" src="~/Images/@(item.Stores.Count!=0?item.Stores.FirstOrDefault().productPhoto:"ModelF1.jpg")" style="height:333px; cursor:pointer;" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
-                <img class="pic-2 w-100" src="~/Images/@(item.Stores.Count!=0?item.Stores.FirstOrDefault().productPhoto:"ModelF2.jpg")" style="height:333px;cursor:pointer;" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
+                <img class="pic-1 w-100" src="~/Images/@(item.Stores.Count!=0 && item.Stores.FirstOrDefault().productPhoto!=null?item.Stores.FirstOrDefault().productPhoto:"ModelF1.jpg")" style="height:333px; cursor:pointer;" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
+                <img class="pic-2 w-100" src="~/Images/@(item.Stores.Count!=0 && item.Stores.FirstOrDefault().productPhoto!=null?item.Stores.FirstOrDefault().productPhoto:"ModelF2.jpg")" style="height:333px;cursor:pointer;" onclick="showDetails('@Url.Action("ProductDetails","Home",new {id=item.productID})')">
 
                 @*<ul class="social">
                     <li><a href="" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
