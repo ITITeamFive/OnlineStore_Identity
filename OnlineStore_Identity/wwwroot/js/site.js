@@ -272,6 +272,7 @@ AddToCart = (id, quantity, e) => {
             CloseModel();
             btn.setAttribute("disabled", "true");
             $.notify('Added successfuly', { globalPosition: 'top center', className: 'success' });
+            getCartsCount();
         },
         error: function (err) {
             $.notify('You need to login first', { globalPosition: 'top center', className: 'warning' });
@@ -330,6 +331,7 @@ removeFromCart = (id, e) => {
         success: function (res) {
             $("#newCart").html(res);
             Changing();
+            getCartsCount();
         },
         error: function (err) {
             console.log(err)
@@ -671,14 +673,24 @@ function changeImage(e) {
     myImage.setAttribute("src", e.target.getAttribute("src"));
 }
 
-$(document).ready(function () {
+function getCartsCount() {
     var badge = document.getElementById("spanBadge");
     var userID = badge.getAttribute("data-id");
     fetch("http://shirleyomda-001-site1.etempurl.com/odata/Carts?$filter=userID eq '" + userID + "'",
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => res.json()).then((data) => { if (data.value.length > 0) { badge.innerHTML = data.value.length; badge.hidden = false } })
-})
+    {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => res.json())
+    .then((data) => {
+        if (data.value.length > 0) {
+            badge.innerHTML = data.value.length;
+            badge.hidden = false;
+        }
+    });
+}
+
+$(document).ready(function () {
+    getCartsCount();
+});
