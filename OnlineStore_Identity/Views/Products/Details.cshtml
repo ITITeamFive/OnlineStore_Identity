@@ -5,63 +5,116 @@
 <!--Section: Block Content-->
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
 <section class="container">
-    <div class="row my-1">
-        <div class="col-md-6">
-            <h3>    @Html.DisplayFor(modelItem => Model.product.productName)</h3>
-            <p class="pt-1">
-                @Html.DisplayFor(modelItem => Model.product.productDescription)
-            </p>
+    <div class="row my-1 ">
+        <div class="card col-md-6">
+            <h3 class="card-header">    @Html.DisplayFor(modelItem => Model.product.productName)</h3>
+            <div class="card-body">
+                <p class="pt-1">
+                    @Html.DisplayFor(modelItem => Model.product.productDescription)
+                </p>
 
-            <div class="table-responsive">
-                <table class="table table-sm table-borderless mb-0">
-                    <tbody>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Material</strong></th>
-                            <td>    @Html.DisplayFor(modelItem => Model.product.productMaterial)</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Discount </strong></th>
-                            <td>@Html.DisplayFor(modelItem => Model.product.productDiscount) %</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Price </strong></th>
-                            <td>@Html.DisplayFor(modelItem => Model.product.productPrice) LE</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Brand </strong></th>
-                            <td>@Html.DisplayFor(modelItem => Model.product.productBrand) </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Material</strong></th>
+                                <td>    @Html.DisplayFor(modelItem => Model.product.productMaterial)</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Discount </strong></th>
+                                <td>@Html.DisplayFor(modelItem => Model.product.productDiscount) %</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Price </strong></th>
+                                <td>@Html.DisplayFor(modelItem => Model.product.productPrice) LE</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Brand </strong></th>
+                                <td>@Html.DisplayFor(modelItem => Model.product.productBrand) </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-primary btn-md mr-1 mb-2">Add new to Stock</a>
+@*                                    <a onclick="showPopUp('@Url.Action("AddStore","Products",new {id=@Model.product.productID},Context.Request.Scheme),Context.Request.Scheme)', 'New Store')" class="btn btn-success text-white">New Product</a>*@
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-6">
+                </div>
+                <div class="col-6 content-left">
+                    @*<a asp-action="DashBoard" class="btn btn-light btn-md mr-1 mb-2">Back to Dashboard</a>*@
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row mx-1 my-3">
-        <div class="col-6">
-            <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-primary btn-md mr-1 mb-2">Add new product</a>
-            @*       <a onclick="showPopUp('@Url.Action("AddOrEdit","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white">New Product</a>*@
-            @*            <a onclick="showPopUp('@Url.Action("AddStore","Products", new {id =@Model.product.productID})', 'Add Products in store')" class="btn btn-success text-white">New Product</a>*@
-            @*<a onclick="showPopUp('@Url.Action("AddStore","Products",null,Context.Request.Scheme)', 'New Product')" class="btn btn-success text-white">New Product</a>
-                @RedirectToAction("Details", new RouteValueDictionary(
-                new { controller = "Products", action = "Details", id = x.productID }))*@
-        </div>
-        <div class="col-6 content-left">
-            <a asp-action="DashBoard" class="btn btn-light btn-md mr-1 mb-2">Back to Product details</a>
-        </div>
-    </div>
+    <br />
+    <br />
+    <br />
+    <br />
 
-    <div class="row my-1 mx-1">
+    <div class="offset-md-4">
+        <h2>Available in Stock</h2>
+    </div>
+    <div class="row my-1 mx-1 px-2 py-3 shadow-lg">
         <div class="col-md-12 col-sm-12 mx-1">
-            <table class="table table-responsive table-borderless mb-0">
+            @foreach (var item in Model.stores)
+            {
+                <div class="card">
+                    <div class="row card-body">
+                        <div class="card-body col-md-3">
+                            <img src="~/Images/@item.productPhoto" class="card-img" />
+                        </div>
+                        <div class="card-body col-md-4 offset-md-2">
+                            <table class="table table-sm table-borderless mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.productColor)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="pl-0 w-25" scope="row"><strong>Size </strong></th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.productSize)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="pl-0 w-25" scope="row"><strong>Quantity </strong></th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.productQuantity)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="pl-0 w-25" scope="row">
+                                            <a asp-action="DeleteStore" asp-route-id="@item.ID" class="btn btn-primary btn-md mr-1 mb-2">Delete</a>
+                                        </th>
+                                        <td>
+                                            <a asp-action="EditStore" asp-route-id="@item.ID" class="btn btn-light btn-md mr-1 mb-2">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+
+            @*<table class="table table-responsive table-borderless mb-0">
                 <thead>
                     <tr>
                         <th>ID in store</th>
                         <th>  Image         </th>
-                        <th> Color     </th>
-                        <th>Size</th>
-                        <th>Quantity</th>
-                        <th> </th>
+                        <th>      </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,29 +125,52 @@
                                 @Html.DisplayFor(modelItem => item.ID)
                             </td>
                             <td>
-                                <img src="~/Images/@item.productPhoto" style="width:100%" />
+                                <div class="col-3">
+                                    <div class="view overlay rounded z-depth-1 gallery-item">
+                                        <img src="~/Images/@item.productPhoto" style="width:100%" class="img-fluid" />
+                                        <div class="mask rgba-white-slight"></div>
+                                    </div>
+                                </div>
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.productColor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.productSize)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.productQuantity)
-                            </td>
-                            <td>
-                                <a asp-action="DeleteStore" asp-route-id="@item.ID" class="btn btn-primary btn-md mr-1 mb-2">Delete</a>
-                                <a asp-action="EditStore" asp-route-id="@item.ID" class="btn btn-light btn-md mr-1 mb-2">Edit</a>
-                         @*       <a onclick="showPopUp('@Url.Action("EditStore","Products",new {id=item.ID},Context.Request.Scheme)', 'Edit Store')" class="btn btn btn-outline-warning text-black pr-3 pl-3" style="height:40px;color:#f0ad4e; border-color:#f0ad4e !important">Edit</a>*@
 
+                            <td>
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.productColor)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="pl-0 w-25" scope="row"><strong>Size </strong></th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.productSize)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="pl-0 w-25" scope="row"><strong>Quantity </strong></th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.productQuantity)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="pl-0 w-25" scope="row">
+                                                <a asp-action="DeleteStore" asp-route-id="@item.ID" class="btn btn-primary btn-md mr-1 mb-2">Delete</a>
+                                            </th>
+                                            <td>
+                                                <a asp-action="EditStore" asp-route-id="@item.ID" class="btn btn-light btn-md mr-1 mb-2">Edit</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                     }
                 </tbody>
-            </table>
+            </table>*@
         </div>
         @*<img id="img1" src="" />
-        <img id="img2" />*@
+            <img id="img2" />*@
     </div>
 </section>
