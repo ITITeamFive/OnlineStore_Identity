@@ -102,29 +102,36 @@ namespace OnlineStore_Identity.Controllers
             RootObject<Bill> Bills = JsonConvert.DeserializeObject<RootObject<Bill>>(Result2);
 
             /**** bills of last Month**/
-            DateTime monthago = DateTime.Now.Date;
-            DateTime thisYearBegin= new System.DateTime(DateTime.Now.Year,1,1, 0,0,0);
-            if (DateTime.Now.Month == 1)
-            {
-                //monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
-                //DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
-              1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            }
-            else
-            {
-                //monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month-1,
-                //  DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month - 1,
-                  1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            }
+            DateTime monthago =new System.DateTime(DateTime.Now.Year, DateTime.Now.Month,1, 0,0,0);
+            DateTime thisYearBegin = new System.DateTime(DateTime.Now.Year, 1, 1, 0, 0, 0);
 
-            IEnumerable<Bill> LastMonthBills = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) > monthago);
+
+
+            //if (DateTime.Now.Month == 1)
+            //{
+            //    //monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
+            //    //DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            //    monthago = new System.DateTime(DateTime.Now.Year - 1, 12,
+            //  1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            //}
+            //else
+            //{
+            //    //monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month-1,
+            //    //  DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            //    monthago = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month - 1,
+            //      1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            //}
+
+            IEnumerable<Bill> LastMonthBills = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) >= monthago);
+            IEnumerable<Bill> LastYearBills = Bills.Value.Where(b => Convert.ToDateTime(b.billDate) >= thisYearBegin);
+
             foreach (Bill bill in LastMonthBills)
             {
                 productBillVM.lastMonthProfit[bill.billDate.Value.Day-1] += (double)bill.billTotal;
             }
-            foreach (Bill bill in LastMonthBills)
+
+
+            foreach (Bill bill in LastYearBills)
             {
                 productBillVM.lastYearProfit[bill.billDate.Value.Month-1] += (double)bill.billTotal;
             }

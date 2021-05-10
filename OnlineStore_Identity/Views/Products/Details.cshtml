@@ -37,7 +37,6 @@
         </div>
     </div>
 
-
     <div class="row mx-1 my-3">
         <div class="col-6">
             <a asp-action="AddStore" asp-route-id="@Model.product.productID" class="btn btn-primary btn-md mr-1 mb-2">Add new product</a>
@@ -53,7 +52,7 @@
     </div>
 
     <div class="row my-1 mx-1">
-        <div>
+        <div class="col-md-12 col-sm-12 mx-1">
             <table class="table table-responsive table-borderless mb-0">
                 <thead>
                     <tr>
@@ -73,20 +72,7 @@
                                 @Html.DisplayFor(modelItem => item.ID)
                             </td>
                             <td>
-                                @*<script>
-            document.getElementById("itemImage").src = "data:image/png;base64," + @item.productImage;
-            console.log(@item.productImage);
-        </script>*@
-                                @*@Html.DisplayFor(modelItem => item.productImage)
-        @* <img  src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" class="img-fluid z-depth-1" style="width:50%">*@
-
-                                @*<img id="img-@item.ID" src="data: image / jpg;base64,@(item.productImage == null ? "": Convert.ToBase64String(item.productImage))">*@
-                                @*@{ var stringPhoto = item.productPhoto == null ? "" : item.productPhoto.Replace('\\', '/');}*@
-                                @*<img src="@stringPhoto" />*@
-                                <img src="~/Images/@item.productPhoto" />
-
-                                @*<img id="img-@item.ID" src="">*@
-
+                                <img src="~/Images/@item.productPhoto" style="width:100%" />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.productColor)
@@ -100,13 +86,15 @@
                             <td>
                                 <a asp-action="DeleteStore" asp-route-id="@item.ID" class="btn btn-primary btn-md mr-1 mb-2">Delete</a>
                                 <a asp-action="EditStore" asp-route-id="@item.ID" class="btn btn-light btn-md mr-1 mb-2">Edit</a>
+                         @*       <a onclick="showPopUp('@Url.Action("EditStore","Products",new {id=item.ID},Context.Request.Scheme)', 'Edit Store')" class="btn btn btn-outline-warning text-black pr-3 pl-3" style="height:40px;color:#f0ad4e; border-color:#f0ad4e !important">Edit</a>*@
+
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <img id="img1" src="" />
-        <img id="img2" />
+        @*<img id="img1" src="" />
+        <img id="img2" />*@
     </div>
 </section>
