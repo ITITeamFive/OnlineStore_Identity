@@ -65,7 +65,7 @@ namespace OnlineStore_Identity.Controllers
             #endregion
 
             #region Bill
-            Bill bill = new Bill() { paymentID = paymentID, billTotal = total, billSubTotal = tempTotal, billDate = DateTime.Now, userID = userID, addressID = addressID };
+            Bill bill = new Bill() { paymentID = paymentID, billTotal = total, billSubTotal = tempTotal, billDate =  DateTime.Parse(DateTime.Now.ToShortDateString()), userID = userID, addressID = addressID };
             string _bill = JsonConvert.SerializeObject(bill);
             StringContent request2 = new StringContent(_bill, Encoding.UTF8, "application/json");
             HttpResponseMessage response2 = client.PostAsync($"http://shirleyomda-001-site1.etempurl.com/odata/Bills", request2).Result;
