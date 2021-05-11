@@ -759,3 +759,13 @@ dashSort:after {
 #heartNav:hover {
     color: #e74c3c;
 }
+
+.BorderColor {
+    /*border: 2px solid #cb0c9f !important;*/
+    /*border-radius:50%*/
+    box-shadow: 5px 5px 4px 1px darkgrey !important;
+}
+
+.login100-more {
+    background-image: url('../SiteImages/login.jpg');
+}

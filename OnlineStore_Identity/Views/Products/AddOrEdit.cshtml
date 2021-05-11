@@ -149,15 +149,22 @@
         e.preventDefault();
         /*  var $form = $(this);*/
         var form = document.getElementById("productFrom");
-        var cs = document.getElementById("nameId").classList.contains('valid');
-        var cv = document.getElementById("proDesc").classList.contains('valid');
-        var cd = document.getElementById("proBrand").classList.contains('valid');
-        var ce = document.getElementById("proMaterial").classList.contains('valid');
-        var cf = document.getElementById("proPrice").classList.contains('valid');
-        var cb = document.getElementById("proDiscount").classList.contains('valid');
-        console.log(cs);
-        console.log(cv);
-        if (cs == true && cv == true && cd == true && ce == true && cf == true && cb == true ) {
+        var cs = document.getElementById("nameId").value;
+        var cs = document.getElementById("proDesc").value;
+        var cs = document.getElementById("proBrand").value;
+        var cs = document.getElementById("proMaterial").value;
+        var cs = document.getElementById("proPrice").value;
+        var cs = document.getElementById("proDiscount").value;
+
+        //var cs = document.getElementById("nameId").classList.contains('valid');
+        //var cv = document.getElementById("proDesc").classList.contains('valid');
+        //var cd = document.getElementById("proBrand").classList.contains('valid');
+        //var ce = document.getElementById("proMaterial").classList.contains('valid');
+        //var cf = document.getElementById("proPrice").classList.contains('valid');
+        //var cb = document.getElementById("proDiscount").classList.contains('valid');
+        //console.log(cs);
+        //console.log(cv);
+        if (cs != "" && cv != "" && cd != "" && ce != "" && cf != "" && cb != "" ) {
             try {
                 $.ajax({
                     type: 'POST',
@@ -206,14 +213,19 @@
                         });
 
                     },
-                    error: function (e) {
-                        console.log(e);
+                    error: function (err) {
+                        e.preventDefault();
+                        console.log(err);
                     }
                 })
 
-            } catch (e) {
-                console.log(e);
+            } catch (dodo) {
+                console.log(dodo);
+                e.preventDefault();
             }
+        }
+        else {
+            e.preventDefault();
         }
 
     }

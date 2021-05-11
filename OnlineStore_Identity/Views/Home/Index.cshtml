@@ -38,34 +38,17 @@
                 <!-- Section: Filters -->
                 <section>
 
-                    <h5>Filters</h5>
+                    <div class="text-center text-primary font-weight-bolder" style="padding-right:50px">
+                        <h5>
+                        <i class="fas fa-filter"></i>
+                            Filters
+                        </h5>
+                    </div>
 
-                    <!-- Section: Price -->
-                    <section class="mb-4">
-
-                        <h6 class="font-weight-bold mb-3">Price</h6>
-
-                        <form>
-                            <div class="d-flex align-items-center mt-4 pb-1">
-                                <div class="md-form md-outline my-0">
-                                    <input id="from" type="text" class="form-control mb-0">
-                                    <label for="form">$ Min</label>
-                                </div>
-                                <p class="px-2 mb-0 text-muted"> - </p>
-                                <div class="md-form md-outline my-0">
-                                    <input id="to" type="text" class="form-control mb-0">
-                                    <label for="to">$ Max</label>
-                                </div>
-                            </div>
-                        </form>
-
-                    </section>
-                    <!-- Section: Price -->
                     <!-- Section: Size -->
                     <section class="mb-4">
-
-                        <h6 class="font-weight-bold mb-3">Size</h6>
-
+                            <h6 class="font-weight-bold text-primary mb-3" style="font-size:20px">Size</h6>
+                       
                         @foreach (var item in ViewBag.sizes)
                         {
                             @*<li><input type="checkbox" name="sizeFilter" id="@item" /> @item</li>*@
@@ -74,20 +57,22 @@
                                 <label class="form-check-label small text-uppercase card-link-secondary" for="@item">@item</label>
                             </div>
                         }
-
                     </section>
                     <!-- Section: Size -->
                     <!-- Section: Color -->
                     <section class="mb-4">
 
-                        <h6 class="font-weight-bold mb-3">Color</h6>
+                        <h6 class="font-weight-bold mb-3 text-primary" style="font-size:20px">Color</h6>
 
                         <div class="form-check pl-0 mb-3 btn-group btn-group-toggle btn-color-group d-block mt-n2 ml-n2">
                             @foreach (var item in ViewBag.colors)
                             {
-                                <label for="@item" class="btn rounded-circle white border-inset-grey p-3 m-2" style="background-color:@item">
-                                    <input id="@item" name="colorFilter" type="checkbox" />
-                                </label>
+                                if (!(char.IsUpper(item[0])))
+                                {
+                                    <label for="@item" class="btn rounded-circle white p-3 m-2" style="background-color:@item">
+                                        <input id="@item" name="colorFilter" type="checkbox" />
+                                    </label>
+                                }
                             }
                         </div>
 
@@ -96,7 +81,7 @@
                     <!--Section: Class-->
                     <section class="mb-4">
 
-                        <h6 class="font-weight-bold mb-3">Size</h6>
+                        <h6 class="font-weight-bold mb-3 text-primary" style="font-size:20px">Class</h6>
                         @{var i = 1; }
                         @foreach (var item in ViewBag.classes)
                         {
@@ -325,7 +310,11 @@
         $('input[name="colorFilter"]').each(function () {
             var $this = $(this);
             if ($this.is(":checked")) {
+                $this.parent().addClass("BorderColor");
                 colors.push($this.attr("id"));
+            }
+            else {
+                $this.parent().removeClass("BorderColor");
             }
         });
 
